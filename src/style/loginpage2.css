@@ -30,9 +30,13 @@
   border-radius: 4px;
   background-color: white;
   color: #333;
-  border: 1px solid #b92d2b;
+  /* border: 1px solid #b92d2b;  */
+  border: 1px solid black;
   outline: none;
 }
+
+
+
 
 .wrapper-input2 .input-data label {
   position: absolute;

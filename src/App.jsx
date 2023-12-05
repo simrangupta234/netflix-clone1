@@ -27,7 +27,7 @@ const App =() =>{
   <EmailProvider>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/loginauth" element={<Loginpage2 />} />
+        <Route path="/login" element={<Loginpage2 />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/moviehome" element={<MovieHome />} />
         <Route path="/signup" element={<Signup />} />

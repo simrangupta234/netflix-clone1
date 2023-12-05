@@ -1,5 +1,6 @@
 // import React from 'react'
 // import { Link } from "react-router-dom";
+import { useState } from "react";
 import logo from "../assets/logo.svg";
 import "../style/signin.css";
 import { useFormik } from "formik";
@@ -7,22 +8,17 @@ import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
+  const [email, setEmailValue] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [password, setPasswordValue] = useState("");
+  const [warning , setWarning] = useState("");
 
-  const validatePsw = (values) => {
-    const errorsPsw = {};
+  var inputUserEmail = localStorage.getItem("userEmail");
+  var inputUserPassword = localStorage.getItem("userPassword");
 
-    if (!values.password) {
-      errorsPsw.password = "Password is required";
-    } else if (
-      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(
-        values.password
-      )
-    ) {
-      errorsPsw.password = "Password must contain at least 8 digits.";
-    }
-
-    return errorsPsw;
-  };
+  console.log(inputUserEmail);
+  console.log(inputUserPassword);
 
   const validate = (values) => {
     const errors = {};
@@ -35,34 +31,61 @@ function SignIn() {
       errors.email = "Please enter a valid email address.";
     }
 
+    if (!values.password) {
+      errors.password = "Password is required";
+    } else if (
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(
+        values.password
+      )
+    ) {
+      errors.password =
+        "Password should contain at least 8 digits , a capital latter, a small latter and a special character.";
+    }
     return errors;
   };
 
   const formik = useFormik({
     initialValues: {
       email: "",
+      password: "",
     },
     validate,
-
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
       validateSubmit(values);
     },
   });
-
+ 
   const validateSubmit = (values) => {
     const errors = validate(values);
-    const errorsPsw = validatePsw(values);
-    if (
-      Object.keys(errors).length === 0 &&
-      Object.keys(errorsPsw).length === 0
-    ) {
-      localStorage.setItem("userEmail", values.email);
-      localStorage.setItem("userPassword", values.password);
-      navigate("/moviehome");
+
+
+    if (Object.keys(errors).length === 0) {
+      // var userEmail = localStorage.setItem("userEmail", values.email);
+      // var userPassword = localStorage.setItem("userPassword", values.password);
+
+      if (email != inputUserEmail || password != inputUserPassword) {
+         setWarning("wrong email or password.")
+      }else{
+        navigate("/moviehome");
+      }
+      
     } else {
       console.log("Please fill in the email and password");
     }
+  };
+
+  const handleChangeEmail = (e) => {
+    setEmailValue(e.target.value);
+  };
+  const handleValueEmail = (emailValue) => {
+    console.log("Email value:", emailValue);
+  };
+  const handleChangePasswod = (e) => {
+    setPasswordValue(e.target.value);
+  };
+  const handleValuePasword = (passwordValue) => {
+    console.log("Password value:", passwordValue);
   };
   return (
     <div className="signin-main w-100 text-light d-flex flex-column justify-content-center align-items-center">
@@ -76,27 +99,33 @@ function SignIn() {
         <h1
           style={{
             fontSize: "32px",
-            fontWeight: "500",
+            fontWeight: "500", 
             marginBottom: "20px",
           }}
         >
           Sign In
         </h1>
-
+        <span>{warning}</span>
         <form
           onSubmit={formik.handleSubmit}
           className="wrapper-input d-flex  align-items-center "
           style={{ width: "100%" }}
         >
           <div className="input-data d-flex flex-column  align-items-center ">
+            
             <input
               type="email"
               name="email"
               id="email"
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.handleChange(e);
+                handleChangeEmail(e);
+                handleValueEmail(e.target.value);
+              }}
               onBlur={formik.handleBlur}
               value={formik.values.email}
               style={{ background: "#333" }}
+              placeholder=""
             />
             {formik.touched.email && formik.errors.email ? (
               <span
@@ -122,11 +151,16 @@ function SignIn() {
               type="password"
               name="password"
               id="password"
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.handleChange(e);
+                handleChangePasswod(e);
+                handleValuePasword(e.target.value);
+              }}
               onBlur={formik.handleBlur}
               value={formik.values.password}
-              required
+              placeholder=""
               style={{ background: "#333" }}
+              pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
             />
             {formik.touched.password && formik.errors.password ? (
               <span

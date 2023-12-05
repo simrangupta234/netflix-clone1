@@ -1,19 +1,65 @@
 // import React from 'react'
 // import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/loginpage2.css";
+import { useEmail } from "./EmailContext";
+import { useFormik } from "formik";
+import { useState } from "react";
 
 export default function Loginpage2() {
   // const [pwd, setPwd] = useState();
+  const { email } = useEmail();
+  // eslint-disable-next-line no-unused-vars
+  const [password, setPasswordValue ] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    //reload the form on submit
+  const navigate = useNavigate();
+
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.password) {
+      errors.password = "Pasword is required";
+    } else if (
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(values.password)
+    ) {
+      errors.password = "Password should contain at least 8 digits , a capital latter, a small latter and a special character.";
+    }
+
+    return errors;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      console.log("Form submitted with values:", values);
+      validateSubmit(values);
+    },
+  });
+
+  const validateSubmit = (values) => {
+    const errors = validate(values);
+
+    if (Object.keys(errors).length === 0) {
+      localStorage.setItem("userPassword", values.password);
+      navigate("/moviehome");
+    } else {
+      console.log("Please fill in the password");
+    }
+  };
+
+  const handleChange = (e) => {
+    setPasswordValue(e.target.value);
+  };
+  const handleValue = (passwordValue) => {
+    console.log("Password value:", passwordValue);
   };
   return (
     <div className="main w-100 bg-light  ">
-          <div
+      <div
         className="header d-flex justify-content-center align-items-center  "
         style={{ height: "100wh" }}
       >
@@ -29,10 +75,7 @@ export default function Loginpage2() {
             <img src={logo} alt="" />
           </a>
         </div>
-        <div
-          className="signin col-2"
-         
-        >
+        <div className="signin col-2">
           <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign In
           </a>
@@ -42,7 +85,7 @@ export default function Loginpage2() {
 
       <div className="d-flex flex-column justify-content-center align-items-center mt-5">
         <div style={{ textAlign: "start", maxWidth: "440px", padding: "20px" }}>
-          <form onSubmit={handleSubmit}>
+          <form  onSubmit={formik.handleSubmit}>
             <p>STEP 1 OF 3</p>
             <p style={{ fontSize: "32px", fontWeight: "500" }}>Welcome back!</p>
             <p style={{ fontSize: "32px", fontWeight: "500" }}>
@@ -52,11 +95,36 @@ export default function Loginpage2() {
               Enter your password and you&apos;ll be watching in no time.{" "}
             </p>
             <p> Email </p>
-            <p></p>
+            <p>{email}</p>
             <div className="wrapper-input2 d-flex align-items-center w-100">
-              <div className="input-data d-flex  align-items-center ">
-                <input type="password" name="password" id="" required />
-                <label style={{color:"#333"}}>Enter your password</label>
+              <div className="input-data d-flex flex-column  align-items-center ">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    handleChange(e);
+                    handleValue(e.target.value);
+                  }}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.password}
+                  placeholder=""
+                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+                />
+                {formik.touched.password && formik.errors.password ? (
+              <span
+                style={{
+                  textAlign: "start",
+                  color: "rgb(235, 57, 66)",
+                  fontSize: "12px",
+                  paddingLeft: "16px",
+                }}
+              >
+                {formik.errors.password}
+              </span>
+            ) : null}
+                <label htmlFor="password" style={{ color: "#333" }}>Enter your password</label>
               </div>
             </div>
             <div className="mt-3 mb-3">
@@ -65,9 +133,10 @@ export default function Loginpage2() {
               </a>
             </div>
 
-            <Link to="/moviehome">
+            
               <button
                 className="btn text-light"
+                onClick={() => validateSubmit(formik.values)}
                 style={{
                   backgroundColor: "red",
                   marginBottom: "100px",
@@ -79,7 +148,7 @@ export default function Loginpage2() {
               >
                 Submit
               </button>
-            </Link>
+          
           </form>
         </div>
       </div>

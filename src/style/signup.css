@@ -1,31 +1,18 @@
-/* animation: animateright 0.4s;
-    animation-duration: 0.4s;
-    animation-timing-function: ease;
-    animation-delay: 0s;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-fill-mode: none;
-    animation-play-state: running;
-    animation-name: animateright;
-    animation-timeline: auto;
-    animation-range-start: normal; */
-
-
-.signup-box-img{
-    background: url(../assets/Devices.png) no-repeat 50% 50%;
-    background-size: 260px;
-    height: 90px;
+.signup-box-img {
+  background: url(../assets/Devices.png) no-repeat 50% 50%;
+  background-size: 260px;
+  height: 90px;
 }
-.signup-box-text{
-    max-width: 380px;
+.signup-box-text {
+  max-width: 380px;
 }
 
-@media screen and (max-width:600px){
-    .signup-box-text{
-        display: flex;
-        flex-direction: column;
-        width: 95%;
-        align-items: flex-start;
+@media screen and (max-width: 600px) {
+  .signup-box-text {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    align-items: flex-start;
     text-align: start;
-    }
+  }
 }

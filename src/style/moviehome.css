@@ -8,6 +8,13 @@
   display: none;
 }
 
+.btnm{
+  border: none;
+  outline: none;
+}
+.btnm:hover{
+  background-color: red;
+}
 .header-movie-right button {
   font-size: 13px;
   background-color: red;

@@ -14,13 +14,12 @@ import "../style/login.css";
 import arrow from "../assets/arrow-point-to-right.png";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { useEmail } from './EmailContext';
+import { useEmail } from "./EmailContext";
 
 // import axios from './api/axios';
 export default function Login() {
   const navigate = useNavigate();
 
- 
   const validate = (values) => {
     const errors = {};
 
@@ -56,16 +55,15 @@ export default function Login() {
       console.log("Please fill in the email");
     }
   };
+  // eslint-disable-next-line no-unused-vars
   const { email, setEmailValue } = useEmail();
 
   const handleChange = (e) => {
     setEmailValue(e.target.value);
   };
   const handleValue = (emailValue) => {
-    // Do something with the email value
     console.log("Email value:", emailValue);
   };
-
 
   useEffect(() => {
     var btn = document.getElementsByTagName("button");
@@ -138,11 +136,15 @@ export default function Login() {
                 onChange={(e) => {
                   formik.handleChange(e);
                   handleChange(e);
-                  handleValue(e.target.value); 
+                  handleValue(e.target.value);
                 }}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
+                placeholder=""
+                min="1"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               />
+
               {formik.touched.email && formik.errors.email ? (
                 <span
                   style={{
@@ -372,27 +374,50 @@ export default function Login() {
         <p>
           Ready to watch? Enter your email to create or restart your membership.
         </p>
-        <div className="wrapper-input d-flex  align-items-center">
-          <div className="col-8 input-data d-flex  align-items-center ">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="wrapper-input d-flex  align-items-center"
+        >
+          <div className="input-data col-8 d-flex flex-column  align-items-center ">
             <input
               type="email"
               name="email"
-              onChange={formik.handleChange}
+              id="email"
+              onChange={(e) => {
+                formik.handleChange(e);
+                handleChange(e);
+                handleValue(e.target.value);
+              }}
               onBlur={formik.handleBlur}
               value={formik.values.email}
+              placeholder=""
             />
-            <label>Email address</label>
+            {formik.touched.email && formik.errors.email ? (
+              <span
+                style={{
+                  textAlign: "start",
+                  color: "rgb(235, 57, 66)",
+                  fontSize: "12px",
+                  paddingLeft: "16px",
+                }}
+              >
+                {formik.errors.email}
+              </span>
+            ) : null}
+            <label htmlFor="email">Email address</label>
           </div>
-          {formik.touched.email && formik.errors.email ? (
-            <span>{formik.errors.email}</span>
-          ) : null}
+
           <div className="col-4" style={{ marginLeft: "10px" }}>
-            <button type="submit" className="getStartedbtn">
+            <button
+              type="submit"
+              className="getStartedbtn"
+              onClick={() => validateSubmit(formik.values)}
+            >
               Get Started
               <img src={arrow} alt="" />
             </button>
           </div>
-        </div>
+        </form>
       </div>
 
       <div className="seperation"></div>
@@ -454,7 +479,7 @@ export default function Login() {
         >
           <label>
             <div className="select d-flex justify-content-center align-items-center bg-black">
-              <i className="fa-solid fa-globe w-auto p-2"></i>
+              {/* <i className="fa-solid fa-globe w-auto p-2"></i> */}
 
               <select name="lang" id="lang">
                 <option value="English">English</option>

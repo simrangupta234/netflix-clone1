@@ -26,16 +26,15 @@
   vertical-align: middle;
   width: 167px;
 }
-.signin{
+.signin {
   font-size: 20px;
   font-weight: 700;
 }
 .wrapper-input .input-data input {
   font-size: 16px;
 }
-.footer-section3{
+.footer-section3 {
   background-color: rgba(0, 0, 0, 0.75);
-
 }
 
 .footer-section3 p {
@@ -78,7 +77,7 @@
     width: 70px;
     height: 20px;
   }
-  .signin{
+  .signin {
     font-size: 14px;
     font-weight: 700;
   }

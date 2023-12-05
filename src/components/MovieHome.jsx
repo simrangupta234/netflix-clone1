@@ -61,13 +61,13 @@ const MovieHome = () => {
             UNLIMITED TV SHOWS & MOVIES
           </div>
 
-          <button className="btn">
+          <button className="btnm">
             <a href="/" style={{ textDecoration: "none", color: "white" }}>
               JOIN NOW
             </a>
           </button>
           <button
-            className="btn"
+            className="btnm"
             style={{
               backgroundColor: "transparent",
               border: "1px solid #888",
@@ -117,7 +117,7 @@ const MovieHome = () => {
           <div className="joinnowm">
             <div>Watch all you want.</div>
 
-            <button className="btn">
+            <button className="btnm">
               <a href="/" style={{ textDecoration: "none", color: "white" }}>
                 Join Now
               </a>

@@ -1,7 +1,18 @@
 // import React from 'react'
 import logo from "../assets/logo.svg";
-import lock from "../assets/lock.png"
+import lock from "../assets/lock.png";
 import { Link } from "react-router-dom";
+import visa from "../assets/visa.png";
+import gpay from "../assets/gpay.png";
+import bhim from "../assets/bhim.png";
+import amazonpay from "../assets/amazonpay.png";
+import diners from "../assets/Diners.png";
+import mastercard from "../assets/mastercard.png";
+import paytm from "../assets/paytm.png";
+import phonepe from "../assets/phonepe.png";
+import arrow from "../assets/arrow-point-to-right (1).png";
+
+import "../style/signuppage2.css";
 
 function Pay() {
   return (
@@ -30,14 +41,15 @@ function Pay() {
         <br />
       </div>
 
-      <div id="animation5" className=" d-flex flex-column justify-content-center align-items-center  w-50">
+      <div
+        id="animation5"
+        className=" d-flex flex-column justify-content-center align-items-center  w-50"
+      >
         <div
           style={{
             width: "fit-content",
             height: "fit-content",
             margin: "15px 0",
-          
-           
           }}
         >
           <img src={lock} alt="" />
@@ -45,15 +57,45 @@ function Pay() {
 
         <p>STEP 3 OF 3</p>
         <h2>Choose how to pay</h2>
-        <p style={{fontSize:"18px"}}>
+        <p style={{ fontSize: "18px" }}>
           Your payment is encrypted and you can change your payment method at
           anytime.
         </p>
-        <h3 style={{fontSize:"18px"}}>Secure for peace of mind.</h3>
-        <h3 style={{fontSize:"18px"}}>Cancel easily online.</h3>
+        <h3 style={{ fontSize: "18px" }}>Secure for peace of mind.</h3>
+        <h3 style={{ fontSize: "18px" }}>Cancel easily online.</h3>
 
-        <div className="card p-2 m-2">Credit or Debit Card</div>
-        <div className=" card p-2 m-2">UPI Auto Pay</div>
+        <div className="payment-card  p-3 m-2">
+        <div
+            className=" d-flex justify-content-center align-items-center"
+            style={{ width: "fit-content" }}
+          >
+            <div style={{ width: "fit-content", padding:"0 10px 0 2px" }}>
+          Credit or Debit Card</div>
+          <img src={visa} alt="" />
+          <img src={mastercard} alt="" />
+          <img src={diners} alt="" />
+          </div>
+          <div style={{ width: "fit-content" }}>
+            <img src={arrow} alt="" style={{ height: "15px", width: "auto" }} />
+          </div>
+        </div>
+        <div className="payment-card   p-3 m-2">
+          <div
+            className=" d-flex justify-content-center align-items-center"
+            style={{ width: "fit-content" }}
+          >
+            <div style={{ width: "fit-content", padding:"0 10px 0 2px" }}>UPI Auto Pay</div>
+
+            <img src={bhim} alt="" />
+            <img src={paytm} alt="" />
+            <img src={gpay} alt="" />
+            <img src={amazonpay} alt="" />
+            <img src={phonepe} alt="" />
+          </div>
+          <div style={{ width: "fit-content" }}>
+            <img src={arrow} alt="" style={{ height: "15px", width: "auto" }} />
+          </div>
+        </div>
         <Link to="/moviehome">
           <button
             className="btn text-light"
