@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import logo from "../assets/logo.svg";
 import lock from "../assets/lock.png";
@@ -14,7 +15,18 @@ import arrow from "../assets/arrow-point-to-right (1).png";
 
 import "../style/signuppage2.css";
 
-function Pay() {
+function Pay(props) {
+  var isLoggedIn = false;
+  var inputUserEmail = localStorage.getItem("userEmail");
+  var inputUserPassword = localStorage.getItem("userPassword");
+  if (inputUserEmail && inputUserPassword) {
+    isLoggedIn = true;
+  }
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    // localStorage.clear();
+    isLoggedIn=false;
+  };
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
       <div
@@ -34,9 +46,22 @@ function Pay() {
           </a>
         </div>
         <div className="signin col-2">
-          <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign Out
-          </a>
+          </a> */}
+          {isLoggedIn ? (
+            <a
+              href="/"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={handleSiginClick}
+            >
+              Sign out
+            </a>
+          ) : (
+            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
         </div>
         <br />
       </div>
@@ -65,15 +90,16 @@ function Pay() {
         <h3 style={{ fontSize: "18px" }}>Cancel easily online.</h3>
 
         <div className="payment-card  p-3 m-2">
-        <div
+          <div
             className=" d-flex justify-content-center align-items-center"
             style={{ width: "fit-content" }}
           >
-            <div style={{ width: "fit-content", padding:"0 10px 0 2px" }}>
-          Credit or Debit Card</div>
-          <img src={visa} alt="" />
-          <img src={mastercard} alt="" />
-          <img src={diners} alt="" />
+            <div style={{ width: "fit-content", padding: "0 10px 0 2px" }}>
+              Credit or Debit Card
+            </div>
+            <img src={visa} alt="" />
+            <img src={mastercard} alt="" />
+            <img src={diners} alt="" />
           </div>
           <div style={{ width: "fit-content" }}>
             <img src={arrow} alt="" style={{ height: "15px", width: "auto" }} />
@@ -84,7 +110,9 @@ function Pay() {
             className=" d-flex justify-content-center align-items-center"
             style={{ width: "fit-content" }}
           >
-            <div style={{ width: "fit-content", padding:"0 10px 0 2px" }}>UPI Auto Pay</div>
+            <div style={{ width: "fit-content", padding: "0 10px 0 2px" }}>
+              UPI Auto Pay
+            </div>
 
             <img src={bhim} alt="" />
             <img src={paytm} alt="" />
@@ -96,7 +124,7 @@ function Pay() {
             <img src={arrow} alt="" style={{ height: "15px", width: "auto" }} />
           </div>
         </div>
-        <Link to="/moviehome">
+        <Link to="/user/moviehome">
           <button
             className="btn text-light"
             style={{

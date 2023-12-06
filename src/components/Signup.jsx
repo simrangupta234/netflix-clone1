@@ -1,9 +1,22 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/signup.css";
 
-function Signup() {
+function Signup(props) {
+  var isLoggedIn = false;
+  var inputUserEmail = localStorage.getItem("userEmail");
+   var inputUserPassword = localStorage.getItem("userPassword");
+   if(inputUserEmail && inputUserPassword){
+    isLoggedIn= true;
+   }
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    // localStorage.clear();
+    isLoggedIn=false;
+  };
+
   return (
     <div className="signup-main w-100 bg-light">
       <div
@@ -22,28 +35,38 @@ function Signup() {
             <img src={logo} alt="" />
           </a>
         </div>
-        <div
-          className="signin col-2"
-         
-        >
-          <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+        <div className="signin col-2">
+          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign In
-          </a>
+          </a> */}
+          {isLoggedIn ? (
+            <a
+              href="/"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={handleSiginClick}
+            >
+              Sign out
+            </a>
+          ) : (
+            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
         </div>
         <br />
       </div>
 
       <div id="animation1" className="signup-box">
         <div className=" p-5 d-flex flex-column justify-content-center align-items-center ">
-        <div className="signup-box-img"></div>
-        <div className="signup-box-text ">
-          <p>STEP 1 OF 3</p>
-          <h1>Finish setting up your account</h1>
-          <p>
-            Netflix is personalised for you. Create a password to watch on any
-            device at any time.
-          </p>
-          <Link to="/signupform">
+          <div className="signup-box-img"></div>
+          <div className="signup-box-text ">
+            <p>STEP 1 OF 3</p>
+            <h1>Finish setting up your account</h1>
+            <p>
+              Netflix is personalised for you. Create a password to watch on any
+              device at any time.
+            </p>
+            <Link to="/signupform">
               <button
                 className="btn text-light"
                 style={{
@@ -53,15 +76,13 @@ function Signup() {
                   fontSize: "24px",
                   fontWeight: "400",
                   padding: "18px 0px",
-                 
                 }}
               >
                 Next
               </button>
             </Link>
+          </div>
         </div>
-        </div>
-        
       </div>
 
       <div className="footer-section2 p-5">

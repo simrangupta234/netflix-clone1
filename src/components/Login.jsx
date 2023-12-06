@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import "../../src/App.css";
 import "../../src/components/Loginpage2";
 import { useEffect } from "react";
@@ -17,8 +19,26 @@ import { useNavigate } from "react-router-dom";
 import { useEmail } from "./EmailContext";
 
 // import axios from './api/axios';
-export default function Login() {
+export default function Login(props) {
   const navigate = useNavigate();
+  var isLoggedIn="true"
+  var userLoggedIn = localStorage.setItem("userLoggedIn", false);
+  var inputUserEmail = localStorage.getItem("userEmail");
+  var inputUserPassword = localStorage.getItem("userPassword");
+  if (inputUserEmail && inputUserPassword) {
+    // userLoggedIn = localStorage.setItem("userLoggedIn", true);
+  }
+  if (userLoggedIn === false) {
+     userLoggedIn = localStorage.setItem("userLoggedIn", false);
+  }
+
+  // console.log(handleValue());
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    localStorage.clear();
+    // !isLoggedIn
+  //  isLoggedIn = false;
+  };
 
   const validate = (values) => {
     const errors = {};
@@ -44,18 +64,24 @@ export default function Login() {
       validateSubmit(values);
     },
   });
+  // var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
 
   const validateSubmit = (values) => {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
       localStorage.setItem("userEmail", values.email);
-      navigate("/signup");
+      if (values.email === inputUserEmail) {
+        navigate("/login");
+      } else {
+        navigate("/signup");
+      }
     } else {
       console.log("Please fill in the email");
     }
   };
-  // eslint-disable-next-line no-unused-vars
+
   const { email, setEmailValue } = useEmail();
 
   const handleChange = (e) => {
@@ -100,15 +126,21 @@ export default function Login() {
                 alt=""
                 style={{ height: "30%", width: "30%", margin: "0 2px" }}
               /> */}
-              <select name="lang" id="lang">
+              <select name="lang" id="lang1">
                 <option value="English">English</option>
                 <option value="Hindi">हिंदी</option>
               </select>
             </div>
 
-            <button className="signin">
-              <a href="/signin">Sign In</a>
-            </button>
+            {isLoggedIn ? (
+              <button className="signin" onClick={handleSiginClick}>
+                <a href="/">Sign out</a>
+              </button>
+            ) : (
+              <button className="signin">
+                <a href="/signin">Sign In</a>
+              </button>
+            )}
           </div>
         </div>
 
@@ -132,7 +164,7 @@ export default function Login() {
               <input
                 type="email"
                 name="email"
-                id="email"
+                id="email1"
                 onChange={(e) => {
                   formik.handleChange(e);
                   handleChange(e);
@@ -158,13 +190,13 @@ export default function Login() {
                 </span>
               ) : null}
 
-              <label htmlFor="email">Email address</label>
+              <label htmlFor="email1">Email address</label>
             </div>
             <div className="col-4" style={{ marginLeft: "10px" }}>
               <button
                 type="submit"
                 className="getStartedbtn"
-                onClick={() => validateSubmit(formik.values)}
+                // onClick={() => validateSubmit(formik.values)}
               >
                 Get Started
                 <img src={arrow} alt="" />
@@ -382,7 +414,7 @@ export default function Login() {
             <input
               type="email"
               name="email"
-              id="email"
+              id="email2"
               onChange={(e) => {
                 formik.handleChange(e);
                 handleChange(e);
@@ -404,14 +436,14 @@ export default function Login() {
                 {formik.errors.email}
               </span>
             ) : null}
-            <label htmlFor="email">Email address</label>
+            <label htmlFor="email2">Email address</label>
           </div>
 
           <div className="col-4" style={{ marginLeft: "10px" }}>
             <button
               type="submit"
               className="getStartedbtn"
-              onClick={() => validateSubmit(formik.values)}
+              // onClick={() => validateSubmit(formik.values)}
             >
               Get Started
               <img src={arrow} alt="" />
@@ -481,7 +513,7 @@ export default function Login() {
             <div className="select d-flex justify-content-center align-items-center bg-black">
               {/* <i className="fa-solid fa-globe w-auto p-2"></i> */}
 
-              <select name="lang" id="lang">
+              <select name="lang" id="lang2">
                 <option value="English">English</option>
                 <option value="Hindi">हिंदी</option>
               </select>

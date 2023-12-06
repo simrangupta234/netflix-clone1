@@ -14,6 +14,9 @@
   height: 90px;
   padding-left: 30px;
 }
+.signin-card span:empty{
+ display: none;
+}
 
 .signin-card {
   width: 450px;

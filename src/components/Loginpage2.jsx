@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,13 +8,24 @@ import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
 import { useState } from "react";
 
-export default function Loginpage2() {
+export default function Loginpage2(props) {
   // const [pwd, setPwd] = useState();
   const { email } = useEmail();
-  // eslint-disable-next-line no-unused-vars
-  const [password, setPasswordValue ] = useState("");
+  const [password, setPasswordValue] = useState("");
 
   const navigate = useNavigate();
+
+  var isLoggedIn = false;
+  var inputUserEmail = localStorage.getItem("userEmail");
+   var inputUserPassword = localStorage.getItem("userPassword");
+   if(inputUserEmail && inputUserPassword){
+    isLoggedIn= true;
+   }
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    // localStorage.clear();
+    isLoggedIn=false;
+  };
 
   const validate = (values) => {
     const errors = {};
@@ -21,9 +33,12 @@ export default function Loginpage2() {
     if (!values.password) {
       errors.password = "Pasword is required";
     } else if (
-      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(values.password)
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(
+        values.password
+      )
     ) {
-      errors.password = "Password should contain at least 8 digits , a capital latter, a small latter and a special character.";
+      errors.password =
+        "Password should contain at least 8 digits , a capital latter, a small latter and a special character.";
     }
 
     return errors;
@@ -45,7 +60,7 @@ export default function Loginpage2() {
 
     if (Object.keys(errors).length === 0) {
       localStorage.setItem("userPassword", values.password);
-      navigate("/moviehome");
+      navigate("/user/moviehome");
     } else {
       console.log("Please fill in the password");
     }
@@ -76,16 +91,25 @@ export default function Loginpage2() {
           </a>
         </div>
         <div className="signin col-2">
-          <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign In
-          </a>
+          </a> */}
+          {isLoggedIn ? (
+            <a href="/" style={{ textDecoration: "none", color: "#333" }}>
+              Sign out
+            </a>
+          ) : (
+            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
         </div>
         <br />
       </div>
 
       <div className="d-flex flex-column justify-content-center align-items-center mt-5">
         <div style={{ textAlign: "start", maxWidth: "440px", padding: "20px" }}>
-          <form  onSubmit={formik.handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <p>STEP 1 OF 3</p>
             <p style={{ fontSize: "32px", fontWeight: "500" }}>Welcome back!</p>
             <p style={{ fontSize: "32px", fontWeight: "500" }}>
@@ -113,18 +137,20 @@ export default function Loginpage2() {
                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
                 />
                 {formik.touched.password && formik.errors.password ? (
-              <span
-                style={{
-                  textAlign: "start",
-                  color: "rgb(235, 57, 66)",
-                  fontSize: "12px",
-                  paddingLeft: "16px",
-                }}
-              >
-                {formik.errors.password}
-              </span>
-            ) : null}
-                <label htmlFor="password" style={{ color: "#333" }}>Enter your password</label>
+                  <span
+                    style={{
+                      textAlign: "start",
+                      color: "rgb(235, 57, 66)",
+                      fontSize: "12px",
+                      paddingLeft: "16px",
+                    }}
+                  >
+                    {formik.errors.password}
+                  </span>
+                ) : null}
+                <label htmlFor="password" style={{ color: "#333" }}>
+                  Enter your password
+                </label>
               </div>
             </div>
             <div className="mt-3 mb-3">
@@ -133,22 +159,21 @@ export default function Loginpage2() {
               </a>
             </div>
 
-            
-              <button
-                className="btn text-light"
-                onClick={() => validateSubmit(formik.values)}
-                style={{
-                  backgroundColor: "red",
-                  marginBottom: "100px",
-                  borderRadius: "4px",
-                  fontSize: "24px",
-                  fontWeight: "400",
-                  padding: "18px 40px",
-                }}
-              >
-                Submit
-              </button>
-          
+            <button
+              className="btn text-light"
+              type="submit"
+              // onClick={() => validateSubmit(formik.values)}
+              style={{
+                backgroundColor: "red",
+                marginBottom: "100px",
+                borderRadius: "4px",
+                fontSize: "24px",
+                fontWeight: "400",
+                padding: "18px 40px",
+              }}
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>

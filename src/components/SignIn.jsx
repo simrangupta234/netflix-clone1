@@ -8,17 +8,17 @@ import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
   const [email, setEmailValue] = useState("");
-  // eslint-disable-next-line no-unused-vars
   const [password, setPasswordValue] = useState("");
-  const [warning , setWarning] = useState("");
+  const [warning, setWarning] = useState("");
 
   var inputUserEmail = localStorage.getItem("userEmail");
   var inputUserPassword = localStorage.getItem("userPassword");
 
   console.log(inputUserEmail);
   console.log(inputUserPassword);
+
+
 
   const validate = (values) => {
     const errors = {};
@@ -55,21 +55,21 @@ function SignIn() {
       validateSubmit(values);
     },
   });
- 
+
   const validateSubmit = (values) => {
     const errors = validate(values);
-
 
     if (Object.keys(errors).length === 0) {
       // var userEmail = localStorage.setItem("userEmail", values.email);
       // var userPassword = localStorage.setItem("userPassword", values.password);
 
-      if (email != inputUserEmail || password != inputUserPassword) {
-         setWarning("wrong email or password.")
-      }else{
-        navigate("/moviehome");
+      if (email != inputUserEmail) {
+        setWarning("Sorry, we can't find an account with this email address. Please try again or create a new account.");
+      } else if (email === inputUserEmail && password != inputUserPassword) {
+        setWarning("Incorrect password. Please try again or you can reset your password.");
+      } else {
+        navigate("/user/moviehome");
       }
-      
     } else {
       console.log("Please fill in the email and password");
     }
@@ -87,6 +87,19 @@ function SignIn() {
   const handleValuePasword = (passwordValue) => {
     console.log("Password value:", passwordValue);
   };
+
+// useEffect(()=>{
+//   var warningSpan= document.getElementsByClassName("warning-span");
+//   var i;
+//   for(i=0; i<warningSpan.length; i++){
+//   if(warningSpan[i] === ""){
+//     warningSpan[i].style.display = "none"
+//   }else{
+//     warningSpan[i].style.display="block"
+//   }}
+  
+// })
+
   return (
     <div className="signin-main w-100 text-light d-flex flex-column justify-content-center align-items-center">
       <div className="header-signin">
@@ -99,20 +112,32 @@ function SignIn() {
         <h1
           style={{
             fontSize: "32px",
-            fontWeight: "500", 
+            fontWeight: "500",
             marginBottom: "20px",
           }}
         >
           Sign In
         </h1>
-        <span>{warning}</span>
+        <span className="warning-span"
+          style={{
+            textAlign: "start",
+            color: "white",
+            fontSize: "14px",
+            marginLeftLeft: "16px",
+            marginBottom: "10px",
+            backgroundColor:"#e87c03",
+            borderRadius:"3px",
+            padding:"10px"
+          }}
+        >
+          {warning}
+        </span>
         <form
           onSubmit={formik.handleSubmit}
           className="wrapper-input d-flex  align-items-center "
           style={{ width: "100%" }}
         >
           <div className="input-data d-flex flex-column  align-items-center ">
-            
             <input
               type="email"
               name="email"

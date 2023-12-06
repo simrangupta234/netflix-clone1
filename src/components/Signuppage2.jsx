@@ -1,17 +1,30 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/signuppage2.css";
 import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
 import { useState } from "react";
 
-function Signuppage2() {
-  const{email } =useEmail()
+function Signuppage2(props) {
+  const { email } = useEmail();
   // eslint-disable-next-line no-unused-vars
-  const [password, setPasswordValue ] = useState("");
+  const [password, setPasswordValue] = useState("");
 
   const navigate = useNavigate();
+  var isLoggedIn = false;
+var inputUserEmail = localStorage.getItem("userEmail");
+ var inputUserPassword = localStorage.getItem("userPassword");
+ if(inputUserEmail && inputUserPassword){
+  isLoggedIn= true;
+ }
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    // localStorage.clear();
+    isLoggedIn=false;
+    
+  };
 
   const validate = (values) => {
     const errors = {};
@@ -19,9 +32,12 @@ function Signuppage2() {
     if (!values.password) {
       errors.password = "Pasword is required";
     } else if (
-      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(values.password)
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(
+        values.password
+      )
     ) {
-      errors.password = "Password should contain at least 8 digits , a capital latter, a small latter and a special character.";
+      errors.password =
+        "Password should contain at least 8 digits , a capital latter, a small latter and a special character.";
     }
 
     return errors;
@@ -67,16 +83,29 @@ function Signuppage2() {
             color: "red",
             fontSize: "50px",
             fontWeight: "700",
-          }} 
+          }}
         >
           <a href="/">
             <img src={logo} alt="" />
           </a>
         </div>
         <div className="signin col-2">
-          <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign In
-          </a>
+          </a> */}
+          {isLoggedIn ? (
+            <a
+              href="/"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={handleSiginClick}
+            >
+              Sign out
+            </a>
+          ) : (
+            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
         </div>
         <br />
       </div>
@@ -101,7 +130,7 @@ function Signuppage2() {
               placeholder=""
               readOnly={true}
             />
-            
+
             <label htmlFor="email" style={{ color: "#333" }}>
               Email
             </label>
@@ -121,7 +150,7 @@ function Signuppage2() {
               onBlur={formik.handleBlur}
               value={formik.values.password}
               placeholder=""
-            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+              pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
             />
             {formik.touched.password && formik.errors.password ? (
               <span
@@ -135,14 +164,16 @@ function Signuppage2() {
                 {formik.errors.password}
               </span>
             ) : null}
-            <label htmlFor="password" style={{ color: "#333" }}>Add a password</label>
+            <label htmlFor="password" style={{ color: "#333" }}>
+              Add a password
+            </label>
           </div>
         </div>
 
         <button
           className="btn text-light"
           type="submit"
-          onClick={() => validateSubmit(formik.values)}
+          // onClick={() => validateSubmit(formik.values)}
           style={{
             backgroundColor: "red",
             marginBottom: "100px",

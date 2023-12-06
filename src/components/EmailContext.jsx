@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 
 const EmailContext = createContext();
 
-// eslint-disable-next-line react/prop-types
+
 export const EmailProvider = ({ children }) => {
   const [email, setEmail] = useState('');
 

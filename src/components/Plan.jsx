@@ -1,9 +1,21 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import "../style/plan.css";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 
-function Plan() {
+function Plan(props) {
+  var isLoggedIn = false;
+  var inputUserEmail = localStorage.getItem("userEmail");
+  var inputUserPassword = localStorage.getItem("userPassword");
+  if (inputUserEmail && inputUserPassword) {
+    isLoggedIn = true;
+  }
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    // localStorage.clear();
+    isLoggedIn=false;
+  };
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
       <div
@@ -23,15 +35,38 @@ function Plan() {
           </a>
         </div>
         <div className="signin col-2">
-          <a href="/" style={{ textDecoration: "none", color: "#333" }}>
+          {/* <a href="/" style={{ textDecoration: "none", color: "#333" }}>
             Sign Out
-          </a>
+          </a> */}
+          {isLoggedIn ? (
+            <a
+              href="/"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={handleSiginClick}
+            >
+              Sign out
+            </a>
+          ) : (
+            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
+          {console.log(isLoggedIn)}
         </div>
         <br />
       </div>
 
-      <div id="animation3" className="plan d-flex flex-column justify-content-center align-items-center">
-        <div style={{ width: "fit-content", height: "fit-content", margin:"15px 0" }}>
+      <div
+        id="animation3"
+        className="plan d-flex flex-column justify-content-center align-items-center"
+      >
+        <div
+          style={{
+            width: "fit-content",
+            height: "fit-content",
+            margin: "15px 0",
+          }}
+        >
           <i
             className="fa-regular fa-circle-check fa-3x"
             style={{ color: "#e50914" }}
@@ -74,7 +109,7 @@ function Plan() {
               fontSize: "24px",
               fontWeight: "400",
               padding: "18px 40px",
-              width:"100%"
+              width: "100%",
             }}
           >
             Next

@@ -1,16 +1,29 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import phone from "../assets/phone.svg"
-import tablet from "../assets/tablet.svg"
-import computer from "../assets/computer.svg"
-import tv from "../assets/tv.svg"
-import "../style/plan.css"
-function PlanForm() {
+import phone from "../assets/phone.svg";
+import tablet from "../assets/tablet.svg";
+import computer from "../assets/computer.svg";
+import tv from "../assets/tv.svg";
+import "../style/plan.css";
+function PlanForm(props) {
 
-  const planClick = () =>{
-     document.getElementsByTagName("button").backgroundColor="red";
-  }
+  var isLoggedIn = false;
+  var inputUserEmail = localStorage.getItem("userEmail");
+   var inputUserPassword = localStorage.getItem("userPassword");
+   if(inputUserEmail && inputUserPassword){
+    isLoggedIn= true;
+   }
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    // localStorage.clear();
+    isLoggedIn=false;
+  };
+
+  const planClick = () => {
+    document.getElementsByTagName("button").backgroundColor = "red";
+  };
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
       <div
@@ -30,9 +43,22 @@ function PlanForm() {
           </a>
         </div>
         <div className="signin col-2">
-          <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign Out
-          </a>
+          </a> */}
+          {isLoggedIn ? (
+            <a
+              href="/"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={handleSiginClick}
+            >
+              Sign out
+            </a>
+          ) : (
+            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
         </div>
         <br />
       </div>
@@ -73,16 +99,28 @@ function PlanForm() {
             className="planlist-table"
             style={{
               tableLayout: "fixed",
-         overflow:"scroll",
+              overflow: "scroll",
               color: "#737373",
             }}
           >
             <tr>
               <th className="width"></th>
-              <th> <button onClick={planClick}>Mobile</button></th>
-              <th> <button onClick={planClick}>Basic</button></th>
-              <th> <button onClick={planClick}>Standard</button></th>
-              <th> <button onClick={planClick}>Premium</button></th>
+              <th>
+                {" "}
+                <button onClick={planClick}>Mobile</button>
+              </th>
+              <th>
+                {" "}
+                <button onClick={planClick}>Basic</button>
+              </th>
+              <th>
+                {" "}
+                <button onClick={planClick}>Standard</button>
+              </th>
+              <th>
+                {" "}
+                <button onClick={planClick}>Premium</button>
+              </th>
             </tr>
 
             <tr>
@@ -108,28 +146,67 @@ function PlanForm() {
             </tr>
 
             <tr>
-              <td  style={{fontSize:"inherit"}}>Devices you can use to watch</td>
-              <td>
-                <img  className="icons" src={phone} alt="" /><br/>Phone<br/>
-                <img  className="icons" src={tablet} alt="" /><br/>Tablet
+              <td style={{ fontSize: "inherit" }}>
+                Devices you can use to watch
               </td>
               <td>
-              <img  className="icons"src={phone} alt="" /><br/>Phone<br/>
-              <img className="icons" src={tablet} alt="" /><br/>Tablet<br/>
-              <img className="icons" src={computer} alt="" /><br/>Computer<br/>
-              <img  className="icons" src={tv} alt="" /><br/>TV
+                <img className="icons" src={phone} alt="" />
+                <br />
+                Phone
+                <br />
+                <img className="icons" src={tablet} alt="" />
+                <br />
+                Tablet
               </td>
               <td>
-              <img className="icons" src={phone} alt="" /><br/>Phone<br/>
-              <img className="icons" src={tablet} alt="" /><br/>Tablet<br/>
-              <img className="icons" src={computer} alt="" /><br/>Computer<br/>
-              <img className="icons" src={tv} alt="" /><br/>TV
+                <img className="icons" src={phone} alt="" />
+                <br />
+                Phone
+                <br />
+                <img className="icons" src={tablet} alt="" />
+                <br />
+                Tablet
+                <br />
+                <img className="icons" src={computer} alt="" />
+                <br />
+                Computer
+                <br />
+                <img className="icons" src={tv} alt="" />
+                <br />
+                TV
               </td>
               <td>
-              <img className="icons" src={phone} alt="" /><br/> Phone<br/>
-              <img className="icons" src={tablet} alt="" /><br/>Tablet<br/>
-              <img className="icons" src={computer} alt="" /><br/>Computer<br/>
-              <img className="icons" src={tv} alt="" /><br/>TV
+                <img className="icons" src={phone} alt="" />
+                <br />
+                Phone
+                <br />
+                <img className="icons" src={tablet} alt="" />
+                <br />
+                Tablet
+                <br />
+                <img className="icons" src={computer} alt="" />
+                <br />
+                Computer
+                <br />
+                <img className="icons" src={tv} alt="" />
+                <br />
+                TV
+              </td>
+              <td>
+                <img className="icons" src={phone} alt="" />
+                <br /> Phone
+                <br />
+                <img className="icons" src={tablet} alt="" />
+                <br />
+                Tablet
+                <br />
+                <img className="icons" src={computer} alt="" />
+                <br />
+                Computer
+                <br />
+                <img className="icons" src={tv} alt="" />
+                <br />
+                TV
               </td>
             </tr>
           </table>

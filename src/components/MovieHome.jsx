@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import MovieList from "./MovieList";
 import axios from "axios";
@@ -8,9 +9,21 @@ import logo from "../assets/logo.svg";
 import Footer from "./Footer";
 import "../style/moviehome.css";
 
-const MovieHome = () => {
+const MovieHome = (props) => {
   const [movies, setMovies] = useState([]);
   // const number = useRef();
+
+  var isLoggedIn = false;
+  var inputUserEmail = localStorage.getItem("userEmail");
+  var inputUserPassword = localStorage.getItem("userPassword");
+  if (inputUserEmail && inputUserPassword) {
+    isLoggedIn = true;
+  }
+  // const { isLoggedIn } = props;
+  const handleSiginClick = () => {
+    // localStorage.clear();
+    isLoggedIn=false;
+  };
 
   let randomMovie = Math.floor(Math.random() * 20);
 
@@ -66,20 +79,36 @@ const MovieHome = () => {
               JOIN NOW
             </a>
           </button>
-          <button
-            className="btnm"
-            style={{
-              backgroundColor: "transparent",
-              border: "1px solid #888",
-            }}
-          >
-            <a
-              href="/signin"
-              style={{ textDecoration: "none", color: "white" }}
+
+          {isLoggedIn ? (
+            <button
+              className="btnm"
+              style={{
+                backgroundColor: "transparent",
+                border: "1px solid #888",
+              }}
+              onClick={handleSiginClick}
             >
-              SIGN IN
-            </a>
-          </button>
+              <a href="/" style={{ textDecoration: "none", color: "white" }}>
+                Sign out
+              </a>
+            </button>
+          ) : (
+            <button
+              className="btnm"
+              style={{
+                backgroundColor: "transparent",
+                border: "1px solid #888",
+              }}
+            >
+              <a
+                href="/signin"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Sign In
+              </a>
+            </button>
+          )}
         </div>
       </div>
 
@@ -93,14 +122,12 @@ const MovieHome = () => {
             <h1>{movies[randomMovie]?.title}</h1>
 
             <h3>{movies[randomMovie]?.title}</h3>
-            <p style={{ color: "#a3a3a3" }}>{movies[randomMovie]?.release_date}</p>
-            <p>
-            {movies[randomMovie]?.overview}
+            <p style={{ color: "#a3a3a3" }}>
+              {movies[randomMovie]?.release_date}
             </p>
+            <p>{movies[randomMovie]?.overview}</p>
           </div>
-          <div>
-
-          </div>
+          <div></div>
         </div>
       </div>
 
@@ -127,23 +154,23 @@ const MovieHome = () => {
       </div>
 
       <div className="row movieList-all p-4">
-          <h2>More Like This</h2>
-          {movies.map((movie, index) => (
-            <a
-              className="col-lg-4 col-sm-6 p-3 text-decoration-none"
-              key={index}
-              onClick={handleOnClick(index)}
-              href="/moviehome"
-            >
-              <img
-                className=" img-fluid object-fit-cover "
-                src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-                alt=""
-              />
-              <p style={{ marginTop: "-60px", color: "red" }}>{movie?.title}</p>
-            </a>
-          ))}
-        </div> 
+        <h2>More Like This</h2>
+        {movies.map((movie, index) => (
+          <a
+            className="col-lg-4 col-sm-6 p-3 text-decoration-none"
+            key={index}
+            onClick={handleOnClick(index)}
+            href="/moviehome"
+          >
+            <img
+              className=" img-fluid object-fit-cover "
+              src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+              alt=""
+            />
+            <p style={{ marginTop: "-60px", color: "red" }}>{movie?.title}</p>
+          </a>
+        ))}
+      </div>
       <Footer />
 
       {/* <div className="movielist-one  position-relative"
