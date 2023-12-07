@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import "../../src/App.css";
 import "../../src/components/Loginpage2";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 //  import { useRef, useState, useEffect, useContext } from 'react';
 // import AuthContext from "./context/AuthProvider";
 import logo from "../assets/logo.svg";
@@ -21,23 +21,15 @@ import { useEmail } from "./EmailContext";
 // import axios from './api/axios';
 export default function Login(props) {
   const navigate = useNavigate();
-  var isLoggedIn="true"
-  var userLoggedIn = localStorage.setItem("userLoggedIn", false);
-  var inputUserEmail = localStorage.getItem("userEmail");
-  var inputUserPassword = localStorage.getItem("userPassword");
-  if (inputUserEmail && inputUserPassword) {
-    // userLoggedIn = localStorage.setItem("userLoggedIn", true);
-  }
-  if (userLoggedIn === false) {
-     userLoggedIn = localStorage.setItem("userLoggedIn", false);
-  }
 
-  // console.log(handleValue());
-  // const { isLoggedIn } = props;
+  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+
+  console.log("isLoggedIn", isLoggedIn);
+  console.log("isLoggedIn", props.isLoggedIn);
+
   const handleSiginClick = () => {
-    localStorage.clear();
-    // !isLoggedIn
-  //  isLoggedIn = false;
+    sessionStorage.clear();
+    setIsLoggedIn(false);
   };
 
   const validate = (values) => {
@@ -64,7 +56,7 @@ export default function Login(props) {
       validateSubmit(values);
     },
   });
-  // var inputUserEmail = localStorage.getItem("userEmail");
+  var inputUserEmail = localStorage.getItem("userEmail");
   // var inputUserPassword = localStorage.getItem("userPassword");
 
   const validateSubmit = (values) => {
@@ -90,24 +82,25 @@ export default function Login(props) {
   const handleValue = (emailValue) => {
     console.log("Email value:", emailValue);
   };
+  // console.log(email)
 
-  useEffect(() => {
-    var btn = document.getElementsByTagName("button");
-    var i;
+  // useEffect(() => {
+  //   var btn = document.getElementsByTagName("button");
+  //   var i;
 
-    for (i = 0; i < btn.length; i++) {
-      btn[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        this.parentElement.classList.toggle("active");
-        var ans = this.nextElementSibling;
-        if (ans.style.display === "block") {
-          ans.style.display = "none";
-        } else {
-          ans.style.display = "block";
-        }
-      });
-    }
-  });
+  //   for (i = 0; i < btn.length; i++) {
+  //     btn[i].addEventListener("click", function () {
+  //       this.classList.toggle("active");
+  //       this.parentElement.classList.toggle("active");
+  //       var ans = this.nextElementSibling;
+  //       if (ans.style.display === "block") {
+  //         ans.style.display = "none";
+  //       } else {
+  //         ans.style.display = "block";
+  //       }
+  //     });
+  //   }
+  // });
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
@@ -133,7 +126,7 @@ export default function Login(props) {
             </div>
 
             {isLoggedIn ? (
-              <button className="signin" onClick={handleSiginClick}>
+              <button className="signin" onClick={handleSiginClick()}>
                 <a href="/">Sign out</a>
               </button>
             ) : (
@@ -162,6 +155,7 @@ export default function Login(props) {
           >
             <div className="col-8 input-data d-flex flex-column align-items-center">
               <input
+                className="emailId"
                 type="email"
                 name="email"
                 id="email1"
@@ -173,7 +167,6 @@ export default function Login(props) {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
                 placeholder=""
-                min="1"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               />
 
@@ -412,6 +405,7 @@ export default function Login(props) {
         >
           <div className="input-data col-8 d-flex flex-column  align-items-center ">
             <input
+              className="emailId"
               type="email"
               name="email"
               id="email2"

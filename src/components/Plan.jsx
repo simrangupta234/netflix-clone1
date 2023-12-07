@@ -3,18 +3,16 @@
 import "../style/plan.css";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function Plan(props) {
-  var isLoggedIn = false;
-  var inputUserEmail = localStorage.getItem("userEmail");
-  var inputUserPassword = localStorage.getItem("userPassword");
-  if (inputUserEmail && inputUserPassword) {
-    isLoggedIn = true;
-  }
-  // const { isLoggedIn } = props;
+  const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
+
+  console.log("isLoggedIn:-", isLoggedIn);
+
   const handleSiginClick = () => {
-    // localStorage.clear();
-    isLoggedIn=false;
+    sessionStorage.clear();
+    setIsLoggedIn(false)
   };
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
@@ -35,10 +33,7 @@ function Plan(props) {
           </a>
         </div>
         <div className="signin col-2">
-          {/* <a href="/" style={{ textDecoration: "none", color: "#333" }}>
-            Sign Out
-          </a> */}
-          {isLoggedIn ? (
+          {isLoggedIn === true ? (
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}
@@ -51,7 +46,6 @@ function Plan(props) {
               Sign In
             </a>
           )}
-          {console.log(isLoggedIn)}
         </div>
         <br />
       </div>

@@ -12,19 +12,50 @@ export default function Loginpage2(props) {
   // const [pwd, setPwd] = useState();
   const { email } = useEmail();
   const [password, setPasswordValue] = useState("");
-
+  const [currentloggedin, setCurrentloggedin] = useState("");
   const navigate = useNavigate();
 
-  var isLoggedIn = false;
-  var inputUserEmail = localStorage.getItem("userEmail");
-   var inputUserPassword = localStorage.getItem("userPassword");
-   if(inputUserEmail && inputUserPassword){
-    isLoggedIn= true;
-   }
-  // const { isLoggedIn } = props;
+  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+  console.log("isLoggedIn:-", isLoggedIn);
+
+  const login = () => {
+    var a = new Array();
+    var ep1 = new Object();
+    var ep2 = new Object();
+
+    ep1 = {
+      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
+      password: btoa("abc@12"),
+    };
+
+    ep2 = {
+      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
+      password: btoa("bcd@12"),
+    };
+    a.push(ep1);
+    a.push(ep2);
+
+    var emailId =
+      (document.getElementsByClassName("emailId") || {}).value || "";
+    var psw = (document.getElementsByClassName("psw") || {}).value || "";
+
+    console.log(emailId);
+    console.log(psw);
+
+    setCurrentloggedin(sessionStorage.setItem("currentloggedin", emailId));
+
+    localStorage.setItem("all_users", JSON.stringify(a));
+
+    a = JSON.parse(localStorage.getItem("all_users"));
+
+    a.push({ name: emailId, password: psw });
+
+    localStorage.setItem("name", JSON.stringify(a));
+  };
+
   const handleSiginClick = () => {
-    // localStorage.clear();
-    isLoggedIn=false;
+    sessionStorage.clear();
+    setIsLoggedIn(false);
   };
 
   const validate = (values) => {
@@ -95,7 +126,11 @@ export default function Loginpage2(props) {
             Sign In
           </a> */}
           {isLoggedIn ? (
-            <a href="/" style={{ textDecoration: "none", color: "#333" }}>
+            <a
+              href="/"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={handleSiginClick()}
+            >
               Sign out
             </a>
           ) : (
@@ -123,6 +158,7 @@ export default function Loginpage2(props) {
             <div className="wrapper-input2 d-flex align-items-center w-100">
               <div className="input-data d-flex flex-column  align-items-center ">
                 <input
+                  className="psw"
                   type="password"
                   name="password"
                   id="password"
@@ -162,7 +198,7 @@ export default function Loginpage2(props) {
             <button
               className="btn text-light"
               type="submit"
-              // onClick={() => validateSubmit(formik.values)}
+              onClick={() => login()}
               style={{
                 backgroundColor: "red",
                 marginBottom: "100px",

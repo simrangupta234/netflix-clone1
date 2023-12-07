@@ -7,18 +7,16 @@ import tablet from "../assets/tablet.svg";
 import computer from "../assets/computer.svg";
 import tv from "../assets/tv.svg";
 import "../style/plan.css";
+import { useState } from "react";
 function PlanForm(props) {
 
-  var isLoggedIn = false;
-  var inputUserEmail = localStorage.getItem("userEmail");
-   var inputUserPassword = localStorage.getItem("userPassword");
-   if(inputUserEmail && inputUserPassword){
-    isLoggedIn= true;
-   }
-  // const { isLoggedIn } = props;
+  const [isLoggedIn ,setIsLoggedIn] = useState(props);
+
+  console.log("isLoggedIn", isLoggedIn);
+
   const handleSiginClick = () => {
-    // localStorage.clear();
-    isLoggedIn=false;
+    sessionStorage.clear();
+    setIsLoggedIn(false)
   };
 
   const planClick = () => {
@@ -46,7 +44,7 @@ function PlanForm(props) {
           {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign Out
           </a> */}
-          {isLoggedIn ? (
+          {isLoggedIn === true ? (
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}

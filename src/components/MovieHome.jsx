@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 // import React from 'react'
 import { useState, useEffect } from "react";
@@ -12,17 +13,47 @@ import "../style/moviehome.css";
 const MovieHome = (props) => {
   const [movies, setMovies] = useState([]);
   // const number = useRef();
+  const [isLoggedIn ,setIsLoggedIn] =useState(props);
+  const [currentloggedin, setCurrentloggedin] = useState("");
+  console.log("isLoggedIn", isLoggedIn);
 
-  var isLoggedIn = false;
-  var inputUserEmail = localStorage.getItem("userEmail");
-  var inputUserPassword = localStorage.getItem("userPassword");
-  if (inputUserEmail && inputUserPassword) {
-    isLoggedIn = true;
-  }
-  // const { isLoggedIn } = props;
+  const login = () => {
+    var a = new Array();
+    var ep1 = new Object();
+    var ep2 = new Object();
+
+    ep1 = {
+      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
+      password: btoa("abc@12"),
+    };
+
+    ep2 = {
+      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
+      password: btoa("bcd@12"),
+    };
+    a.push(ep1);
+    a.push(ep2);
+
+    var emailId = (document.getElementsByClassName("emailId") || {}).value || "";
+    var psw = (document.getElementsByClassName("psw") || {}).value || "";
+
+    console.log(emailId);
+    console.log(psw);
+
+    setCurrentloggedin(sessionStorage.setItem("currentloggedin", emailId));
+
+    localStorage.setItem("all_users", JSON.stringify(a));
+
+    a = JSON.parse(localStorage.getItem("all_users"));
+
+    a.push({ name: emailId, password: psw });
+
+    localStorage.setItem("name", JSON.stringify(a));
+  };
+
   const handleSiginClick = () => {
-    // localStorage.clear();
-    isLoggedIn=false;
+    sessionStorage.clear();
+    setIsLoggedIn(false)
   };
 
   let randomMovie = Math.floor(Math.random() * 20);
@@ -80,7 +111,7 @@ const MovieHome = (props) => {
             </a>
           </button>
 
-          {isLoggedIn ? (
+          {isLoggedIn === true ? (
             <button
               className="btnm"
               style={{
@@ -106,7 +137,7 @@ const MovieHome = (props) => {
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Sign In
-              </a>
+              </a> 
             </button>
           )}
         </div>

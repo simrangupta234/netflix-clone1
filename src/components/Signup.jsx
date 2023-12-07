@@ -3,18 +3,15 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/signup.css";
+import { useState } from "react";
 
 function Signup(props) {
-  var isLoggedIn = false;
-  var inputUserEmail = localStorage.getItem("userEmail");
-   var inputUserPassword = localStorage.getItem("userPassword");
-   if(inputUserEmail && inputUserPassword){
-    isLoggedIn= true;
-   }
-  // const { isLoggedIn } = props;
+  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+
+  console.log("isLoggedIn:-", isLoggedIn);
   const handleSiginClick = () => {
-    // localStorage.clear();
-    isLoggedIn=false;
+    sessionStorage.clear();
+    setIsLoggedIn(false);
   };
 
   return (
@@ -36,22 +33,21 @@ function Signup(props) {
           </a>
         </div>
         <div className="signin col-2">
-          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
-            Sign In
-          </a> */}
-          {isLoggedIn ? (
-            <a
-              href="/"
-              style={{ textDecoration: "none", color: "#333" }}
-              onClick={handleSiginClick}
-            >
-              Sign out
-            </a>
-          ) : (
-            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
-              Sign In
-            </a>
-          )}
+
+          { isLoggedIn ? 
+          
+          (<a
+          href="/signin"
+          style={{ textDecoration: "none", color: "#333" }}
+          onClick={handleSiginClick}
+        >
+          Sign Out
+        </a> ) :
+
+         ( <a href="/" style={{ textDecoration: "none", color: "#333" }}>
+          Sign In
+        </a>)
+          }
         </div>
         <br />
       </div>

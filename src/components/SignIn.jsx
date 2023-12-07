@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 // import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -8,17 +9,52 @@ import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const navigate = useNavigate();
-  const [email, setEmailValue] = useState("");
-  const [password, setPasswordValue] = useState("");
+  const [, setEmailValue] = useState("");
+  const [, setPasswordValue] = useState("");
   const [warning, setWarning] = useState("");
-
+  const [currentloggedin, setCurrentloggedin] = useState("");
+  
   var inputUserEmail = localStorage.getItem("userEmail");
   var inputUserPassword = localStorage.getItem("userPassword");
 
   console.log(inputUserEmail);
   console.log(inputUserPassword);
 
+  // const login = () => {
+  //   var a = new Array();
+  //   var ep1 = new Object();
+  //   var ep2 = new Object();
 
+  //   ep1 = {
+  //     name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
+  //     password: btoa("abc@12"),
+  //   };
+
+  //   ep2 = {
+  //     name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
+  //     password: btoa("bcd@12"),
+  //   };
+  //   a.push(ep1);
+  //   a.push(ep2);
+
+  //   var emailId = (document.getElementById("email") || {}).value || "";
+  //   var psw = (document.getElementById("password") || {}).value || "";
+
+  //   console.log(emailId);
+  //   console.log(psw);
+
+  //   setCurrentloggedin(sessionStorage.setItem("currentloggedin", emailId));
+
+  //   localStorage.setItem("all_users", JSON.stringify(a));
+
+  //   a = JSON.parse(localStorage.getItem("all_users"));
+
+  //   a.push({ name: emailId, password: psw });
+
+  //   localStorage.setItem("name", JSON.stringify(a));
+  // };
+
+  
 
   const validate = (values) => {
     const errors = {};
@@ -60,12 +96,10 @@ function SignIn() {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
-      // var userEmail = localStorage.setItem("userEmail", values.email);
-      // var userPassword = localStorage.setItem("userPassword", values.password);
-
-      if (email != inputUserEmail) {
+      
+      if (values.email != inputUserEmail) {
         setWarning("Sorry, we can't find an account with this email address. Please try again or create a new account.");
-      } else if (email === inputUserEmail && password != inputUserPassword) {
+      } else if (values.email === inputUserEmail && values.password != inputUserPassword) {
         setWarning("Incorrect password. Please try again or you can reset your password.");
       } else {
         navigate("/user/moviehome");
@@ -151,6 +185,7 @@ function SignIn() {
               value={formik.values.email}
               style={{ background: "#333" }}
               placeholder=""
+              pattern="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$"
             />
             {formik.touched.email && formik.errors.email ? (
               <span
@@ -176,6 +211,7 @@ function SignIn() {
               type="password"
               name="password"
               id="password"
+              autoComplete="off"
               onChange={(e) => {
                 formik.handleChange(e);
                 handleChangePasswod(e);
@@ -205,7 +241,8 @@ function SignIn() {
         <button
           className="btn"
           type="submit"
-          onClick={() => validateSubmit(formik.values)}
+          // onClick={login()}
+          onClick={validateSubmit(formik.values)}
           style={{
             borderRadius: "4px",
             fontSize: "16px",

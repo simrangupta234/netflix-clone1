@@ -1,19 +1,16 @@
 /* eslint-disable no-unused-vars */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
 
-const PrivateRoute = () => {
+const PrivateRoute = (props) => {
+  const [isLoggedIn ,setIsLoggedIn] = useState(props);
 
-    var isLoggedIn = false;
-    var inputUserEmail = localStorage.getItem("userEmail");
-    var inputUserPassword = localStorage.getItem("userPassword");
-    if (inputUserEmail && inputUserPassword) {
-      isLoggedIn = true;
-    }
+  console.log("isLoggedIn", isLoggedIn);
+
   return (
-    isLoggedIn ? <Outlet/>: <Navigate to={"/"}/>
+    isLoggedIn === true ? <Outlet/>: <Navigate to={"/"}/>
   )
 }
 

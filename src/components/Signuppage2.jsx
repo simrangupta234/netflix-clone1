@@ -13,17 +13,47 @@ function Signuppage2(props) {
   const [password, setPasswordValue] = useState("");
 
   const navigate = useNavigate();
-  var isLoggedIn = false;
-var inputUserEmail = localStorage.getItem("userEmail");
- var inputUserPassword = localStorage.getItem("userPassword");
- if(inputUserEmail && inputUserPassword){
-  isLoggedIn= true;
- }
-  // const { isLoggedIn } = props;
+
+  const login = () => {
+    var a = new Array();
+    var ep1 = new Object();
+    var ep2 = new Object();
+
+    ep1 = {
+      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
+      password: btoa("abc@12"),
+    };
+
+    ep2 = {
+      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
+      password: btoa("bcd@12"),
+    };
+    a.push(ep1);
+    a.push(ep2);
+
+    var emailId = (document.getElementById("email") || {}).value || "";
+    var psw = (document.getElementById("password") || {}).value || "";
+
+    console.log("email", emailId);
+    console.log("passwod", psw);
+
+    sessionStorage.setItem("currentloggedin", emailId);
+
+    localStorage.setItem("all_users", JSON.stringify(a));
+
+    a = JSON.parse(localStorage.getItem("all_users"));
+
+    a.push({ name: emailId, password: psw });
+
+    localStorage.setItem("name", JSON.stringify(a));
+  };
+  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+
+  console.log("isLoggedIn", isLoggedIn);
+
   const handleSiginClick = () => {
-    // localStorage.clear();
-    isLoggedIn=false;
-    
+    sessionStorage.clear();
+    setIsLoggedIn(false);
   };
 
   const validate = (values) => {
@@ -93,19 +123,21 @@ var inputUserEmail = localStorage.getItem("userEmail");
           {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign In
           </a> */}
-          {isLoggedIn ? (
-            <a
-              href="/"
-              style={{ textDecoration: "none", color: "#333" }}
-              onClick={handleSiginClick}
-            >
-              Sign out
-            </a>
-          ) : (
-            <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
-              Sign In
-            </a>
-          )}
+             { isLoggedIn ? 
+          
+          (<a
+          href="/signin"
+          style={{ textDecoration: "none", color: "#333" }}
+          onClick={handleSiginClick}
+        >
+          Sign Out
+        </a> ) :
+
+         ( <a href="/" style={{ textDecoration: "none", color: "#333" }}>
+          Sign In
+        </a>)
+          }
+          {console.log(isLoggedIn)}
         </div>
         <br />
       </div>
@@ -173,7 +205,7 @@ var inputUserEmail = localStorage.getItem("userEmail");
         <button
           className="btn text-light"
           type="submit"
-          // onClick={() => validateSubmit(formik.values)}
+          onClick={login()}
           style={{
             backgroundColor: "red",
             marginBottom: "100px",

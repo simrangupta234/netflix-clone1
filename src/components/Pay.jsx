@@ -14,19 +14,53 @@ import phonepe from "../assets/phonepe.png";
 import arrow from "../assets/arrow-point-to-right (1).png";
 
 import "../style/signuppage2.css";
+import { useState } from "react";
 
 function Pay(props) {
-  var isLoggedIn = false;
-  var inputUserEmail = localStorage.getItem("userEmail");
-  var inputUserPassword = localStorage.getItem("userPassword");
-  if (inputUserEmail && inputUserPassword) {
-    isLoggedIn = true;
-  }
-  // const { isLoggedIn } = props;
+  const [isLoggedIn ,setIsLoggedIn] =useState(props);
+  const [currentloggedin, setCurrentloggedin] = useState("");
+  console.log("isLoggedIn", isLoggedIn);
+
   const handleSiginClick = () => {
-    // localStorage.clear();
-    isLoggedIn=false;
+    sessionStorage.clear();
+    setIsLoggedIn(false)
   };
+
+  const login = () => {
+    var a = new Array();
+    var ep1 = new Object();
+    var ep2 = new Object();
+
+    ep1 = {
+      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
+      password: btoa("abc@12"),
+    };
+
+    ep2 = {
+      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
+      password: btoa("bcd@12"),
+    };
+    a.push(ep1);
+    a.push(ep2);
+
+    var emailId = (document.getElementsByClassName("emailId") || {}).value || "";
+    var psw = (document.getElementsByClassName("psw") || {}).value || "";
+
+    console.log(emailId);
+    console.log(psw);
+
+    setCurrentloggedin(sessionStorage.setItem("currentloggedin", emailId));
+
+    localStorage.setItem("all_users", JSON.stringify(a));
+
+    a = JSON.parse(localStorage.getItem("all_users"));
+
+    a.push({ name: emailId, password: psw });
+
+    localStorage.setItem("name", JSON.stringify(a));
+  };
+
+ 
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
       <div
@@ -49,7 +83,7 @@ function Pay(props) {
           {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign Out
           </a> */}
-          {isLoggedIn ? (
+          {isLoggedIn === true ? (
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}
