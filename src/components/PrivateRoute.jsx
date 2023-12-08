@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 
 const PrivateRoute = (props) => {
-  const [isLoggedIn ,setIsLoggedIn] = useState(props);
+  const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
 
   console.log("isLoggedIn", isLoggedIn);
 

@@ -7,10 +7,34 @@ import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
 import { useState } from "react";
 
-function Signuppage2(props) {
+function Signuppage2({ isLoggedIn }) {
   const { email } = useEmail();
   // eslint-disable-next-line no-unused-vars
   const [password, setPasswordValue] = useState("");
+
+  // var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
+  const [inputUserEmail, setInputUserEmail] = useState(
+    localStorage.getItem("userEmail")
+  );
+  const [inputUserPassword, setInputUserPassword] = useState(
+    localStorage.getItem("userPassword")
+  );
+  // const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+  // var isLoggedIn =    props.isLoggedIn;
+  // console.log("isLoggedIn", isLoggedIn);
+  console.log("isLoggedIn", isLoggedIn);
+
+  const handleSiginClick = () => {
+    sessionStorage.clear();
+    isLoggedIn = false;
+    // setIsLoggedIn(false)
+    localStorage.setItem("users", inputUserEmail);
+    localStorage.setItem("userspassword", inputUserPassword);
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPassword");
+    console.log("users:-", localStorage.setItem("users", inputUserEmail));
+  };
 
   const navigate = useNavigate();
 
@@ -46,14 +70,6 @@ function Signuppage2(props) {
     a.push({ name: emailId, password: psw });
 
     localStorage.setItem("name", JSON.stringify(a));
-  };
-  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
-
-  console.log("isLoggedIn", isLoggedIn);
-
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    setIsLoggedIn(false);
   };
 
   const validate = (values) => {
@@ -120,23 +136,19 @@ function Signuppage2(props) {
           </a>
         </div>
         <div className="signin col-2">
-          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
-            Sign In
-          </a> */}
-             { isLoggedIn ? 
-          
-          (<a
-          href="/signin"
-          style={{ textDecoration: "none", color: "#333" }}
-          onClick={handleSiginClick}
-        >
-          Sign Out
-        </a> ) :
-
-         ( <a href="/" style={{ textDecoration: "none", color: "#333" }}>
-          Sign In
-        </a>)
-          }
+          {isLoggedIn ? (
+            <a
+              href="/signin"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={handleSiginClick}
+            >
+              Sign Out
+            </a>
+          ) : (
+            <a href="/" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
           {console.log(isLoggedIn)}
         </div>
         <br />

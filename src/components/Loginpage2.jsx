@@ -1,61 +1,26 @@
 /* eslint-disable no-unused-vars */
 // import React from 'react'
 // import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/loginpage2.css";
 import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
 import { useState } from "react";
 
-export default function Loginpage2(props) {
+export default function Loginpage2({ isLoggedIn }) {
   // const [pwd, setPwd] = useState();
   const { email } = useEmail();
   const [password, setPasswordValue] = useState("");
   const [currentloggedin, setCurrentloggedin] = useState("");
   const navigate = useNavigate();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+  const [LoggedIn, setLoggedIn] = useState(isLoggedIn);
   console.log("isLoggedIn:-", isLoggedIn);
-
-  const login = () => {
-    var a = new Array();
-    var ep1 = new Object();
-    var ep2 = new Object();
-
-    ep1 = {
-      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
-      password: btoa("abc@12"),
-    };
-
-    ep2 = {
-      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
-      password: btoa("bcd@12"),
-    };
-    a.push(ep1);
-    a.push(ep2);
-
-    var emailId =
-      (document.getElementsByClassName("emailId") || {}).value || "";
-    var psw = (document.getElementsByClassName("psw") || {}).value || "";
-
-    console.log(emailId);
-    console.log(psw);
-
-    setCurrentloggedin(sessionStorage.setItem("currentloggedin", emailId));
-
-    localStorage.setItem("all_users", JSON.stringify(a));
-
-    a = JSON.parse(localStorage.getItem("all_users"));
-
-    a.push({ name: emailId, password: psw });
-
-    localStorage.setItem("name", JSON.stringify(a));
-  };
 
   const handleSiginClick = () => {
     sessionStorage.clear();
-    setIsLoggedIn(false);
+    setLoggedIn(false);
   };
 
   const validate = (values) => {
@@ -100,9 +65,7 @@ export default function Loginpage2(props) {
   const handleChange = (e) => {
     setPasswordValue(e.target.value);
   };
-  const handleValue = (passwordValue) => {
-    console.log("Password value:", passwordValue);
-  };
+
   return (
     <div className="main w-100 bg-light  ">
       <div
@@ -165,7 +128,6 @@ export default function Loginpage2(props) {
                   onChange={(e) => {
                     formik.handleChange(e);
                     handleChange(e);
-                    handleValue(e.target.value);
                   }}
                   onBlur={formik.handleBlur}
                   value={formik.values.password}
@@ -194,11 +156,10 @@ export default function Loginpage2(props) {
                 Forgot your password?
               </a>
             </div>
-
+            {/* <Link to="/user/moviehome"> */}
             <button
               className="btn text-light"
               type="submit"
-              onClick={() => login()}
               style={{
                 backgroundColor: "red",
                 marginBottom: "100px",
@@ -210,6 +171,7 @@ export default function Loginpage2(props) {
             >
               Submit
             </button>
+            {/* </Link> */}
           </form>
         </div>
       </div>

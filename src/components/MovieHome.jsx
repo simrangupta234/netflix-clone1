@@ -10,13 +10,35 @@ import logo from "../assets/logo.svg";
 import Footer from "./Footer";
 import "../style/moviehome.css";
 
-const MovieHome = (props) => {
+const MovieHome = ({ isLoggedIn }) => {
   const [movies, setMovies] = useState([]);
   // const number = useRef();
-  const [isLoggedIn ,setIsLoggedIn] =useState(props);
+  // const [isLoggedIn ,setIsLoggedIn] =useState(props);
   const [currentloggedin, setCurrentloggedin] = useState("");
-  console.log("isLoggedIn", isLoggedIn);
+  // var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
+  const [inputUserEmail, setInputUserEmail] = useState(
+    localStorage.getItem("userEmail")
+  );
+  const [inputUserPassword, setInputUserPassword] = useState(
+    localStorage.getItem("userPassword")
+  );
+  // const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
+  // var isLoggedIn = props.isLoggedIn;
+  console.log("isLoggedIn:-", isLoggedIn);
 
+  const handleSiginClick = () => {
+    sessionStorage.clear();
+    isLoggedIn = false;
+    // setIsLoggedIn(false)
+    localStorage.setItem("users", localStorage.getItem(inputUserEmail));
+    localStorage.setItem(
+      "userspassword",
+      localStorage.getItem(inputUserPassword)
+    );
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPassword");
+  };
   const login = () => {
     var a = new Array();
     var ep1 = new Object();
@@ -34,7 +56,8 @@ const MovieHome = (props) => {
     a.push(ep1);
     a.push(ep2);
 
-    var emailId = (document.getElementsByClassName("emailId") || {}).value || "";
+    var emailId =
+      (document.getElementsByClassName("emailId") || {}).value || "";
     var psw = (document.getElementsByClassName("psw") || {}).value || "";
 
     console.log(emailId);
@@ -49,11 +72,6 @@ const MovieHome = (props) => {
     a.push({ name: emailId, password: psw });
 
     localStorage.setItem("name", JSON.stringify(a));
-  };
-
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    setIsLoggedIn(false)
   };
 
   let randomMovie = Math.floor(Math.random() * 20);
@@ -137,7 +155,7 @@ const MovieHome = (props) => {
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Sign In
-              </a> 
+              </a>
             </button>
           )}
         </div>

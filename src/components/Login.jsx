@@ -19,17 +19,33 @@ import { useNavigate } from "react-router-dom";
 import { useEmail } from "./EmailContext";
 
 // import axios from './api/axios';
-export default function Login(props) {
+export default function Login({ isLoggedIn }) {
   const navigate = useNavigate();
-
-  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+  // var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
+  const [inputUserEmail, setInputUserEmail] = useState(
+    localStorage.getItem("userEmail")
+  );
+  const [inputUserPassword, setInputUserPassword] = useState(
+    localStorage.getItem("userPassword")
+  );
+  // console.log(inputUserEmail);
+  // const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
 
   console.log("isLoggedIn", isLoggedIn);
-  console.log("isLoggedIn", props.isLoggedIn);
 
   const handleSiginClick = () => {
     sessionStorage.clear();
-    setIsLoggedIn(false);
+    isLoggedIn = false;
+    // setIsLoggedIn(false)
+    var users = localStorage.setItem("users", inputUserEmail);
+    var userspassword = localStorage.setItem(
+      "userspassword",
+      inputUserPassword
+    );
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPassword");
+    console.log("users:-", localStorage.setItem("users", inputUserEmail));
   };
 
   const validate = (values) => {
@@ -56,8 +72,6 @@ export default function Login(props) {
       validateSubmit(values);
     },
   });
-  var inputUserEmail = localStorage.getItem("userEmail");
-  // var inputUserPassword = localStorage.getItem("userPassword");
 
   const validateSubmit = (values) => {
     const errors = validate(values);
@@ -79,28 +93,26 @@ export default function Login(props) {
   const handleChange = (e) => {
     setEmailValue(e.target.value);
   };
-  const handleValue = (emailValue) => {
-    console.log("Email value:", emailValue);
-  };
-  // console.log(email)
 
-  // useEffect(() => {
-  //   var btn = document.getElementsByTagName("button");
-  //   var i;
+  useEffect(() => {
+    var btn = document.getElementsByClassName("faxbtn");
+    var i;
 
-  //   for (i = 0; i < btn.length; i++) {
-  //     btn[i].addEventListener("click", function () {
-  //       this.classList.toggle("active");
-  //       this.parentElement.classList.toggle("active");
-  //       var ans = this.nextElementSibling;
-  //       if (ans.style.display === "block") {
-  //         ans.style.display = "none";
-  //       } else {
-  //         ans.style.display = "block";
-  //       }
-  //     });
-  //   }
-  // });
+    for (i = 0; i < btn.length; i++) {
+      btn[i].addEventListener("click", function () {
+        // console.log(btn[i]);
+        this.classList.toggle("active");
+        // console.log(this.nextElementSibling);
+        this.parentElement.classList.toggle("active");
+        var ans = this.nextElementSibling;
+        if (ans.style.display === "block") {
+          ans.style.display = "none";
+        } else {
+          ans.style.display = "block";
+        }
+      });
+    }
+  });
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
@@ -162,7 +174,6 @@ export default function Login(props) {
                 onChange={(e) => {
                   formik.handleChange(e);
                   handleChange(e);
-                  handleValue(e.target.value);
                 }}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
@@ -412,7 +423,6 @@ export default function Login(props) {
               onChange={(e) => {
                 formik.handleChange(e);
                 handleChange(e);
-                handleValue(e.target.value);
               }}
               onBlur={formik.handleBlur}
               value={formik.values.email}

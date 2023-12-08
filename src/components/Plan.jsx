@@ -3,16 +3,54 @@
 import "../style/plan.css";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function Plan(props) {
-  const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
-
+function Plan({isLoggedIn}) {
+  // var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
+  const [inputUserEmail, setInputUserEmail] = useState(
+    localStorage.getItem("userEmail")
+  );
+  const [inputUserPassword, setInputUserPassword] = useState(
+    localStorage.getItem("userPassword")
+  );
+  // const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
+  // var isLoggedIn = props.isLoggedIn;
+  // console.log(props.isLoggedIn);
   console.log("isLoggedIn:-", isLoggedIn);
+  const [LoggedIn, setLoggedIn] = useState(false);
+  const [currentloggedin, setCurrentloggedin] = useState("");
 
+  useEffect(() => {
+    if (
+      inputUserEmail &&
+      inputUserPassword &&
+      inputUserEmail != null &&
+      inputUserPassword != null
+    ) {
+      setCurrentloggedin(
+        sessionStorage.setItem("currentloggedin", inputUserEmail)
+      );
+    }
+
+    setCurrentloggedin(sessionStorage.getItem("currentloggedin"));
+    if (currentloggedin) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  });
   const handleSiginClick = () => {
     sessionStorage.clear();
-    setIsLoggedIn(false)
+    isLoggedIn = false;
+    // setIsLoggedIn(false)
+    localStorage.setItem("users", localStorage.getItem(inputUserEmail));
+    localStorage.setItem(
+      "userspassword",
+      localStorage.getItem(inputUserPassword)
+    );
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPassword");
   };
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
@@ -33,7 +71,7 @@ function Plan(props) {
           </a>
         </div>
         <div className="signin col-2">
-          {isLoggedIn === true ? (
+          {isLoggedIn ? (
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}

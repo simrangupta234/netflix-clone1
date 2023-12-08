@@ -16,14 +16,32 @@ import arrow from "../assets/arrow-point-to-right (1).png";
 import "../style/signuppage2.css";
 import { useState } from "react";
 
-function Pay(props) {
-  const [isLoggedIn ,setIsLoggedIn] =useState(props);
+function Pay({isLoggedIn}) {
+  // const [isLoggedIn ,setIsLoggedIn] =useState(props);
   const [currentloggedin, setCurrentloggedin] = useState("");
-  console.log("isLoggedIn", isLoggedIn);
+  // var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
+  const [inputUserEmail, setInputUserEmail] = useState(
+    localStorage.getItem("userEmail")
+  );
+  const [inputUserPassword, setInputUserPassword] = useState(
+    localStorage.getItem("userPassword")
+  );
+  // const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
+  // var isLoggedIn = props.isLoggedIn;
+  console.log("isLoggedIn:-", isLoggedIn);
 
   const handleSiginClick = () => {
     sessionStorage.clear();
-    setIsLoggedIn(false)
+    isLoggedIn = false;
+    // setIsLoggedIn(false)
+    localStorage.setItem("users", localStorage.getItem(inputUserEmail));
+    localStorage.setItem(
+      "userspassword",
+      localStorage.getItem(inputUserPassword)
+    );
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPassword");
   };
 
   const login = () => {
@@ -43,7 +61,8 @@ function Pay(props) {
     a.push(ep1);
     a.push(ep2);
 
-    var emailId = (document.getElementsByClassName("emailId") || {}).value || "";
+    var emailId =
+      (document.getElementsByClassName("emailId") || {}).value || "";
     var psw = (document.getElementsByClassName("psw") || {}).value || "";
 
     console.log(emailId);
@@ -60,7 +79,6 @@ function Pay(props) {
     localStorage.setItem("name", JSON.stringify(a));
   };
 
- 
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
       <div
@@ -83,7 +101,7 @@ function Pay(props) {
           {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign Out
           </a> */}
-          {isLoggedIn === true ? (
+          {isLoggedIn ? (
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}
@@ -131,9 +149,11 @@ function Pay(props) {
             <div style={{ width: "fit-content", padding: "0 10px 0 2px" }}>
               Credit or Debit Card
             </div>
-            <img src={visa} alt="" />
-            <img src={mastercard} alt="" />
-            <img src={diners} alt="" />
+            <div>
+              <img src={visa} alt="" />
+              <img src={mastercard} alt="" />
+              <img src={diners} alt="" />
+            </div>
           </div>
           <div style={{ width: "fit-content" }}>
             <img src={arrow} alt="" style={{ height: "15px", width: "auto" }} />
@@ -147,12 +167,13 @@ function Pay(props) {
             <div style={{ width: "fit-content", padding: "0 10px 0 2px" }}>
               UPI Auto Pay
             </div>
-
-            <img src={bhim} alt="" />
-            <img src={paytm} alt="" />
-            <img src={gpay} alt="" />
-            <img src={amazonpay} alt="" />
-            <img src={phonepe} alt="" />
+            <div>
+              <img src={bhim} alt="" />
+              <img src={paytm} alt="" />
+              <img src={gpay} alt="" />
+              <img src={amazonpay} alt="" />
+              <img src={phonepe} alt="" />
+            </div>
           </div>
           <div style={{ width: "fit-content" }}>
             <img src={arrow} alt="" style={{ height: "15px", width: "auto" }} />

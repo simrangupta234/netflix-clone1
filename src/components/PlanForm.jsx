@@ -8,15 +8,30 @@ import computer from "../assets/computer.svg";
 import tv from "../assets/tv.svg";
 import "../style/plan.css";
 import { useState } from "react";
-function PlanForm(props) {
-
-  const [isLoggedIn ,setIsLoggedIn] = useState(props);
-
-  console.log("isLoggedIn", isLoggedIn);
+function PlanForm({isLoggedIn}) {
+ // var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
+  const [inputUserEmail, setInputUserEmail] = useState(
+    localStorage.getItem("userEmail")
+  );
+  const [inputUserPassword, setInputUserPassword] = useState(
+    localStorage.getItem("userPassword")
+  );
+  // const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
+  // var isLoggedIn = props.isLoggedIn;
+  console.log("isLoggedIn:-", isLoggedIn);
 
   const handleSiginClick = () => {
     sessionStorage.clear();
-    setIsLoggedIn(false)
+    isLoggedIn = false;
+    // setIsLoggedIn(false)
+    localStorage.setItem("users", localStorage.getItem(inputUserEmail));
+    localStorage.setItem(
+      "userspassword",
+      localStorage.getItem(inputUserPassword)
+    );
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPassword");
   };
 
   const planClick = () => {
@@ -44,7 +59,7 @@ function PlanForm(props) {
           {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
             Sign Out
           </a> */}
-          {isLoggedIn === true ? (
+          {isLoggedIn ? (
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}

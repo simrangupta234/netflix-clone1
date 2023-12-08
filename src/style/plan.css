@@ -78,6 +78,9 @@ li {
   .width {
     width: 100px;
   }
+  .payment-card div{
+    flex-direction: column;
+  }
 }
 @media screen and (max-width: 400px) {
   .planlist-table {

@@ -5,13 +5,29 @@ import logo from "../assets/logo.svg";
 import "../style/signup.css";
 import { useState } from "react";
 
-function Signup(props) {
-  const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+function Signup({isLoggedIn}) {
+// var inputUserEmail = localStorage.getItem("userEmail");
+  // var inputUserPassword = localStorage.getItem("userPassword");
+  const [inputUserEmail, setInputUserEmail] = useState(
+    localStorage.getItem("userEmail")
+  );
+  const [inputUserPassword, setInputUserPassword] = useState(
+    localStorage.getItem("userPassword")
+  );
+  // const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+  // var isLoggedIn =    props.isLoggedIn;
+  // console.log("isLoggedIn", isLoggedIn);
+  console.log("isLoggedIn", isLoggedIn);
 
-  console.log("isLoggedIn:-", isLoggedIn);
   const handleSiginClick = () => {
     sessionStorage.clear();
-    setIsLoggedIn(false);
+    isLoggedIn = false;
+    // setIsLoggedIn(false)
+    localStorage.setItem("users", inputUserEmail);
+    localStorage.setItem("userspassword", inputUserPassword);
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPassword");
+    console.log("users:-", localStorage.setItem("users", inputUserEmail));
   };
 
   return (

@@ -14,14 +14,19 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useEffect, useState } from "react";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn]=useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentloggedin, setCurrentloggedin] = useState("");
 
   var inputUserEmail = localStorage.getItem("userEmail");
   var inputUserPassword = localStorage.getItem("userPassword");
 
   useEffect(() => {
-    if (inputUserEmail && inputUserPassword) {
+    if (
+      inputUserEmail &&
+      inputUserPassword &&
+      inputUserEmail != null &&
+      inputUserPassword != null
+    ) {
       setCurrentloggedin(
         sessionStorage.setItem("currentloggedin", inputUserEmail)
       );
@@ -29,13 +34,12 @@ const App = () => {
 
     setCurrentloggedin(sessionStorage.getItem("currentloggedin"));
     if (currentloggedin) {
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
     } else {
-     setIsLoggedIn(false)
+      setIsLoggedIn(false);
     }
-  
-  },[inputUserEmail, inputUserPassword, currentloggedin]);
- 
+  });
+
   console.log("currentLoggedIn", currentloggedin);
   console.log("isloggedIn", isLoggedIn);
 
@@ -48,15 +52,20 @@ const App = () => {
             element={<MovieHome isLoggedIn={isLoggedIn} />}
           />
         </Route>
+        {isLoggedIn ? (
+          <Route
+            path="moviehome"
+            element={<MovieHome isLoggedIn={isLoggedIn} />}
+          />
+        ) : (
+          <Route path="/" element={<Login isLoggedIn={isLoggedIn} />} />
+        )}
 
         <Route path="/" element={<Login isLoggedIn={isLoggedIn} />} />
         <Route path="/login" element={<Loginpage2 isLoggedIn={isLoggedIn} />} />
         <Route path="/signin" element={<SignIn />} />
 
-        <Route
-          path="/signup"
-          element={<Signup isLoggedIn={isLoggedIn} />}
-        ></Route>
+        <Route path="/signup" element={<Signup isLoggedIn={isLoggedIn} />} />
         <Route
           path="/signupform"
           element={<Signuppage2 isLoggedIn={isLoggedIn} />}
