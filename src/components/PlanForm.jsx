@@ -7,31 +7,31 @@ import tablet from "../assets/tablet.svg";
 import computer from "../assets/computer.svg";
 import tv from "../assets/tv.svg";
 import "../style/plan.css";
-import { useState } from "react";
-function PlanForm({isLoggedIn}) {
- // var inputUserEmail = localStorage.getItem("userEmail");
-  // var inputUserPassword = localStorage.getItem("userPassword");
-  const [inputUserEmail, setInputUserEmail] = useState(
-    localStorage.getItem("userEmail")
-  );
-  const [inputUserPassword, setInputUserPassword] = useState(
-    localStorage.getItem("userPassword")
-  );
-  // const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
-  // var isLoggedIn = props.isLoggedIn;
-  console.log("isLoggedIn:-", isLoggedIn);
+import { useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
+function PlanForm() {
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    setEmail,
+    password,
+    setPassword,
+    setLoggedInValue,
+  } = useAuth();
 
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    isLoggedIn = false;
-    // setIsLoggedIn(false)
-    localStorage.setItem("users", localStorage.getItem(inputUserEmail));
-    localStorage.setItem(
-      "userspassword",
-      localStorage.getItem(inputUserPassword)
-    );
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userPassword");
+  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+  console.log(storedEmail1);
+  useEffect(() => {
+    if (storedEmail1 != null && storedPassword2 != null) {
+      setLoggedInValue(true);
+    }
+  }, []);
+
+  const signOut = (e) => {
+    sessionStorage.removeItem("inputUserEmail");
+    sessionStorage.removeItem("inputUserPassword");
+    setLoggedInValue(false);
   };
 
   const planClick = () => {
@@ -63,7 +63,9 @@ function PlanForm({isLoggedIn}) {
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}
-              onClick={handleSiginClick}
+              onClick={(e) => {
+                signOut(e);
+              }}
             >
               Sign out
             </a>

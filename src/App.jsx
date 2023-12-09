@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from "./components/Login";
 import Loginpage2 from "./components/Loginpage2";
 import MovieHome from "./components/MovieHome";
@@ -11,74 +11,35 @@ import PlanForm from "./components/PlanForm";
 import Pay from "./components/Pay";
 import { EmailProvider } from "./components/EmailContext";
 import PrivateRoute from "./components/PrivateRoute";
-import { useEffect, useState } from "react";
+import { AuthProvider } from "./components/AuthContext";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentloggedin, setCurrentloggedin] = useState("");
-
-  var inputUserEmail = localStorage.getItem("userEmail");
-  var inputUserPassword = localStorage.getItem("userPassword");
-
-  useEffect(() => {
-    if (
-      inputUserEmail &&
-      inputUserPassword &&
-      inputUserEmail != null &&
-      inputUserPassword != null
-    ) {
-      setCurrentloggedin(
-        sessionStorage.setItem("currentloggedin", inputUserEmail)
-      );
-    }
-
-    setCurrentloggedin(sessionStorage.getItem("currentloggedin"));
-    if (currentloggedin) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  });
-
-  console.log("currentLoggedIn", currentloggedin);
-  console.log("isloggedIn", isLoggedIn);
 
   return (
-    <EmailProvider>
-      <Routes>
-        <Route path="/user" element={<PrivateRoute isLoggedIn={isLoggedIn} />}>
-          <Route
-            path="moviehome"
-            element={<MovieHome isLoggedIn={isLoggedIn} />}
-          />
-        </Route>
-        {isLoggedIn ? (
-          <Route
-            path="moviehome"
-            element={<MovieHome isLoggedIn={isLoggedIn} />}
-          />
-        ) : (
-          <Route path="/" element={<Login isLoggedIn={isLoggedIn} />} />
-        )}
+    <BrowserRouter>
+      <EmailProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path="/user" element={<PrivateRoute />}>
+              <Route path="moviehome" element={<MovieHome />} />
+            </Route>
+            <Route path="/" element={<PrivateRoute />}>
+              <Route path="/" element={<Login />} />
+            </Route>
 
-        <Route path="/" element={<Login isLoggedIn={isLoggedIn} />} />
-        <Route path="/login" element={<Loginpage2 isLoggedIn={isLoggedIn} />} />
-        <Route path="/signin" element={<SignIn />} />
+            <Route path="/login" element={<Loginpage2 />} />
+            <Route path="/signin" element={<SignIn />} />
 
-        <Route path="/signup" element={<Signup isLoggedIn={isLoggedIn} />} />
-        <Route
-          path="/signupform"
-          element={<Signuppage2 isLoggedIn={isLoggedIn} />}
-        />
-        <Route path="/plans" element={<Plan isLoggedIn={isLoggedIn} />} />
-        <Route
-          path="/planform"
-          element={<PlanForm isLoggedIn={isLoggedIn} />}
-        />
-        <Route path="/payment" element={<Pay isLoggedIn={isLoggedIn} />} />
-        {/* <Route path="*" element={<Navigate to="/" />}></Route> */}
-      </Routes>
-    </EmailProvider>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signupform" element={<Signuppage2 />} />
+            <Route path="/plans" element={<Plan />} />
+            <Route path="/planform" element={<PlanForm />} />
+            <Route path="/payment" element={<Pay />} />
+            {/* <Route path="*" element={<Navigate to="/" />}></Route> */}
+          </Routes>
+        </AuthProvider>
+      </EmailProvider>
+    </BrowserRouter>
   );
 };
 export default App;

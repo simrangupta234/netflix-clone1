@@ -6,30 +6,30 @@ import logo from "../assets/logo.svg";
 import "../style/signin.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import { useEmail } from "./EmailContext";
 
 function SignIn() {
   const navigate = useNavigate();
   const [warning, setWarning] = useState("");
-  const [inputUserEmail, setInputUserEmail] = useState(
-    localStorage.getItem("userEmail")
-  );
-  const [inputUserPassword, setInputUserPassword] = useState(
-    localStorage.getItem("userPassword")
-  );
-  console.log(inputUserEmail);
-  console.log(inputUserPassword);
-  var users = localStorage.setItem("users", inputUserEmail);
-  var userspassword = localStorage.setItem("userspassword", inputUserPassword);
+  const inputUserEmail = localStorage.getItem("inputUserEmail");
+  const inputUserPassword = localStorage.getItem("inputUserPassword");
 
-  users = localStorage.getItem("users");
-  userspassword = localStorage.getItem("userspassword");
+  const { isLoggedIn, setLoggedInValue, password, setPassword, setAuthValue } =
+    useAuth();
+  const { email, setEmailValue } = useEmail();
   var valuesEmail = (document.getElementById("email") || {}).value || "";
   var valuesPassword = (document.getElementById("password") || {}).value || "";
 
+  console.log(valuesEmail);
+  console.log(valuesPassword);
+
   const validate = () => {
     const errors = {};
+    console.log("email: ", valuesEmail);
 
     if (!valuesEmail) {
+      console.log("email: ", valuesEmail);
       errors.email = "Email is required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(valuesEmail)) {
       errors.email = "Please enter a valid email address.";
@@ -47,7 +47,6 @@ function SignIn() {
     }
     return errors;
   };
-  console.log("errors", validate());
 
   const formik = useFormik({
     initialValues: {
@@ -63,24 +62,36 @@ function SignIn() {
 
   const validateSubmit = (values) => {
     const errors = validate(values);
-
+    console.log("errors:", errors);
+    console.log("errorsCount: ", Object.keys(errors).length);
     if (Object.keys(errors).length === 0) {
-      if (valuesEmail != users) {
+      if (valuesEmail != inputUserEmail) {
         setWarning(
           "Sorry, we can't find an account with this email address. Please try again or create a new account."
         );
-      } else if (valuesEmail === users && valuesPassword != userspassword) {
+      } else if (
+        valuesEmail === inputUserEmail &&
+        valuesPassword != inputUserPassword
+      ) {
         setWarning(
           "Incorrect password. Please try again or you can reset your password."
         );
       } else {
+        setLoggedInValue(true);
         navigate("/user/moviehome");
       }
     } else {
       console.log("Please fill in the email and password");
     }
   };
-  console.log(formik.values.email);
+
+  const handleChangePassword = (e) => {
+    setAuthValue(e.target.value);
+  };
+
+  const handleChangeEmail = (e) => {
+    setEmailValue(e.target.value);
+  };
 
   return (
     <div className="signin-main w-100 text-light d-flex flex-column justify-content-center align-items-center">
@@ -127,6 +138,7 @@ function SignIn() {
               id="email"
               onChange={(e) => {
                 formik.handleChange(e);
+                handleChangeEmail(e);
               }}
               onBlur={formik.handleBlur}
               value={formik.values.email}
@@ -161,6 +173,7 @@ function SignIn() {
               autoComplete="off"
               onChange={(e) => {
                 formik.handleChange(e);
+                handleChangePassword(e);
               }}
               onBlur={formik.handleBlur}
               value={formik.values.password}
@@ -186,10 +199,6 @@ function SignIn() {
         <button
           className="btn"
           type="submit"
-          onClick={() => {
-            validateSubmit();
-            validate();
-          }}
           style={{
             borderRadius: "4px",
             fontSize: "16px",
@@ -198,6 +207,7 @@ function SignIn() {
             backgroundColor: "red",
             color: "white",
           }}
+          onClick={validateSubmit}
         >
           Sign In
         </button>

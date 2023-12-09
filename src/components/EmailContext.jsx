@@ -1,11 +1,9 @@
-// EmailContext.js
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
 const EmailContext = createContext();
 
-
 export const EmailProvider = ({ children }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const setEmailValue = (value) => {
     setEmail(value);
@@ -21,7 +19,7 @@ export const EmailProvider = ({ children }) => {
 export const useEmail = () => {
   const context = useContext(EmailContext);
   if (!context) {
-    throw new Error('useEmail must be used within an EmailProvider');
+    throw new Error("useEmail must be used within an EmailProvider");
   }
   return context;
 };

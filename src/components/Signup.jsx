@@ -3,31 +3,25 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/signup.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
-function Signup({isLoggedIn}) {
-// var inputUserEmail = localStorage.getItem("userEmail");
-  // var inputUserPassword = localStorage.getItem("userPassword");
-  const [inputUserEmail, setInputUserEmail] = useState(
-    localStorage.getItem("userEmail")
-  );
-  const [inputUserPassword, setInputUserPassword] = useState(
-    localStorage.getItem("userPassword")
-  );
-  // const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
-  // var isLoggedIn =    props.isLoggedIn;
-  // console.log("isLoggedIn", isLoggedIn);
-  console.log("isLoggedIn", isLoggedIn);
+function Signup() {
+  const { isLoggedIn, setLoggedInValue, authUser, setAuthuser } = useAuth();
 
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    isLoggedIn = false;
-    // setIsLoggedIn(false)
-    localStorage.setItem("users", inputUserEmail);
-    localStorage.setItem("userspassword", inputUserPassword);
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userPassword");
-    console.log("users:-", localStorage.setItem("users", inputUserEmail));
+  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+  console.log(storedEmail1);
+  useEffect(() => {
+    if (storedEmail1 != null && storedPassword2 != null) {
+      setLoggedInValue(true);
+    }
+  }, []);
+
+  const signOut = (e) => {
+    sessionStorage.removeItem("inputUserEmail");
+    sessionStorage.removeItem("inputUserPassword");
+    setLoggedInValue(false);
   };
 
   return (
@@ -49,21 +43,21 @@ function Signup({isLoggedIn}) {
           </a>
         </div>
         <div className="signin col-2">
-
-          { isLoggedIn ? 
-          
-          (<a
-          href="/signin"
-          style={{ textDecoration: "none", color: "#333" }}
-          onClick={handleSiginClick}
-        >
-          Sign Out
-        </a> ) :
-
-         ( <a href="/" style={{ textDecoration: "none", color: "#333" }}>
-          Sign In
-        </a>)
-          }
+          {isLoggedIn ? (
+            <a
+              href="/signin"
+              style={{ textDecoration: "none", color: "#333" }}
+              onClick={(e) => {
+                signOut(e);
+              }}
+            >
+              Sign Out
+            </a>
+          ) : (
+            <a href="/" style={{ textDecoration: "none", color: "#333" }}>
+              Sign In
+            </a>
+          )}
         </div>
         <br />
       </div>

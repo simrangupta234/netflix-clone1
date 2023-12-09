@@ -17,35 +17,31 @@ import arrow from "../assets/arrow-point-to-right.png";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useEmail } from "./EmailContext";
+import { useAuth } from "./AuthContext";
 
 // import axios from './api/axios';
-export default function Login({ isLoggedIn }) {
+export default function Login() {
   const navigate = useNavigate();
-  // var inputUserEmail = localStorage.getItem("userEmail");
-  // var inputUserPassword = localStorage.getItem("userPassword");
-  const [inputUserEmail, setInputUserEmail] = useState(
-    localStorage.getItem("userEmail")
-  );
-  const [inputUserPassword, setInputUserPassword] = useState(
-    localStorage.getItem("userPassword")
-  );
-  // console.log(inputUserEmail);
-  // const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
+  const { email, setEmailValue } = useEmail();
 
-  console.log("isLoggedIn", isLoggedIn);
+  const { isLoggedIn, setLoggedInValue, setEmail, password, setPassword } =
+    useAuth();
 
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    isLoggedIn = false;
-    // setIsLoggedIn(false)
-    var users = localStorage.setItem("users", inputUserEmail);
-    var userspassword = localStorage.setItem(
-      "userspassword",
-      inputUserPassword
-    );
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userPassword");
-    console.log("users:-", localStorage.setItem("users", inputUserEmail));
+  const inputUserEmail = localStorage.getItem("inputUserEmail");
+
+  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+  console.log(storedEmail1);
+  useEffect(() => {
+    if (storedEmail1 != null && storedPassword2 != null) {
+      setLoggedInValue(true);
+    }
+  }, []);
+
+  const signOut = (e) => {
+    sessionStorage.removeItem("inputUserEmail");
+    sessionStorage.removeItem("inputUserPassword");
+    setLoggedInValue(false);
   };
 
   const validate = (values) => {
@@ -76,8 +72,9 @@ export default function Login({ isLoggedIn }) {
   const validateSubmit = (values) => {
     const errors = validate(values);
 
+    localStorage.setItem("inputUserEmail", values.email);
+
     if (Object.keys(errors).length === 0) {
-      localStorage.setItem("userEmail", values.email);
       if (values.email === inputUserEmail) {
         navigate("/login");
       } else {
@@ -88,12 +85,9 @@ export default function Login({ isLoggedIn }) {
     }
   };
 
-  const { email, setEmailValue } = useEmail();
-
   const handleChange = (e) => {
     setEmailValue(e.target.value);
   };
-
   useEffect(() => {
     var btn = document.getElementsByClassName("faxbtn");
     var i;
@@ -126,11 +120,6 @@ export default function Login({ isLoggedIn }) {
 
           <div className="nav-right">
             <div className="language">
-              {/* <img
-                src={language}
-                alt=""
-                style={{ height: "30%", width: "30%", margin: "0 2px" }}
-              /> */}
               <select name="lang" id="lang1">
                 <option value="English">English</option>
                 <option value="Hindi">हिंदी</option>
@@ -138,8 +127,13 @@ export default function Login({ isLoggedIn }) {
             </div>
 
             {isLoggedIn ? (
-              <button className="signin" onClick={handleSiginClick()}>
-                <a href="/">Sign out</a>
+              <button
+                className="signin"
+                onClick={(e) => {
+                  signOut(e);
+                }}
+              >
+                Sign out
               </button>
             ) : (
               <button className="signin">
@@ -197,11 +191,7 @@ export default function Login({ isLoggedIn }) {
               <label htmlFor="email1">Email address</label>
             </div>
             <div className="col-4" style={{ marginLeft: "10px" }}>
-              <button
-                type="submit"
-                className="getStartedbtn"
-                // onClick={() => validateSubmit(formik.values)}
-              >
+              <button type="submit" className="getStartedbtn">
                 Get Started
                 <img src={arrow} alt="" />
               </button>
@@ -422,7 +412,6 @@ export default function Login({ isLoggedIn }) {
               id="email2"
               onChange={(e) => {
                 formik.handleChange(e);
-                handleChange(e);
               }}
               onBlur={formik.handleBlur}
               value={formik.values.email}

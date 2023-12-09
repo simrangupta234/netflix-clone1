@@ -5,72 +5,37 @@ import logo from "../assets/logo.svg";
 import "../style/signuppage2.css";
 import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
-function Signuppage2({ isLoggedIn }) {
-  const { email } = useEmail();
-  // eslint-disable-next-line no-unused-vars
-  const [password, setPasswordValue] = useState("");
+function Signuppage2() {
+  const { email, setEmailValue } = useEmail();
+  const { isLoggedIn, setLoggedInValue, password, setPassword, setAuthValue } =
+    useAuth();
 
-  // var inputUserEmail = localStorage.getItem("userEmail");
-  // var inputUserPassword = localStorage.getItem("userPassword");
-  const [inputUserEmail, setInputUserEmail] = useState(
-    localStorage.getItem("userEmail")
-  );
-  const [inputUserPassword, setInputUserPassword] = useState(
-    localStorage.getItem("userPassword")
-  );
-  // const [isLoggedIn, setIsLoggedIn] = useState(props.isLoggedIn);
-  // var isLoggedIn =    props.isLoggedIn;
-  // console.log("isLoggedIn", isLoggedIn);
-  console.log("isLoggedIn", isLoggedIn);
+    const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+    const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+    console.log(storedEmail1);
+    useEffect(() => {
+      if (storedEmail1 != null && storedPassword2 != null) {
+        setLoggedInValue(true);
+      }
+    }, []);
 
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    isLoggedIn = false;
-    // setIsLoggedIn(false)
-    localStorage.setItem("users", inputUserEmail);
-    localStorage.setItem("userspassword", inputUserPassword);
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userPassword");
-    console.log("users:-", localStorage.setItem("users", inputUserEmail));
+  const signOut = (e) => {
+   
+    sessionStorage.removeItem("inputUserEmail");
+    sessionStorage.removeItem("inputUserPassword");
+    setLoggedInValue(false);
+    navigate("/login")
   };
+
+  const handleChange = (e) => {
+    setAuthValue(e.target.value);
+  };
+  console.log("password: ", password);
 
   const navigate = useNavigate();
-
-  const login = () => {
-    var a = new Array();
-    var ep1 = new Object();
-    var ep2 = new Object();
-
-    ep1 = {
-      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
-      password: btoa("abc@12"),
-    };
-
-    ep2 = {
-      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
-      password: btoa("bcd@12"),
-    };
-    a.push(ep1);
-    a.push(ep2);
-
-    var emailId = (document.getElementById("email") || {}).value || "";
-    var psw = (document.getElementById("password") || {}).value || "";
-
-    console.log("email", emailId);
-    console.log("passwod", psw);
-
-    sessionStorage.setItem("currentloggedin", emailId);
-
-    localStorage.setItem("all_users", JSON.stringify(a));
-
-    a = JSON.parse(localStorage.getItem("all_users"));
-
-    a.push({ name: emailId, password: psw });
-
-    localStorage.setItem("name", JSON.stringify(a));
-  };
 
   const validate = (values) => {
     const errors = {};
@@ -104,19 +69,19 @@ function Signuppage2({ isLoggedIn }) {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
-      localStorage.setItem("userPassword", values.password);
+      localStorage.setItem("inputUserPassword", values.password);
       navigate("/plans");
     } else {
       console.log("Please fill in the password");
     }
+
+    const storedUsername2 = localStorage.getItem("inputUserEmail");
+    const storedPassword3 = localStorage.getItem("inputUserPassword");
+
+    sessionStorage.setItem("inputUserEmail", storedUsername2);
+    sessionStorage.setItem("inputUserPassword", storedPassword3);
   };
 
-  const handleChange = (e) => {
-    setPasswordValue(e.target.value);
-  };
-  const handleValue = (passwordValue) => {
-    console.log("Password value:", passwordValue);
-  };
   return (
     <div className="signup-main d-flex flex-column justify-content-center align-items-center w-100 bg-light">
       <div
@@ -138,9 +103,10 @@ function Signuppage2({ isLoggedIn }) {
         <div className="signin col-2">
           {isLoggedIn ? (
             <a
-              href="/signin"
-              style={{ textDecoration: "none", color: "#333" }}
-              onClick={handleSiginClick}
+              style={{ textDecoration: "none", color: "#333" ,border:"none"}}
+              onClick={(e) => {
+                signOut(e);
+              }}
             >
               Sign Out
             </a>
@@ -149,7 +115,6 @@ function Signuppage2({ isLoggedIn }) {
               Sign In
             </a>
           )}
-          {console.log(isLoggedIn)}
         </div>
         <br />
       </div>
@@ -189,7 +154,6 @@ function Signuppage2({ isLoggedIn }) {
               onChange={(e) => {
                 formik.handleChange(e);
                 handleChange(e);
-                handleValue(e.target.value);
               }}
               onBlur={formik.handleBlur}
               value={formik.values.password}
@@ -217,7 +181,6 @@ function Signuppage2({ isLoggedIn }) {
         <button
           className="btn text-light"
           type="submit"
-          onClick={login()}
           style={{
             backgroundColor: "red",
             marginBottom: "100px",

@@ -1,27 +1,37 @@
 /* eslint-disable no-unused-vars */
 // import React from 'react'
 // import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/loginpage2.css";
 import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
-export default function Loginpage2({ isLoggedIn }) {
+export default function Loginpage2() {
   // const [pwd, setPwd] = useState();
-  const { email } = useEmail();
-  const [password, setPasswordValue] = useState("");
-  const [currentloggedin, setCurrentloggedin] = useState("");
   const navigate = useNavigate();
 
-  const [LoggedIn, setLoggedIn] = useState(isLoggedIn);
-  console.log("isLoggedIn:-", isLoggedIn);
+  const { email } = useEmail();
+  const { isLoggedIn, setLoggedInValue, setAuthValue,password, setPassword } =
+  useAuth();
 
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    setLoggedIn(false);
+  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+  console.log(storedEmail1);
+  useEffect(() => {
+    if (storedEmail1 != null && storedPassword2 != null) {
+      setLoggedInValue(true);
+    }
+  }, []);
+
+  const signOut = (e) => {
+    sessionStorage.removeItem("inputUserEmail");
+    sessionStorage.removeItem("inputUserPassword");
+    setLoggedInValue(false);
   };
+
 
   const validate = (values) => {
     const errors = {};
@@ -55,15 +65,21 @@ export default function Loginpage2({ isLoggedIn }) {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
-      localStorage.setItem("userPassword", values.password);
-      navigate("/user/moviehome");
+      localStorage.setItem("inputUserPassword", values.password);
+      navigate("/plans");
     } else {
       console.log("Please fill in the password");
     }
+
+    const storedUsername2 = localStorage.getItem("inputUserEmail");
+    const storedPassword3 = localStorage.getItem("inputUserPassword");
+
+    sessionStorage.setItem("inputUserEmail", storedUsername2);
+    sessionStorage.setItem("inputUserPassword", storedPassword3);
   };
 
   const handleChange = (e) => {
-    setPasswordValue(e.target.value);
+    setAuthValue(e.target.value);
   };
 
   return (
@@ -85,14 +101,13 @@ export default function Loginpage2({ isLoggedIn }) {
           </a>
         </div>
         <div className="signin col-2">
-          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
-            Sign In
-          </a> */}
           {isLoggedIn ? (
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}
-              onClick={handleSiginClick()}
+              onClick={(e) => {
+                signOut(e);
+              }}
             >
               Sign out
             </a>

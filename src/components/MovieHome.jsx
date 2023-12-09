@@ -9,72 +9,36 @@ import symbol from "../assets/netflix_symbol.png";
 import logo from "../assets/logo.svg";
 import Footer from "./Footer";
 import "../style/moviehome.css";
+import { useAuth } from "./AuthContext";
 
-const MovieHome = ({ isLoggedIn }) => {
+const MovieHome = () => {
   const [movies, setMovies] = useState([]);
-  // const number = useRef();
-  // const [isLoggedIn ,setIsLoggedIn] =useState(props);
-  const [currentloggedin, setCurrentloggedin] = useState("");
-  // var inputUserEmail = localStorage.getItem("userEmail");
-  // var inputUserPassword = localStorage.getItem("userPassword");
-  const [inputUserEmail, setInputUserEmail] = useState(
-    localStorage.getItem("userEmail")
-  );
-  const [inputUserPassword, setInputUserPassword] = useState(
-    localStorage.getItem("userPassword")
-  );
-  // const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
-  // var isLoggedIn = props.isLoggedIn;
-  console.log("isLoggedIn:-", isLoggedIn);
-
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    isLoggedIn = false;
-    // setIsLoggedIn(false)
-    localStorage.setItem("users", localStorage.getItem(inputUserEmail));
-    localStorage.setItem(
-      "userspassword",
-      localStorage.getItem(inputUserPassword)
-    );
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userPassword");
-  };
-  const login = () => {
-    var a = new Array();
-    var ep1 = new Object();
-    var ep2 = new Object();
-
-    ep1 = {
-      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
-      password: btoa("abc@12"),
-    };
-
-    ep2 = {
-      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
-      password: btoa("bcd@12"),
-    };
-    a.push(ep1);
-    a.push(ep2);
-
-    var emailId =
-      (document.getElementsByClassName("emailId") || {}).value || "";
-    var psw = (document.getElementsByClassName("psw") || {}).value || "";
-
-    console.log(emailId);
-    console.log(psw);
-
-    setCurrentloggedin(sessionStorage.setItem("currentloggedin", emailId));
-
-    localStorage.setItem("all_users", JSON.stringify(a));
-
-    a = JSON.parse(localStorage.getItem("all_users"));
-
-    a.push({ name: emailId, password: psw });
-
-    localStorage.setItem("name", JSON.stringify(a));
-  };
 
   let randomMovie = Math.floor(Math.random() * 20);
+
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    setEmail,
+    password,
+    setPassword,
+    setLoggedInValue,
+  } = useAuth();
+
+  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+  console.log(storedEmail1);
+  useEffect(() => {
+    if (storedEmail1 != null && storedPassword2 != null) {
+      setLoggedInValue(true);
+    }
+  }, []);
+
+  const signOut = (e) => {
+    sessionStorage.removeItem("inputUserEmail");
+    sessionStorage.removeItem("inputUserPassword");
+    setLoggedInValue(false);
+  };
 
   const handleOnClick = (index) => {
     randomMovie = index;
@@ -129,16 +93,21 @@ const MovieHome = ({ isLoggedIn }) => {
             </a>
           </button>
 
-          {isLoggedIn === true ? (
+          {isLoggedIn ? (
             <button
               className="btnm"
               style={{
                 backgroundColor: "transparent",
                 border: "1px solid #888",
               }}
-              onClick={handleSiginClick}
             >
-              <a href="/" style={{ textDecoration: "none", color: "white" }}>
+              <a
+                href="/"
+                style={{ textDecoration: "none", color: "white" }}
+                onClick={(e) => {
+                  signOut(e);
+                }}
+              >
                 Sign out
               </a>
             </button>

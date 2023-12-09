@@ -12,72 +12,33 @@ import mastercard from "../assets/mastercard.png";
 import paytm from "../assets/paytm.png";
 import phonepe from "../assets/phonepe.png";
 import arrow from "../assets/arrow-point-to-right (1).png";
-
 import "../style/signuppage2.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
-function Pay({isLoggedIn}) {
-  // const [isLoggedIn ,setIsLoggedIn] =useState(props);
-  const [currentloggedin, setCurrentloggedin] = useState("");
-  // var inputUserEmail = localStorage.getItem("userEmail");
-  // var inputUserPassword = localStorage.getItem("userPassword");
-  const [inputUserEmail, setInputUserEmail] = useState(
-    localStorage.getItem("userEmail")
-  );
-  const [inputUserPassword, setInputUserPassword] = useState(
-    localStorage.getItem("userPassword")
-  );
-  // const [isLoggedIn ,setIsLoggedIn] = useState(props.isLoggedIn);
-  // var isLoggedIn = props.isLoggedIn;
-  console.log("isLoggedIn:-", isLoggedIn);
+function Pay() {
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    setEmail,
+    password,
+    setPassword,
+    setLoggedInValue,
+  } = useAuth();
 
-  const handleSiginClick = () => {
-    sessionStorage.clear();
-    isLoggedIn = false;
-    // setIsLoggedIn(false)
-    localStorage.setItem("users", localStorage.getItem(inputUserEmail));
-    localStorage.setItem(
-      "userspassword",
-      localStorage.getItem(inputUserPassword)
-    );
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userPassword");
-  };
-
-  const login = () => {
-    var a = new Array();
-    var ep1 = new Object();
-    var ep2 = new Object();
-
-    ep1 = {
-      name: "[abcd@gmail.com](mailto:abcd@gmail.com)",
-      password: btoa("abc@12"),
-    };
-
-    ep2 = {
-      name: "[bcd@gmail.com](mailto:bcd@gmail.com)",
-      password: btoa("bcd@12"),
-    };
-    a.push(ep1);
-    a.push(ep2);
-
-    var emailId =
-      (document.getElementsByClassName("emailId") || {}).value || "";
-    var psw = (document.getElementsByClassName("psw") || {}).value || "";
-
-    console.log(emailId);
-    console.log(psw);
-
-    setCurrentloggedin(sessionStorage.setItem("currentloggedin", emailId));
-
-    localStorage.setItem("all_users", JSON.stringify(a));
-
-    a = JSON.parse(localStorage.getItem("all_users"));
-
-    a.push({ name: emailId, password: psw });
-
-    localStorage.setItem("name", JSON.stringify(a));
-  };
+  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+  console.log(storedEmail1);
+  useEffect(() => {
+    if (storedEmail1 != null && storedPassword2 != null) {
+      setLoggedInValue(true);
+    }
+  }, []);
+   const signOut = (e) => {
+  sessionStorage.removeItem("inputUserEmail");
+  sessionStorage.removeItem("inputUserPassword");
+  setLoggedInValue(false);
+};
 
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
@@ -105,7 +66,9 @@ function Pay({isLoggedIn}) {
             <a
               href="/"
               style={{ textDecoration: "none", color: "#333" }}
-              onClick={handleSiginClick}
+              onClick={(e) => {
+                signOut(e);
+              }}
             >
               Sign out
             </a>
