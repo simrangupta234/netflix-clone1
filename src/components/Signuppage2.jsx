@@ -80,7 +80,8 @@ function Signuppage2() {
 
     sessionStorage.setItem("inputUserEmail", storedUsername2);
     sessionStorage.setItem("inputUserPassword", storedPassword3);
-
+    
+    
     try {
       const response = await axios.post(
         "http://localhost:3001/api/users/signup",
