@@ -24,14 +24,30 @@ export default function Login() {
   const navigate = useNavigate();
   const { email, setEmailValue } = useEmail();
 
-  const { isLoggedIn, setLoggedInValue, setEmail, password, setPassword } =
-    useAuth();
+  const {
+    isLoggedIn,
+    setLoggedInValue,
+    setEmail,
+    password,
+    setPassword,
+    setAuthvalue,
+  } = useAuth();
 
   const inputUserEmail = localStorage.getItem("inputUserEmail");
 
   const storedEmail1 = sessionStorage.getItem("inputUserEmail");
   const storedPassword2 = sessionStorage.getItem("inputUserPassword");
   console.log(storedEmail1);
+
+  const [loader, setLoader] = useState(false);
+
+  const loaderanimation = () => {
+    setLoader(true);
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  };
+
   useEffect(() => {
     if (storedEmail1 != null && storedPassword2 != null) {
       setLoggedInValue(true);
@@ -70,14 +86,19 @@ export default function Login() {
   });
 
   const validateSubmit = (values) => {
+   
+
     const errors = validate(values);
 
     localStorage.setItem("inputUserEmail", values.email);
+    const inputUserPassword = localStorage.getItem("inputUserPassword");
 
     if (Object.keys(errors).length === 0) {
       if (values.email === inputUserEmail) {
+        
         navigate("/login");
       } else {
+        
         navigate("/signup");
       }
     } else {
@@ -88,6 +109,7 @@ export default function Login() {
   const handleChange = (e) => {
     setEmailValue(e.target.value);
   };
+
   useEffect(() => {
     var btn = document.getElementsByClassName("faxbtn");
     var i;
@@ -191,9 +213,21 @@ export default function Login() {
               <label htmlFor="email1">Email address</label>
             </div>
             <div className="col-4" style={{ marginLeft: "10px" }}>
-              <button type="submit" className="getStartedbtn">
-                Get Started
-                <img src={arrow} alt="" />
+              <button
+                type="submit"
+                className="getStartedbtn"
+                onClick={() => {
+                  loaderanimation();
+                }}
+              >
+                {loader ? (
+                  <div className="loader"></div>
+                ) : (
+                  <>
+                    <p style={{marginTop:"14px", width:"fit-content"}}>Get Started</p>
+                    <img src={arrow} alt="" />
+                  </>
+                )}
               </button>
             </div>
           </form>

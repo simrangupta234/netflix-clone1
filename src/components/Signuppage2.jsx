@@ -7,27 +7,27 @@ import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
+import axios from "axios";
 
 function Signuppage2() {
   const { email, setEmailValue } = useEmail();
   const { isLoggedIn, setLoggedInValue, password, setPassword, setAuthValue } =
     useAuth();
 
-    const storedEmail1 = sessionStorage.getItem("inputUserEmail");
-    const storedPassword2 = sessionStorage.getItem("inputUserPassword");
-    console.log(storedEmail1);
-    useEffect(() => {
-      if (storedEmail1 != null && storedPassword2 != null) {
-        setLoggedInValue(true);
-      }
-    }, []);
+  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
+  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
+  console.log(storedEmail1);
+  useEffect(() => {
+    if (storedEmail1 != null && storedPassword2 != null) {
+      setLoggedInValue(true);
+    }
+  }, []);
 
   const signOut = (e) => {
-   
     sessionStorage.removeItem("inputUserEmail");
     sessionStorage.removeItem("inputUserPassword");
     setLoggedInValue(false);
-    navigate("/login")
+    navigate("/login");
   };
 
   const handleChange = (e) => {
@@ -65,7 +65,7 @@ function Signuppage2() {
     },
   });
 
-  const validateSubmit = (values) => {
+  const validateSubmit = async (values) => {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
@@ -80,8 +80,23 @@ function Signuppage2() {
 
     sessionStorage.setItem("inputUserEmail", storedUsername2);
     sessionStorage.setItem("inputUserPassword", storedPassword3);
-  };
 
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/users/signup",
+        JSON.stringify({ email: email, password: password }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log("User signedup:", response.data);
+    } catch (error) {
+      console.error("invalid user data", error);
+    }
+  };
+  console.log("email:--", email);
+  console.log("password:--", password);
   return (
     <div className="signup-main d-flex flex-column justify-content-center align-items-center w-100 bg-light">
       <div
@@ -103,7 +118,7 @@ function Signuppage2() {
         <div className="signin col-2">
           {isLoggedIn ? (
             <a
-              style={{ textDecoration: "none", color: "#333" ,border:"none"}}
+              style={{ textDecoration: "none", color: "#333", border: "none" }}
               onClick={(e) => {
                 signOut(e);
               }}
