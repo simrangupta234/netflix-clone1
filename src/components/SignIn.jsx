@@ -8,12 +8,11 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { useEmail } from "./EmailContext";
+import axios from "axios";
 
 function SignIn() {
   const navigate = useNavigate();
   const [warning, setWarning] = useState("");
-  const inputUserEmail = localStorage.getItem("inputUserEmail");
-  const inputUserPassword = localStorage.getItem("inputUserPassword");
 
   const { isLoggedIn, setLoggedInValue, password, setPassword, setAuthValue } =
     useAuth();
@@ -21,15 +20,11 @@ function SignIn() {
   var valuesEmail = (document.getElementById("email") || {}).value || "";
   var valuesPassword = (document.getElementById("password") || {}).value || "";
 
-  console.log(valuesEmail);
-  console.log(valuesPassword);
 
   const validate = () => {
     const errors = {};
-    console.log("email: ", valuesEmail);
-
     if (!valuesEmail) {
-      console.log("email: ", valuesEmail);
+ 
       errors.email = "Email is required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(valuesEmail)) {
       errors.email = "Please enter a valid email address.";
@@ -60,29 +55,42 @@ function SignIn() {
     },
   });
 
-  const validateSubmit = (values) => {
+  const validateSubmit = async (values) => {
     const errors = validate(values);
-    console.log("errors:", errors);
-    console.log("errorsCount: ", Object.keys(errors).length);
     if (Object.keys(errors).length === 0) {
-      if (valuesEmail != inputUserEmail) {
-        setWarning(
-          "Sorry, we can't find an account with this email address. Please try again or create a new account."
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/users/login",
+          JSON.stringify({ email: valuesEmail, password: valuesPassword }),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
         );
-      } else if (
-        valuesEmail === inputUserEmail &&
-        valuesPassword != inputUserPassword
-      ) {
-        setWarning(
-          "Incorrect password. Please try again or you can reset your password."
-        );
-      } else {
-        setLoggedInValue(true);
-        navigate("/user/moviehome");
+        
+        if (valuesEmail != email) {
+          setWarning(
+            "Sorry, we can't find an account with this email address. Please try again or create a new account."
+          );
+        } else if (valuesEmail === email && valuesPassword != password) {
+          setWarning(
+            "Incorrect password. Please try again or you can reset your password."
+          );
+        } else {
+          localStorage.setItem("accessToken", response.data.accessToken);
+          setLoggedInValue(true);
+          navigate("/user/moviehome");
+          console.log("User loggedin:", response.data);
+        }
+      }  catch (error) {
+        console.error("invalid user data", error);
       }
     } else {
       console.log("Please fill in the email and password");
     }
+      
+
+
   };
 
   const handleChangePassword = (e) => {

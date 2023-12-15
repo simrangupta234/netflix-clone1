@@ -14,18 +14,15 @@ function Signuppage2() {
   const { isLoggedIn, setLoggedInValue, password, setPassword, setAuthValue } =
     useAuth();
 
-  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
-  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
-  console.log(storedEmail1);
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if (storedEmail1 != null && storedPassword2 != null) {
+    if (accessToken) {
       setLoggedInValue(true);
     }
   }, []);
 
   const signOut = (e) => {
-    sessionStorage.removeItem("inputUserEmail");
-    sessionStorage.removeItem("inputUserPassword");
+    localStorage.removeItem("accessToken");
     setLoggedInValue(false);
     navigate("/login");
   };
@@ -33,7 +30,6 @@ function Signuppage2() {
   const handleChange = (e) => {
     setAuthValue(e.target.value);
   };
-  console.log("password: ", password);
 
   const navigate = useNavigate();
 
@@ -56,6 +52,7 @@ function Signuppage2() {
 
   const formik = useFormik({
     initialValues: {
+      email: email,
       password: "",
     },
     validate,
@@ -69,35 +66,26 @@ function Signuppage2() {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
-      localStorage.setItem("inputUserPassword", values.password);
-      navigate("/plans");
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/users/signup",
+          JSON.stringify({ email: email, password: password }),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem("accessToken", response.data.accessToken);
+        console.log("User signedup:", response.data);
+        navigate("/plans");
+      } catch (error) {
+        console.error("invalid user data", error);
+      }
     } else {
       console.log("Please fill in the password");
     }
-
-    const storedUsername2 = localStorage.getItem("inputUserEmail");
-    const storedPassword3 = localStorage.getItem("inputUserPassword");
-
-    sessionStorage.setItem("inputUserEmail", storedUsername2);
-    sessionStorage.setItem("inputUserPassword", storedPassword3);
-    
-    
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/api/users/signup",
-        JSON.stringify({ email: email, password: password }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      console.log("User signedup:", response.data);
-    } catch (error) {
-      console.error("invalid user data", error);
-    }
   };
-  console.log("email:--", email);
-  console.log("password:--", password);
+
   return (
     <div className="signup-main d-flex flex-column justify-content-center align-items-center w-100 bg-light">
       <div

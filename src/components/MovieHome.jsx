@@ -25,24 +25,20 @@ const MovieHome = () => {
     setLoggedInValue,
   } = useAuth();
 
-  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
-  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
-  console.log(storedEmail1);
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if (storedEmail1 != null && storedPassword2 != null) {
+    if (accessToken) {
       setLoggedInValue(true);
     }
   }, []);
 
   const signOut = (e) => {
-    sessionStorage.removeItem("inputUserEmail");
-    sessionStorage.removeItem("inputUserPassword");
+    localStorage.removeItem("accessToken");
     setLoggedInValue(false);
   };
 
   const handleOnClick = (index) => {
     randomMovie = index;
-    console.log("index", randomMovie);
   };
 
   useEffect(() => {
@@ -54,7 +50,6 @@ const MovieHome = () => {
         setMovies(response.data.results);
       });
   }, []);
-  console.log(movies);
 
   return (
     <div className="movie-main w-100 text-light d-flex flex-column justify-content-center align-items-center">
@@ -190,43 +185,6 @@ const MovieHome = () => {
         ))}
       </div>
       <Footer />
-
-      {/* <div className="movielist-one  position-relative"
-      // style={{background:"linear-gradient(to right, black,white)"}}
-      >
-        <img
-          className=" object-fit-cover w-100" 
-          src={`https://image.tmdb.org/t/p/original/${movies[randomMovie]?.backdrop_path}`}
-          alt=""
-        />
-        <div className="row-fluid position-absolute">
-          <div style={{ marginTop: "-500px" , paddingLeft:"80px" }} className="col-6">
-            <h1>{movies[randomMovie]?.title}</h1>
-            <p>{movies[randomMovie]?.release_date}</p>
-            <p>{movies[randomMovie]?.overview}</p>
-          </div>
-          <div className="col-6"></div>
-        </div>
-
-        <div className="row movieList-all p-4">
-          <h2>More Like This</h2>
-          {movies.map((movie, index) => (
-            <a
-              className="col-4 p-3 text-decoration-none"
-              key={index}
-              onClick={handleOnClick(index)}
-              href="/moviehome"
-            >
-              <img
-                className=" img-fluid object-fit-cover "
-                src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-                alt=""
-              />
-              <p style={{ marginTop: "-60px", color: "red" }}>{movie?.title}</p>
-            </a>
-          ))}
-        </div> 
-      </div>*/}
     </div>
   );
 };

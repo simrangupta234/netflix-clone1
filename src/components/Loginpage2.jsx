@@ -8,30 +8,27 @@ import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
+import axios from "axios";
 
 export default function Loginpage2() {
   // const [pwd, setPwd] = useState();
   const navigate = useNavigate();
 
   const { email } = useEmail();
-  const { isLoggedIn, setLoggedInValue, setAuthValue,password, setPassword } =
-  useAuth();
+  const { isLoggedIn, setLoggedInValue, setAuthValue, password, setPassword } =
+    useAuth();
 
-  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
-  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
-  console.log(storedEmail1);
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if (storedEmail1 != null && storedPassword2 != null) {
+    if (accessToken) {
       setLoggedInValue(true);
     }
   }, []);
 
   const signOut = (e) => {
-    sessionStorage.removeItem("inputUserEmail");
-    sessionStorage.removeItem("inputUserPassword");
+    localStorage.removeItem("accessToken");
     setLoggedInValue(false);
   };
-
 
   const validate = (values) => {
     const errors = {};
@@ -61,21 +58,28 @@ export default function Loginpage2() {
     },
   });
 
-  const validateSubmit = (values) => {
+  const validateSubmit = async (values) => {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
-      localStorage.setItem("inputUserPassword", values.password);
-      navigate("/plans");
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/users/login",
+          JSON.stringify({ email: email, password: values.password }),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+        navigate("/plans");
+        localStorage.setItem("accessToken", response.data.accessToken);
+        console.log("User loggedin:", response.data);
+      } catch (error) {
+        console.error("invalid user data", error);
+      }
     } else {
       console.log("Please fill in the password");
     }
-
-    const storedUsername2 = localStorage.getItem("inputUserEmail");
-    const storedPassword3 = localStorage.getItem("inputUserPassword");
-
-    sessionStorage.setItem("inputUserEmail", storedUsername2);
-    sessionStorage.setItem("inputUserPassword", storedPassword3);
   };
 
   const handleChange = (e) => {

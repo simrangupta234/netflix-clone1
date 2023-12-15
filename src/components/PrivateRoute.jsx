@@ -16,22 +16,29 @@ const PrivateRoute = () => {
     setLoggedInValue,
   } = useAuth();
 
-  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
-  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
-  console.log(storedEmail1);
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if (storedEmail1 != null && storedPassword2 != null) {
+    if (accessToken) {
       setLoggedInValue(true);
     }
   }, []);
 
+  function hasJWT() {
+    let flag = false;
+
+    //check user has JWT token
+    localStorage.getItem("accessToken") ? (flag = true) : (flag = false);
+
+    return flag;
+  }
 
   return (
-  <>
-  {isLoggedIn ? <MovieHome /> : <Navigate to={"/"} />}
-  {isLoggedIn? <Navigate to={"/user/movieHome"}/> : <Login/>}
-  </>
-  
-  )
+    <>
+      {/* {isLoggedIn ? <MovieHome /> : <Navigate to={"/"} />}
+      {isLoggedIn ? <Navigate to={"/user/movieHome"} /> : <Login />} */}
+
+      {hasJWT() ? <MovieHome /> : <Login />}
+    </>
+  );
 };
 export default PrivateRoute;

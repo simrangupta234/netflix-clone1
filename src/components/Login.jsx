@@ -18,8 +18,8 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useEmail } from "./EmailContext";
 import { useAuth } from "./AuthContext";
+import axios from "axios";
 
-// import axios from './api/axios';
 export default function Login() {
   const navigate = useNavigate();
   const { email, setEmailValue } = useEmail();
@@ -33,11 +33,7 @@ export default function Login() {
     setAuthvalue,
   } = useAuth();
 
-  const inputUserEmail = localStorage.getItem("inputUserEmail");
-
-  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
-  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
-  console.log(storedEmail1);
+  var valuesEmail = (document.getElementById("email") || {}).value || "";
 
   const [loader, setLoader] = useState(false);
 
@@ -48,15 +44,15 @@ export default function Login() {
     }, 2000);
   };
 
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if (storedEmail1 != null && storedPassword2 != null) {
+    if (accessToken) {
       setLoggedInValue(true);
     }
   }, []);
 
   const signOut = (e) => {
-    sessionStorage.removeItem("inputUserEmail");
-    sessionStorage.removeItem("inputUserPassword");
+    localStorage.removeItem("accessToken");
     setLoggedInValue(false);
   };
 
@@ -85,21 +81,48 @@ export default function Login() {
     },
   });
 
-  const validateSubmit = (values) => {
-   
-
+  const validateSubmit = async (values) => {
     const errors = validate(values);
 
-    localStorage.setItem("inputUserEmail", values.email);
-    const inputUserPassword = localStorage.getItem("inputUserPassword");
-
     if (Object.keys(errors).length === 0) {
-      if (values.email === inputUserEmail) {
-        
-        navigate("/login");
-      } else {
-        
-        navigate("/signup");
+      navigate("/signup");
+      //   try {
+      //     const response = await axios.post(
+      //       "http://localhost:3001/api/users/login1",
+      //       JSON.stringify({ email: valuesEmail }),
+      //       {
+      //         headers: { "Content-Type": "application/json" },
+      //         withCredentials: true,
+      //       }
+      //     );
+      //     console.log("User loggedin:", response.data);
+      //     if(valuesEmail == response.data.email)
+      //     {
+      //       navigate("/login")
+      //     }else{
+      //       navigate("/signup")
+      //     }
+      //   } catch (error) {
+      //     console.error("invalid user data", error);
+      //   }
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/users/login2",
+          JSON.stringify({ email: email }),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+
+        console.log("User signedup:", response.data);
+        if (response.data.email) {
+          navigate("/login");
+        } else {
+          navigate("/signup");
+        }
+      } catch (error) {
+        console.error("invalid user data", error);
       }
     } else {
       console.log("Please fill in the email");
@@ -224,7 +247,9 @@ export default function Login() {
                   <div className="loader"></div>
                 ) : (
                   <>
-                    <p style={{marginTop:"14px", width:"fit-content"}}>Get Started</p>
+                    <p style={{ marginTop: "14px", width: "fit-content" }}>
+                      Get Started
+                    </p>
                     <img src={arrow} alt="" />
                   </>
                 )}

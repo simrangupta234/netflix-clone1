@@ -9,18 +9,15 @@ import { useAuth } from "./AuthContext";
 function Signup() {
   const { isLoggedIn, setLoggedInValue, authUser, setAuthuser } = useAuth();
 
-  const storedEmail1 = sessionStorage.getItem("inputUserEmail");
-  const storedPassword2 = sessionStorage.getItem("inputUserPassword");
-  console.log(storedEmail1);
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if (storedEmail1 != null && storedPassword2 != null) {
+    if (accessToken) {
       setLoggedInValue(true);
     }
   }, []);
 
   const signOut = (e) => {
-    sessionStorage.removeItem("inputUserEmail");
-    sessionStorage.removeItem("inputUserPassword");
+    localStorage.removeItem("accessToken");
     setLoggedInValue(false);
   };
 
