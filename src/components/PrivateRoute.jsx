@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthContext";
-import MovieHome from "./MovieHome";
 import Login from "./Login";
+import Home from "./Home";
+import MovieHome from "./MovieHome";
 
 const PrivateRoute = () => {
   const {
@@ -34,10 +35,10 @@ const PrivateRoute = () => {
 
   return (
     <>
-      {/* {isLoggedIn ? <MovieHome /> : <Navigate to={"/"} />}
-      {isLoggedIn ? <Navigate to={"/user/movieHome"} /> : <Login />} */}
+      
 
-      {hasJWT() ? <MovieHome /> : <Login />}
+      {hasJWT() ? <Home /> : <Login />}
+      {/* {hasJWT() ? <MovieHome /> : <Login />} */}
     </>
   );
 };

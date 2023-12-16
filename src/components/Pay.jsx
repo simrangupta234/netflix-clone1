@@ -140,7 +140,7 @@ function Pay() {
             <img src={arrow} alt="" style={{ height: "15px", width: "auto" }} />
           </div>
         </div>
-        <Link to="/user/moviehome">
+        <Link to="/user/home">
           <button
             className="btn text-light"
             style={{

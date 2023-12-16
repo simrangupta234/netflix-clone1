@@ -67,7 +67,6 @@ function SignIn() {
         );
 
         console.log("response", response.data.message);
-        
         if (response.data.message === "Email not found") {
           setWarning(
             "Sorry, we can't find an account with this email address. Please try again or create a new account."
@@ -133,7 +132,7 @@ function SignIn() {
         </span>
         <form
           onSubmit={formik.handleSubmit}
-          className="wrapper-input d-flex  align-items-center "
+          className="wrapper-input d-flex flex-column align-items-center "
           style={{ width: "100%" }}
         >
           <div className="input-data d-flex flex-column  align-items-center ">

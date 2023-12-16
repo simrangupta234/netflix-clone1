@@ -22,7 +22,7 @@ const App = () => {
         <AuthProvider>
           <Routes>
             <Route path="/user" element={<PrivateRoute />}>
-              <Route path="moviehome" element={<MovieHome />} />
+              <Route path="home" element={<Home />} />
             </Route>
             <Route path="/" element={<PrivateRoute />}>
               <Route path="/" element={<Login />} />
@@ -36,7 +36,8 @@ const App = () => {
             <Route path="/plans" element={<Plan />} />
             <Route path="/planform" element={<PlanForm />} />
             <Route path="/payment" element={<Pay />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/moviehome" element={<MovieHome />} />
+
             {/* <Route path="*" element={<Navigate to="/" />}></Route> */}
           </Routes>
         </AuthProvider>
