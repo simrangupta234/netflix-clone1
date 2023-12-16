@@ -86,25 +86,6 @@ export default function Login() {
 
     if (Object.keys(errors).length === 0) {
       navigate("/signup");
-      //   try {
-      //     const response = await axios.post(
-      //       "http://localhost:3001/api/users/login1",
-      //       JSON.stringify({ email: valuesEmail }),
-      //       {
-      //         headers: { "Content-Type": "application/json" },
-      //         withCredentials: true,
-      //       }
-      //     );
-      //     console.log("User loggedin:", response.data);
-      //     if(valuesEmail == response.data.email)
-      //     {
-      //       navigate("/login")
-      //     }else{
-      //       navigate("/signup")
-      //     }
-      //   } catch (error) {
-      //     console.error("invalid user data", error);
-      //   }
       try {
         const response = await axios.post(
           "http://localhost:3001/api/users/login2",
@@ -139,9 +120,7 @@ export default function Login() {
 
     for (i = 0; i < btn.length; i++) {
       btn[i].addEventListener("click", function () {
-        // console.log(btn[i]);
         this.classList.toggle("active");
-        // console.log(this.nextElementSibling);
         this.parentElement.classList.toggle("active");
         var ans = this.nextElementSibling;
         if (ans.style.display === "block") {

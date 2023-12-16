@@ -12,6 +12,7 @@ import Pay from "./components/Pay";
 import { EmailProvider } from "./components/EmailContext";
 import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./components/AuthContext";
+import Home from "./components/Home";
 
 const App = () => {
 
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="/plans" element={<Plan />} />
             <Route path="/planform" element={<PlanForm />} />
             <Route path="/payment" element={<Pay />} />
+            <Route path="/home" element={<Home />} />
             {/* <Route path="*" element={<Navigate to="/" />}></Route> */}
           </Routes>
         </AuthProvider>

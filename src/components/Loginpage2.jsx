@@ -11,7 +11,8 @@ import { useAuth } from "./AuthContext";
 import axios from "axios";
 
 export default function Loginpage2() {
-  // const [pwd, setPwd] = useState();
+  const [warning, setWarning] = useState("");
+
   const navigate = useNavigate();
 
   const { email } = useEmail();
@@ -71,9 +72,16 @@ export default function Loginpage2() {
             withCredentials: true,
           }
         );
-        navigate("/plans");
-        localStorage.setItem("accessToken", response.data.accessToken);
-        console.log("User loggedin:", response.data);
+        if (response.data.message === "incorrect password") {
+          setWarning(
+            "Incorrect password. Please try again or you can reset your password."
+          );
+        } else {
+          navigate("/plans");
+          localStorage.setItem("accessToken", response.data.accessToken);
+          console.log("User loggedin:", response.data);
+          setLoggedInValue(true);
+        }
       } catch (error) {
         console.error("invalid user data", error);
       }
@@ -165,6 +173,16 @@ export default function Loginpage2() {
                     {formik.errors.password}
                   </span>
                 ) : null}
+                <span
+                  style={{
+                    textAlign: "start",
+                    color: "rgb(235, 57, 66)",
+                    fontSize: "12px",
+                    paddingLeft: "16px",
+                  }}
+                >
+                  {warning}
+                </span>
                 <label htmlFor="password" style={{ color: "#333" }}>
                   Enter your password
                 </label>
@@ -175,7 +193,6 @@ export default function Loginpage2() {
                 Forgot your password?
               </a>
             </div>
-            {/* <Link to="/user/moviehome"> */}
             <button
               className="btn text-light"
               type="submit"

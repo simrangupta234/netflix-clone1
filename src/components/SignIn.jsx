@@ -20,11 +20,9 @@ function SignIn() {
   var valuesEmail = (document.getElementById("email") || {}).value || "";
   var valuesPassword = (document.getElementById("password") || {}).value || "";
 
-
   const validate = () => {
     const errors = {};
     if (!valuesEmail) {
- 
       errors.email = "Email is required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(valuesEmail)) {
       errors.email = "Please enter a valid email address.";
@@ -67,12 +65,14 @@ function SignIn() {
             withCredentials: true,
           }
         );
+
+        console.log("response", response.data.message);
         
-        if (valuesEmail != email) {
+        if (response.data.message === "Email not found") {
           setWarning(
             "Sorry, we can't find an account with this email address. Please try again or create a new account."
           );
-        } else if (valuesEmail === email && valuesPassword != password) {
+        } else if (response.data.message === "incorrect password") {
           setWarning(
             "Incorrect password. Please try again or you can reset your password."
           );
@@ -82,15 +82,12 @@ function SignIn() {
           navigate("/user/moviehome");
           console.log("User loggedin:", response.data);
         }
-      }  catch (error) {
+      } catch (error) {
         console.error("invalid user data", error);
       }
     } else {
       console.log("Please fill in the email and password");
     }
-      
-
-
   };
 
   const handleChangePassword = (e) => {
@@ -168,106 +165,108 @@ function SignIn() {
             ) : null}
             <label htmlFor="email">Email or Phone number</label>
           </div>
-        </form>
-        <div
-          className="wrapper-input d-flex  align-items-center mt-5 mb-5"
-          style={{ width: "100%" }}
-        >
-          <div className=" input-data d-flex flex-column  align-items-center ">
-            <input
-              type="password"
-              name="password"
-              id="password"
-              autoComplete="off"
-              onChange={(e) => {
-                formik.handleChange(e);
-                handleChangePassword(e);
-              }}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-              placeholder=""
-              style={{ background: "#333" }}
-              pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-            />
-            {formik.touched.password && formik.errors.password ? (
-              <span
-                style={{
-                  textAlign: "start",
-                  color: "rgb(235, 57, 66)",
-                  fontSize: "12px",
-                  paddingLeft: "16px",
-                }}
-              >
-                {formik.errors.password}
-              </span>
-            ) : null}
-            <label htmlFor="password">Password</label>
-          </div>
-        </div>
-        <button
-          className="btn"
-          type="submit"
-          style={{
-            borderRadius: "4px",
-            fontSize: "16px",
-            fontWeight: "500",
-            margin: "24px 0px 12px",
-            backgroundColor: "red",
-            color: "white",
-          }}
-          onClick={validateSubmit}
-        >
-          Sign In
-        </button>
-        <div
-          className="d-flex justify-content-between w-auto"
-          style={{ color: "#b3b3b3", fontSize: "13px", fontWeight: "400" }}
-        >
-          <label className="d-flex align-items-center" style={{ width: "75%" }}>
-            <input
-              className=" checkbox"
-              type="checkbox"
-              name=""
-              id=""
-              style={{ paddingLeft: "8px", width: "fit-content" }}
-            />
-            Remember me
-          </label>
 
-          <a
-            href="/"
-            style={{ color: "#b3b3b3", textDecoration: "none", width: "25%" }}
+          <div
+            className="wrapper-input d-flex  align-items-center mt-5 mb-5"
+            style={{ width: "100%" }}
           >
-            Need help?
-          </a>
-        </div>
-        <div style={{ color: "#8c8c8c", margin: "50px 0 10px 0" }}>
-          New to Netflix?
-          <a
-            href="/"
+            <div className=" input-data d-flex flex-column  align-items-center ">
+              <input
+                type="password"
+                name="password"
+                id="password"
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  handleChangePassword(e);
+                }}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                placeholder=""
+                style={{ background: "#333" }}
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <span
+                  style={{
+                    textAlign: "start",
+                    color: "rgb(235, 57, 66)",
+                    fontSize: "12px",
+                    paddingLeft: "16px",
+                  }}
+                >
+                  {formik.errors.password}
+                </span>
+              ) : null}
+              <label htmlFor="password">Password</label>
+            </div>
+          </div>
+          <button
+            className="btn"
+            type="submit"
             style={{
+              borderRadius: "4px",
+              fontSize: "16px",
+              fontWeight: "500",
+              margin: "24px 0px 12px",
+              backgroundColor: "red",
               color: "white",
-              textDecoration: "none",
-              marginLeft: "3px",
             }}
           >
-            Sign up now.
-          </a>
-        </div>
+            Sign In
+          </button>
+          <div
+            className="d-flex justify-content-between w-auto"
+            style={{ color: "#b3b3b3", fontSize: "13px", fontWeight: "400" }}
+          >
+            <label
+              className="d-flex align-items-center"
+              style={{ width: "75%" }}
+            >
+              <input
+                className=" checkbox"
+                type="checkbox"
+                name=""
+                id=""
+                style={{ paddingLeft: "8px", width: "fit-content" }}
+              />
+              Remember me
+            </label>
 
-        <p
-          style={{
-            color: "#8c8c8c",
-            fontSize: "13px",
-            paddingBottom: "70px",
-          }}
-        >
-          This page is protected by Google reCAPTCHA to ensure you&apos;re not a
-          bot.
-          <a href="" style={{ textDecorationLine: "none" }}>
-            Learn more.
-          </a>
-        </p>
+            <a
+              href="/"
+              style={{ color: "#b3b3b3", textDecoration: "none", width: "25%" }}
+            >
+              Need help?
+            </a>
+          </div>
+          <div style={{ color: "#8c8c8c", margin: "50px 0 10px 0" }}>
+            New to Netflix?
+            <a
+              href="/"
+              style={{
+                color: "white",
+                textDecoration: "none",
+                marginLeft: "3px",
+              }}
+            >
+              Sign up now.
+            </a>
+          </div>
+
+          <p
+            style={{
+              color: "#8c8c8c",
+              fontSize: "13px",
+              paddingBottom: "70px",
+            }}
+          >
+            This page is protected by Google reCAPTCHA to ensure you&apos;re not
+            a bot.
+            <a href="" style={{ textDecorationLine: "none" }}>
+              Learn more.
+            </a>
+          </p>
+        </form>
       </div>
 
       <div className="footer-section3 p-5">

@@ -10,12 +10,15 @@ import logo from "../assets/logo.svg";
 import Footer from "./Footer";
 import "../style/moviehome.css";
 import { useAuth } from "./AuthContext";
+import { useEmail } from "./EmailContext";
+import { useNavigate } from "react-router-dom";
 
 const MovieHome = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
 
   let randomMovie = Math.floor(Math.random() * 20);
-
+  const { email } = useEmail();
   const {
     isLoggedIn,
     setIsLoggedIn,
@@ -40,8 +43,28 @@ const MovieHome = () => {
   const handleOnClick = (index) => {
     randomMovie = index;
   };
+  const tokenValidation = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/users/login",
+        JSON.stringify({ email: email, password: password }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data.message);
+      if (response.data.message === "User is not authorized") {
+        setLoggedInValue(false);
+        navigate("/")
+      }
+    } catch (error) {
+      console.error("invalid user data", error);
+    }
+  };
 
   useEffect(() => {
+    // tokenValidation();
     axios
       .get(
         "https://api.themoviedb.org/3/trending/all/day?api_key=8f003ce108004712f54fccae5f9d1692"
