@@ -24,10 +24,10 @@
   border-radius: 2px;
 }
 .style {
-  background: url("../src/assets/movie.jpg");
+  /* background: url("../src/assets/movie.jpg"); */
   height: 530px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover !important;
   position: relative;
 }
 

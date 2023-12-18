@@ -78,7 +78,7 @@ function SignIn() {
         } else {
           localStorage.setItem("accessToken", response.data.accessToken);
           setLoggedInValue(true);
-          navigate("/user/moviehome");
+          navigate("/user/home");
           console.log("User loggedin:", response.data);
         }
       } catch (error) {

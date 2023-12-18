@@ -17,7 +17,7 @@ const MovieHome = () => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
 
-  let randomMovie = Math.floor(Math.random() * 20);
+  let randomMovie = Math.floor(Math.random() * 10);
   const { email } = useEmail();
   const {
     isLoggedIn,
@@ -56,7 +56,7 @@ const MovieHome = () => {
       console.log(response.data.message);
       if (response.data.message === "User is not authorized") {
         setLoggedInValue(false);
-        navigate("/")
+        navigate("/");
       }
     } catch (error) {
       console.error("invalid user data", error);
@@ -65,14 +65,18 @@ const MovieHome = () => {
 
   useEffect(() => {
     // tokenValidation();
-    axios
-      .get(
-        "https://api.themoviedb.org/3/trending/all/day?api_key=8f003ce108004712f54fccae5f9d1692"
-      )
-      .then((response) => {
-        setMovies(response.data.results);
-      });
+    axios.get("http://localhost:3001/api/movies").then((response) => {
+      setMovies(response.data.results);
+    });
   }, []);
+
+  const myStyle = {
+    background: `url(http://localhost:3001${movies[randomMovie]?.thumbnail})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    height: "530px",
+    position: "relative",
+  };
 
   return (
     <div className="movie-main w-100 text-light d-flex flex-column justify-content-center align-items-center">
@@ -148,7 +152,7 @@ const MovieHome = () => {
         </div>
       </div>
 
-      <div className="style">
+      <div className="style" style={myStyle}>
         <div className="stylediv">
           <div>
             <p>
@@ -163,6 +167,7 @@ const MovieHome = () => {
             </p>
             <p>{movies[randomMovie]?.overview}</p>
           </div>
+
           <div></div>
         </div>
       </div>
@@ -193,17 +198,16 @@ const MovieHome = () => {
         <h2>More Like This</h2>
         {movies.map((movie, index) => (
           <a
-            className="col-lg-4 col-sm-6 p-3 text-decoration-none"
+            className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
             key={index}
             onClick={handleOnClick(index)}
             href="/moviehome"
           >
             <img
               className=" img-fluid object-fit-cover "
-              src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+              src={`http://localhost:3001${movie?.poster}`}
               alt=""
             />
-            <p style={{ marginTop: "-60px", color: "red" }}>{movie?.title}</p>
           </a>
         ))}
       </div>

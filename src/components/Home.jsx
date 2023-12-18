@@ -3,29 +3,53 @@ import symbol from "../assets/netflix_symbol.png";
 import "../style/home.css";
 import movieHeist from "../assets/moneyHeist.jpg";
 import Footer from "./Footer";
-import templete from "../assets/templete.jpg";
 import Slider from "react-slick";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", zIndex: "10", position:"absolute" , right: "40px"}}
-        onClick={onClick}
-      />
-    );
-  }
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        zIndex: "10",
+        position: "absolute",
+        right: "40px",
+      }}
+      onClick={onClick}
+    />
+  );
+}
 function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block" ,  zIndex: "10", left:"40px"}}
-        onClick={onClick}
-      />
-    );
-  }
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", zIndex: "10", left: "40px" }}
+      onClick={onClick}
+    />
+  );
+}
+
 const Home = () => {
+  const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/moviehome");
+  };
+
+  useEffect(() => {
+    // tokenValidation();
+    axios.get("http://localhost:3001/api/movies").then((response) => {
+      setMovies(response.data.results);
+    });
+  }, []);
+
   var settings = {
     dots: false,
     infinite: false,
@@ -34,8 +58,8 @@ const Home = () => {
     slidesToScroll: 4,
     initialSlide: 0,
     arrows: true,
-        nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
@@ -92,75 +116,27 @@ const Home = () => {
           </div>
         </div>
       </div>
+
       <div className=" calousel d-flex  flex-column justify-content-center align-items-center">
         <h2>More like this</h2>
+
         <Slider {...settings} style={{ position: "relative" }}>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
+          {movies.map((movie, index) => (
+            <div className="slider-card" key={index} onClick={handleClick}>
+              <img src={`http://localhost:3001${movie?.poster}`} alt="" />
+            </div>
+          ))}
         </Slider>
       </div>
 
       <div className=" calousel d-flex  flex-column justify-content-center align-items-center">
         <h2>Trending Now</h2>
-        <Slider {...settings} style={{position:"relative" }}>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
-          <div className="slider-card">
-            <img src={templete} alt="" />
-          </div>
+        <Slider {...settings} style={{ position: "relative" }}>
+          {movies.map((movie, index) => (
+            <div className="slider-card" key={index} onClick={handleClick}>
+              <img src={`http://localhost:3001${movie?.poster}`} alt="" />
+            </div>
+          ))}
         </Slider>
       </div>
 
