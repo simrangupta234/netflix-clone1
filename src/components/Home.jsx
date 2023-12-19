@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import { useMovieDetail } from "./movieDetailContext";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -37,18 +37,15 @@ function SamplePrevArrow(props) {
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/moviehome");
-  };
-
+  // const {setIdValue} = useMovieDetail();
   useEffect(() => {
     // tokenValidation();
     axios.get("http://localhost:3001/api/movies").then((response) => {
-      setMovies(response.data.results);
+      setMovies(response.data);
     });
   }, []);
+
+  console.log(movies);
 
   var settings = {
     dots: false,
@@ -122,9 +119,9 @@ const Home = () => {
 
         <Slider {...settings} style={{ position: "relative" }}>
           {movies.map((movie, index) => (
-            <div className="slider-card" key={index} onClick={handleClick}>
+            <a className="slider-card" key={index} href={`/moviehome/${movie._id}`}>
               <img src={`http://localhost:3001${movie?.poster}`} alt="" />
-            </div>
+            </a>
           ))}
         </Slider>
       </div>
@@ -133,9 +130,9 @@ const Home = () => {
         <h2>Trending Now</h2>
         <Slider {...settings} style={{ position: "relative" }}>
           {movies.map((movie, index) => (
-            <div className="slider-card" key={index} onClick={handleClick}>
+            <a className="slider-card" key={index} href={`/moviehome/${movie._id}`}>
               <img src={`http://localhost:3001${movie?.poster}`} alt="" />
-            </div>
+            </a>
           ))}
         </Slider>
       </div>

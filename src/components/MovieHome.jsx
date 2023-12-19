@@ -11,11 +11,14 @@ import Footer from "./Footer";
 import "../style/moviehome.css";
 import { useAuth } from "./AuthContext";
 import { useEmail } from "./EmailContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MovieHome = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [movies, setMovies] = useState([]);
+  // const {setIdValue,} = useMovieDetail();
+
 
   let randomMovie = Math.floor(Math.random() * 10);
   const { email } = useEmail();
@@ -40,38 +43,49 @@ const MovieHome = () => {
     setLoggedInValue(false);
   };
 
-  const handleOnClick = (index) => {
-    randomMovie = index;
-  };
-  const tokenValidation = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/api/users/login",
-        JSON.stringify({ email: email, password: password }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      console.log(response.data.message);
-      if (response.data.message === "User is not authorized") {
-        setLoggedInValue(false);
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("invalid user data", error);
-    }
-  };
+  // const tokenValidation = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:3001/api/users/login",
+  //       JSON.stringify({ email: email, password: password }),
+  //       {
+  //         headers: { "Content-Type": "application/json" },
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     console.log(response.data.message);
+  //     if (response.data.message === "User is not authorized") {
+  //       setLoggedInValue(false);
+  //       navigate("/");
+  //     }
+  //   } catch (error) {
+  //     console.error("invalid user data", error);
+  //   }
+  // };
 
+  const idformovie = async () => {
+    await axios
+      .get(`http://localhost:3001/api/movies/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setMovies(response.data);
+        } else {
+          return;
+        }
+      });
+  }
+console.log(movies);
   useEffect(() => {
-    // tokenValidation();
-    axios.get("http://localhost:3001/api/movies").then((response) => {
-      setMovies(response.data.results);
-    });
+    // axios.get("http://localhost:3001/api/movies").then((response) => {
+    //   setMovies(response.data);
+    //   // console.log("api " , response.data);
+    // });
+
+    idformovie();
   }, []);
 
   const myStyle = {
-    background: `url(http://localhost:3001${movies[randomMovie]?.thumbnail})`,
+    background: `url(http://localhost:3001${movies.thumbnail})`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     height: "530px",
@@ -159,16 +173,18 @@ const MovieHome = () => {
               <img src={symbol} alt="" style={{ height: "5%", width: "5%" }} />{" "}
               Film
             </p>
-            <h1>{movies[randomMovie]?.title}</h1>
+            <h1>{movies.title}</h1>
 
-            <h3>{movies[randomMovie]?.title}</h3>
+            <h3>{movies.title}</h3>
             <p style={{ color: "#a3a3a3" }}>
-              {movies[randomMovie]?.release_date}
+              {movies.release_date}
             </p>
-            <p>{movies[randomMovie]?.overview}</p>
+            <p>{movies.overview}</p>
           </div>
 
-          <div></div>
+          <div>
+          { console.log(movies.overview)}
+          </div>
         </div>
       </div>
 
@@ -195,20 +211,20 @@ const MovieHome = () => {
       </div>
 
       <div className="row movieList-all p-4">
-        <h2>More Like This</h2>
-        {movies.map((movie, index) => (
-          <a
+        <h2>Previews</h2>
+        {console.log("Previews", movies.preview)}
+   
+        {movies.preview && movies.preview.map((previews, index) => (
+          <div
             className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
             key={index}
-            onClick={handleOnClick(index)}
-            href="/moviehome"
           >
             <img
               className=" img-fluid object-fit-cover "
-              src={`http://localhost:3001${movie?.poster}`}
+              src={`http://localhost:3001${previews}`}
               alt=""
             />
-          </a>
+          </div>
         ))}
       </div>
       <Footer />
