@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-// import React from 'react'
-// import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "../assets/logo.svg";
 import "../style/signin.css";
 import { useFormik } from "formik";
@@ -14,9 +11,8 @@ function SignIn() {
   const navigate = useNavigate();
   const [warning, setWarning] = useState("");
 
-  const { isLoggedIn, setLoggedInValue, password, setPassword, setAuthValue } =
-    useAuth();
-  const { email, setEmailValue } = useEmail();
+  const { setLoggedInValue, setAuthValue } = useAuth();
+  const { setEmailValue } = useEmail();
   var valuesEmail = (document.getElementById("email") || {}).value || "";
   var valuesPassword = (document.getElementById("password") || {}).value || "";
 
@@ -300,34 +296,18 @@ function SignIn() {
           style={{
             borderRadius: "4px",
             border: "1px solid #737373",
-            padding: "6px 5px",
-            width: "15%",
+            padding: "2px",
+            width: "fit-content",
           }}
         >
-          <label>
-            <div className=" d-flex justify-content-center align-items-center ">
-              <i className="fa-solid fa-globe w-auto p-2"></i>
-
-              <select
-                style={{
-                  backgroundColor: "transparent",
-                  color: "white",
-                  textDecoration: "none",
-                  borderRadius: "2px",
-                  border: "none",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  marginLeft: "-30px",
-                  paddingLeft: "30px",
-                }}
-                name="lang"
-                id="lang"
-              >
-                <option value="English">English</option>
-                <option value="Hindi">हिंदी</option>
-              </select>
-            </div>
-          </label>
+          <select
+            name="lang"
+            id="lang1"
+            style={{ backgroundColor: "black", textDecoration: "none" }}
+          >
+            <option value="English">English</option>
+            <option value="Hindi">हिंदी</option>
+          </select>
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@
 .slider-card {
  padding: 10px;
  outline: none;
- transition: transform .3s; /* Animation */
+ transition: transform .3s;
 
 }
 
@@ -45,12 +45,28 @@
   transform: scale(1.02);
 }
 
-/* .slider-card img {
-  width: 90%;
-  height: 90%;
-} */
+
 
 .calousel h2 {
   padding-left: 10px;
   font-weight: 700;
 }
+
+.Adminbtn{
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  width: fit-content;
+  outline: none;
+  border: none;
+  background-color: black;
+  color: red;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.homenav{
+  height: 60px;
+  width: 100%;
+}
+

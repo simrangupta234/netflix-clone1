@@ -62,8 +62,6 @@ input::placeholder {
   border: none;
   font-size: 16px;
   font-weight: 600;
-  /* margin-left: -30px;
-    padding-left: 30px; */
   width: fit-content;
   outline: none;
 }
@@ -133,12 +131,6 @@ input::placeholder {
 
 }
 
-/* .input-data input[value=""]{
-  border: none;
-}
-.input-data input:valid {
-  border: 1px solid green;
-} */
 .input-data input:invalid  {
   border: 1px solid #b92d2b;
 }
@@ -146,7 +138,7 @@ input::placeholder {
   transform: translateY(-20px);
   font-size: 13px;
 }
-input:not(:placeholder-shown) ~ label {
+.input-data  input:not(:placeholder-shown) ~ label {
   transform: translateY(-20px);
   font-size: 13px;
 }
@@ -214,9 +206,8 @@ input:not(:placeholder-shown) ~ label {
   background-color: black;
   width: 95vw;
   margin: auto;
-  /* position: relative; */
-  /* height: fit-content; */
 }
+
 .secText {
   justify-content: center;
 }
@@ -285,7 +276,6 @@ input:not(:placeholder-shown) ~ label {
   background-color: black;
   border: 1px solid #fff;
   border-radius: 12px;
-  /* padding: 4px; */
   width: fit-content;
   margin-top: -80px;
   z-index: 10;
@@ -313,8 +303,6 @@ input:not(:placeholder-shown) ~ label {
 }
 
 .gif-text :nth-child(2) {
-  /* font-size: 16px;
-    font-weight: 500; */
   color: blue;
 }
 
@@ -379,10 +367,6 @@ input:not(:placeholder-shown) ~ label {
   display: none;
   transition: 0.3s;
 }
-/* 
-  td {
-    padding: 10px;
-  } */
 
 .footer-section p {
   color: rgba(255, 255, 255, 0.7);
@@ -399,7 +383,6 @@ input:not(:placeholder-shown) ~ label {
   text-decoration: underline;
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
-  /* margin-top: 12px; */
 }
 
 @media screen and (min-width: 1000px) {
@@ -440,14 +423,8 @@ input:not(:placeholder-shown) ~ label {
   .section4 {
     flex-direction: column;
   }
-  /* .secVideo{
-    height: 200px;
-  } */
+
   .secText {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; */
     text-align: center;
   }
 
@@ -478,8 +455,8 @@ input:not(:placeholder-shown) ~ label {
     width: 35vw;
     top: 20%;
     overflow: hidden;
-    /* z-index: -1; */
   }
+
   .fax h2 {
     font-size: 32px;
     font-weight: 700;
@@ -530,10 +507,6 @@ input:not(:placeholder-shown) ~ label {
 }
 
 @media screen and (max-width: 600px) {
-  /* .nav-right .signin button  {
-    padding: 4px 0px;
-    font-size: 15px;
-  } */
   .wrapper-input {
     flex-direction: column;
     gap: 8px;
@@ -567,7 +540,6 @@ input:not(:placeholder-shown) ~ label {
     width: 35vw;
     top: 35%;
     overflow: hidden;
-    /* z-index: -1; */
   }
 
   .faxQues .faxbtn,

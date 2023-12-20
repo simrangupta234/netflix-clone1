@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-// import React from 'react'
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import phone from "../assets/phone.svg";
@@ -7,17 +5,10 @@ import tablet from "../assets/tablet.svg";
 import computer from "../assets/computer.svg";
 import tv from "../assets/tv.svg";
 import "../style/plan.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "./AuthContext";
 function PlanForm() {
-  const {
-    isLoggedIn,
-    setIsLoggedIn,
-    setEmail,
-    password,
-    setPassword,
-    setLoggedInValue,
-  } = useAuth();
+  const { isLoggedIn, setLoggedInValue } = useAuth();
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -26,14 +17,27 @@ function PlanForm() {
     }
   }, []);
 
-  const signOut = (e) => {
-    localStorage.removeItem("accessToken");
-    setLoggedInValue(false);
+  const signOut = () => {
+    localStorage.clear();
+        setLoggedInValue(false);
   };
 
-  const planClick = () => {
-    document.getElementsByTagName("button").backgroundColor = "red";
+  const planClick = (event) => {
+    const buttons = document.getElementsByClassName("plansbtn");
+    for (const button of buttons) {
+      button.style.backgroundColor = "";
+      button.style.opacity = ".6";
+    }
+
+    const clickedButton = event.currentTarget;
+    clickedButton.style.backgroundColor = "red";
+    clickedButton.style.opacity = "1";
   };
+
+  const planbtn = (event) => {
+    planClick(event);
+  };
+
   return (
     <div className="bg-light d-flex flex-column justify-content-center align-items-center">
       <div
@@ -53,9 +57,6 @@ function PlanForm() {
           </a>
         </div>
         <div className="signin col-2">
-          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
-            Sign Out
-          </a> */}
           {isLoggedIn ? (
             <a
               href="/"
@@ -75,7 +76,7 @@ function PlanForm() {
         <br />
       </div>
       <div id="animation4" className="p-5">
-        <div className=" ">
+        <div>
           <p style={{ textAlign: "start" }}>STEP 2 OF 3</p>
           <h2 style={{ textAlign: "start" }}>
             Choose the plan that’s right for you
@@ -115,112 +116,111 @@ function PlanForm() {
               color: "#737373",
             }}
           >
-            <tr>
-              <th className="width"></th>
-              <th>
-                {" "}
-                <button onClick={planClick}>Mobile</button>
-              </th>
-              <th>
-                {" "}
-                <button onClick={planClick}>Basic</button>
-              </th>
-              <th>
-                {" "}
-                <button onClick={planClick}>Standard</button>
-              </th>
-              <th>
-                {" "}
-                <button onClick={planClick}>Premium</button>
-              </th>
-            </tr>
+            <thead>
+              <tr>
+                <th className="width"></th>
+                <th>
+                  <button className="plansbtn" onClick={planbtn}>Mobile</button>
+                </th>
+                <th>
+                  <button className="plansbtn" onClick={planbtn}>Basic</button>
+                </th>
+                <th>
+                  <button className="plansbtn" onClick={planbtn}>Standard</button>
+                </th>
+                <th>
+                  <button className="plansbtn" onClick={planbtn}>Premium</button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Monthly price</td>
+                <td>₹ 149</td>
+                <td>₹199</td>
+                <td>₹ 499</td>
+                <td>₹ 649</td>
+              </tr>
+              <tr>
+                <td>Video Quality</td>
+                <td>Good</td>
+                <td>Good</td>
+                <td>Better</td>
+                <td>Best</td>
+              </tr>
+              <tr>
+                <td>Resolution</td>
+                <td>480p</td>
+                <td>720p</td>
+                <td>1080p</td>
+                <td>4k+HDR</td>
+              </tr>
 
-            <tr>
-              <td>Monthly price</td>
-              <td>₹ 149</td>
-              <td>₹199</td>
-              <td>₹ 499</td>
-              <td>₹ 649</td>
-            </tr>
-            <tr>
-              <td>Video Quality</td>
-              <td>Good</td>
-              <td>Good</td>
-              <td>Better</td>
-              <td>Best</td>
-            </tr>
-            <tr>
-              <td>Resolution</td>
-              <td>480p</td>
-              <td>720p</td>
-              <td>1080p</td>
-              <td>4k+HDR</td>
-            </tr>
-
-            <tr>
-              <td style={{ fontSize: "inherit" }}>
-                Devices you can use to watch
-              </td>
-              <td>
-                <img className="icons" src={phone} alt="" />
-                <br />
-                Phone
-                <br />
-                <img className="icons" src={tablet} alt="" />
-                <br />
-                Tablet
-              </td>
-              <td>
-                <img className="icons" src={phone} alt="" />
-                <br />
-                Phone
-                <br />
-                <img className="icons" src={tablet} alt="" />
-                <br />
-                Tablet
-                <br />
-                <img className="icons" src={computer} alt="" />
-                <br />
-                Computer
-                <br />
-                <img className="icons" src={tv} alt="" />
-                <br />
-                TV
-              </td>
-              <td>
-                <img className="icons" src={phone} alt="" />
-                <br />
-                Phone
-                <br />
-                <img className="icons" src={tablet} alt="" />
-                <br />
-                Tablet
-                <br />
-                <img className="icons" src={computer} alt="" />
-                <br />
-                Computer
-                <br />
-                <img className="icons" src={tv} alt="" />
-                <br />
-                TV
-              </td>
-              <td>
-                <img className="icons" src={phone} alt="" />
-                <br /> Phone
-                <br />
-                <img className="icons" src={tablet} alt="" />
-                <br />
-                Tablet
-                <br />
-                <img className="icons" src={computer} alt="" />
-                <br />
-                Computer
-                <br />
-                <img className="icons" src={tv} alt="" />
-                <br />
-                TV
-              </td>
-            </tr>
+              <tr>
+                <td style={{ fontSize: "inherit" }}>
+                  Devices you can use to watch
+                </td>
+                <td>
+                  <img className="icons" src={phone} alt="" />
+                  <br />
+                  Phone
+                  <br />
+                  <img className="icons" src={tablet} alt="" />
+                  <br />
+                  Tablet
+                </td>
+                <td>
+                  <img className="icons" src={phone} alt="" />
+                  <br />
+                  Phone
+                  <br />
+                  <img className="icons" src={tablet} alt="" />
+                  <br />
+                  Tablet
+                  <br />
+                  <img className="icons" src={computer} alt="" />
+                  <br />
+                  Computer
+                  <br />
+                  <img className="icons" src={tv} alt="" />
+                  <br />
+                  TV
+                </td>
+                <td>
+                  <img className="icons" src={phone} alt="" />
+                  <br />
+                  Phone
+                  <br />
+                  <img className="icons" src={tablet} alt="" />
+                  <br />
+                  Tablet
+                  <br />
+                  <img className="icons" src={computer} alt="" />
+                  <br />
+                  Computer
+                  <br />
+                  <img className="icons" src={tv} alt="" />
+                  <br />
+                  TV
+                </td>
+                <td>
+                  <img className="icons" src={phone} alt="" />
+                  <br /> Phone
+                  <br />
+                  <img className="icons" src={tablet} alt="" />
+                  <br />
+                  Tablet
+                  <br />
+                  <img className="icons" src={computer} alt="" />
+                  <br />
+                  Computer
+                  <br />
+                  <img className="icons" src={tv} alt="" />
+                  <br />
+                  TV
+                </td>
+              </tr>
+            </tbody>
           </table>
 
           <p style={{ color: "#737373", fontSize: "13px", textAlign: "start" }}>
@@ -286,34 +286,18 @@ function PlanForm() {
           style={{
             borderRadius: "4px",
             border: "1px solid #737373",
-            padding: "6px 5px",
-            width: "15%",
+            padding: "2px",
+            width: "fit-content",
           }}
         >
-          <label>
-            <div className=" d-flex justify-content-center align-items-center ">
-              <i className="fa-solid fa-globe w-auto p-2"></i>
-
-              <select
-                style={{
-                  backgroundColor: "transparent",
-                  color: "#333",
-                  textDecoration: "none",
-                  borderRadius: "2px",
-                  border: "none",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  marginLeft: "-30px",
-                  paddingLeft: "30px",
-                }}
-                name="lang"
-                id="lang"
-              >
-                <option value="English">English</option>
-                <option value="Hindi">हिंदी</option>
-              </select>
-            </div>
-          </label>
+          <select
+            name="lang"
+            id="lang1"
+            style={{ color: "#333", textDecoration: "none" }}
+          >
+            <option value="English">English</option>
+            <option value="Hindi">हिंदी</option>
+          </select>
         </div>
       </div>
     </div>

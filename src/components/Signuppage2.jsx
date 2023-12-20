@@ -1,18 +1,15 @@
-/* eslint-disable no-unused-vars */
-// import React from 'react'
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/signuppage2.css";
 import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 
 function Signuppage2() {
-  const { email, setEmailValue } = useEmail();
-  const { isLoggedIn, setLoggedInValue, password, setPassword, setAuthValue } =
-    useAuth();
+  const { email } = useEmail();
+  const { isLoggedIn, setLoggedInValue, password, setAuthValue } = useAuth();
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -21,8 +18,8 @@ function Signuppage2() {
     }
   }, []);
 
-  const signOut = (e) => {
-    localStorage.removeItem("accessToken");
+  const signOut = () => {
+    localStorage.clear();
     setLoggedInValue(false);
     navigate("/login");
   };
@@ -231,34 +228,14 @@ function Signuppage2() {
           style={{
             borderRadius: "4px",
             border: "1px solid #737373",
-            padding: "6px 5px",
-            width: "15%",
+            padding: "2px",
+            width: "fit-content",
           }}
         >
-          <label>
-            <div className=" d-flex justify-content-center align-items-center ">
-              <i className="fa-solid fa-globe w-auto p-2"></i>
-
-              <select
-                style={{
-                  backgroundColor: "transparent",
-                  color: "#333",
-                  textDecoration: "none",
-                  borderRadius: "2px",
-                  border: "none",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  marginLeft: "-30px",
-                  paddingLeft: "30px",
-                }}
-                name="lang"
-                id="lang"
-              >
-                <option value="English">English</option>
-                <option value="Hindi">हिंदी</option>
-              </select>
-            </div>
-          </label>
+          <select name="lang" id="lang1" style={{ color: "#333" }}>
+            <option value="English">English</option>
+            <option value="Hindi">हिंदी</option>
+          </select>
         </div>
       </div>
     </div>

@@ -24,8 +24,8 @@ function Plan() {
   }, []);
 
   const signOut = (e) => {
-    localStorage.removeItem("accessToken");
-    setLoggedInValue(false);
+    localStorage.clear();
+        setLoggedInValue(false);
   };
 
   return (
@@ -160,34 +160,18 @@ function Plan() {
           style={{
             borderRadius: "4px",
             border: "1px solid #737373",
-            padding: "6px 5px",
-            width: "15%",
+            padding: "2px",
+            width: "fit-content",
           }}
         >
-          <label>
-            <div className=" d-flex justify-content-center align-items-center ">
-              <i className="fa-solid fa-globe w-auto p-2"></i>
-
-              <select
-                style={{
-                  backgroundColor: "transparent",
-                  color: "#333",
-                  textDecoration: "none",
-                  borderRadius: "2px",
-                  border: "none",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  marginLeft: "-30px",
-                  paddingLeft: "30px",
-                }}
-                name="lang"
-                id="lang"
-              >
-                <option value="English">English</option>
-                <option value="Hindi">हिंदी</option>
-              </select>
-            </div>
-          </label>
+          <select
+            name="lang"
+            id="lang1"
+            style={{ color: "#333", textDecoration: "none" }}
+          >
+            <option value="English">English</option>
+            <option value="Hindi">हिंदी</option>
+          </select>
         </div>
       </div>
     </div>

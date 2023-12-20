@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { useMovieDetail } from "./movieDetailContext";
+import { Link } from "react-router-dom";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -37,15 +37,13 @@ function SamplePrevArrow(props) {
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
-  // const {setIdValue} = useMovieDetail();
+
   useEffect(() => {
     // tokenValidation();
     axios.get("http://localhost:3001/api/movies").then((response) => {
       setMovies(response.data);
     });
   }, []);
-
-  console.log(movies);
 
   var settings = {
     dots: false,
@@ -95,10 +93,21 @@ const Home = () => {
           position: "relative",
         }}
       >
+        {localStorage.getItem("AdminEmail") ===
+        "simrangupta172002@gmail.com" ? (
+          <div className="homenav d-block">
+            <Link to="/user/home/admin/editdb">
+              <button className="Adminbtn">Admin</button>
+            </Link>
+          </div>
+        ) : (
+          <div className="homenav d-none"></div>
+        )}
+
         <div className="stylediv2">
-          <div>
+          <div style={{ marginTop: "-110px" }}>
             <p>
-              <img src={symbol} alt="" style={{ height: "5%", width: "5%" }} />{" "}
+              <img src={symbol} alt="" style={{ height: "5%", width: "5%" }} />
               Film
             </p>
             <h1>Money Heist</h1>
@@ -114,23 +123,45 @@ const Home = () => {
         </div>
       </div>
 
-      <div className=" calousel d-flex  flex-column justify-content-center align-items-center">
-        <h2>More like this</h2>
-
+      <div className=" calousel d-flex  flex-column justify-content-center align-items-center  pt-4 pb-4">
+        <h2>Featured</h2>
         <Slider {...settings} style={{ position: "relative" }}>
           {movies.map((movie, index) => (
-            <a className="slider-card" key={index} href={`/moviehome/${movie._id}`}>
+            <a
+              className="slider-card"
+              key={index}
+              href={`/moviehome/${movie._id}`}
+            >
               <img src={`http://localhost:3001${movie?.poster}`} alt="" />
             </a>
           ))}
         </Slider>
       </div>
 
-      <div className=" calousel d-flex  flex-column justify-content-center align-items-center">
+      <div className=" calousel d-flex  flex-column justify-content-center align-items-center pt-4 pb-4">
         <h2>Trending Now</h2>
         <Slider {...settings} style={{ position: "relative" }}>
           {movies.map((movie, index) => (
-            <a className="slider-card" key={index} href={`/moviehome/${movie._id}`}>
+            <a
+              className="slider-card"
+              key={index}
+              href={`/moviehome/${movie._id}`}
+            >
+              <img src={`http://localhost:3001${movie?.poster}`} alt="" />
+            </a>
+          ))}
+        </Slider>
+      </div>
+
+      <div className=" calousel d-flex  flex-column justify-content-center align-items-center  pt-4 pb-4">
+        <h2>New Releases</h2>
+        <Slider {...settings} style={{ position: "relative" }}>
+          {movies.map((movie, index) => (
+            <a
+              className="slider-card"
+              key={index}
+              href={`/moviehome/${movie._id}`}
+            >
               <img src={`http://localhost:3001${movie?.poster}`} alt="" />
             </a>
           ))}

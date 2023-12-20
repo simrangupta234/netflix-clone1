@@ -1,10 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import "../../src/App.css";
 import "../../src/components/Loginpage2";
 import { useEffect, useState } from "react";
-//  import { useRef, useState, useEffect, useContext } from 'react';
-// import AuthContext from "./context/AuthProvider";
 import logo from "../assets/logo.svg";
 import tv from "../assets/tv.png";
 import tv2 from "../assets/device-pile-in.png";
@@ -24,16 +20,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { email, setEmailValue } = useEmail();
 
-  const {
-    isLoggedIn,
-    setLoggedInValue,
-    setEmail,
-    password,
-    setPassword,
-    setAuthvalue,
-  } = useAuth();
-
-  var valuesEmail = (document.getElementById("email") || {}).value || "";
+  const { isLoggedIn, setLoggedInValue } = useAuth();
 
   const [loader, setLoader] = useState(false);
 
@@ -51,9 +38,9 @@ export default function Login() {
     }
   }, []);
 
-  const signOut = (e) => {
-    localStorage.removeItem("accessToken");
-    setLoggedInValue(false);
+  const signOut = () => {
+    localStorage.clear();
+        setLoggedInValue(false);
   };
 
   const validate = (values) => {
@@ -62,7 +49,7 @@ export default function Login() {
     if (!values.email) {
       errors.email = "Email is required";
     } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+      !/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i.test(values.email)
     ) {
       errors.email = "Please enter a valid email address.";
     }
@@ -83,6 +70,10 @@ export default function Login() {
 
   const validateSubmit = async (values) => {
     const errors = validate(values);
+
+    if (email === "simrangupta172002@gmail.com") {
+      localStorage.setItem("AdminEmail", email);
+    }
 
     if (Object.keys(errors).length === 0) {
       navigate("/signup");
@@ -196,7 +187,7 @@ export default function Login() {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
                 placeholder=""
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}"
               />
 
               {formik.touched.email && formik.errors.email ? (
@@ -262,7 +253,6 @@ export default function Login() {
         <div className="sec2Video d-flex flex-column justify-content-center align-items-center">
           <img className="z-0" src={mobile} alt="mobile" />
           <div className="gif-box">
-            {/* <div style={{ width: "fit-content", padding: "5px" }}> */}
             <img src={boxShot} alt="" />
 
             <div className="gif-text">
@@ -447,14 +437,17 @@ export default function Login() {
               className="emailId"
               type="email"
               name="email"
-              id="email2"
+              id="email1"
               onChange={(e) => {
                 formik.handleChange(e);
+                handleChange(e);
               }}
               onBlur={formik.handleBlur}
               value={formik.values.email}
               placeholder=""
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}"
             />
+
             {formik.touched.email && formik.errors.email ? (
               <span
                 style={{
@@ -471,11 +464,7 @@ export default function Login() {
           </div>
 
           <div className="col-4" style={{ marginLeft: "10px" }}>
-            <button
-              type="submit"
-              className="getStartedbtn"
-              // onClick={() => validateSubmit(formik.values)}
-            >
+            <button type="submit" className="getStartedbtn">
               Get Started
               <img src={arrow} alt="" />
             </button>
@@ -537,19 +526,17 @@ export default function Login() {
             borderRadius: "4px",
             border: "1px solid #737373",
             padding: "2px",
-            width: "15%",
+            width: "fit-content",
           }}
         >
-          <label>
-            <div className="select d-flex justify-content-center align-items-center bg-black">
-              {/* <i className="fa-solid fa-globe w-auto p-2"></i> */}
-
-              <select name="lang" id="lang2">
-                <option value="English">English</option>
-                <option value="Hindi">हिंदी</option>
-              </select>
-            </div>
-          </label>
+          <select
+            name="lang"
+            id="lang1"
+            style={{ backgroundColor: "black", textDecoration: "none" }}
+          >
+            <option value="English">English</option>
+            <option value="Hindi">हिंदी</option>
+          </select>
         </div>
         <p className="pt-3">Netflix India</p>
       </div>

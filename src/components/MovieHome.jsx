@@ -1,35 +1,17 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-// import React from 'react'
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import MovieList from "./MovieList";
 import axios from "axios";
 import symbol from "../assets/netflix_symbol.png";
 import logo from "../assets/logo.svg";
 import Footer from "./Footer";
 import "../style/moviehome.css";
 import { useAuth } from "./AuthContext";
-import { useEmail } from "./EmailContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const MovieHome = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const [movies, setMovies] = useState([]);
-  // const {setIdValue,} = useMovieDetail();
-
-
-  let randomMovie = Math.floor(Math.random() * 10);
-  const { email } = useEmail();
-  const {
-    isLoggedIn,
-    setIsLoggedIn,
-    setEmail,
-    password,
-    setPassword,
-    setLoggedInValue,
-  } = useAuth();
+  const { isLoggedIn, setLoggedInValue } = useAuth();
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -38,8 +20,8 @@ const MovieHome = () => {
     }
   }, []);
 
-  const signOut = (e) => {
-    localStorage.removeItem("accessToken");
+  const signOut = () => {
+    localStorage.clear();
     setLoggedInValue(false);
   };
 
@@ -73,19 +55,14 @@ const MovieHome = () => {
           return;
         }
       });
-  }
-console.log(movies);
-  useEffect(() => {
-    // axios.get("http://localhost:3001/api/movies").then((response) => {
-    //   setMovies(response.data);
-    //   // console.log("api " , response.data);
-    // });
+  };
 
+  useEffect(() => {
     idformovie();
   }, []);
 
   const myStyle = {
-    background: `url(http://localhost:3001${movies.thumbnail})`,
+    backgroundImage: `url(http://localhost:3001${movies.thumbnail})`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     height: "530px",
@@ -122,12 +99,19 @@ console.log(movies);
           <div className="textm" style={{ fontSize: "13px" }}>
             UNLIMITED TV SHOWS & MOVIES
           </div>
-
-          <button className="btnm">
-            <a href="/" style={{ textDecoration: "none", color: "white" }}>
-              JOIN NOW
-            </a>
-          </button>
+          {isLoggedIn ? (
+            <button className="btnm" style={{ display: "none" }}>
+              <a href="/" style={{ textDecoration: "none", color: "white" }}>
+                JOIN NOW
+              </a>
+            </button>
+          ) : (
+            <button className="btnm">
+              <a href="/" style={{ textDecoration: "none", color: "white" }}>
+                JOIN NOW
+              </a>
+            </button>
+          )}
 
           {isLoggedIn ? (
             <button
@@ -168,64 +152,72 @@ console.log(movies);
 
       <div className="style" style={myStyle}>
         <div className="stylediv">
-          <div>
+          <div style={{ marginTop: "-40px" }}>
             <p>
-              <img src={symbol} alt="" style={{ height: "5%", width: "5%" }} />{" "}
+              <img src={symbol} alt="" style={{ height: "5%", width: "5%" }} />
               Film
             </p>
             <h1>{movies.title}</h1>
 
             <h3>{movies.title}</h3>
-            <p style={{ color: "#a3a3a3" }}>
-              {movies.release_date}
+            <p style={{ color: "#a3a3a3", paddingBottom: "10px" }}>
+              {movies.release_year} | {movies.duration} | {movies.genre}
             </p>
             <p>{movies.overview}</p>
           </div>
-
-          <div>
-          { console.log(movies.overview)}
-          </div>
         </div>
       </div>
+      {isLoggedIn ? (
+        <div
+          style={{
+            marginTop: "-100px",
+            zIndex: "10",
+            paddingLeft: "4%",
+            marginBottom: "40px",
+          }}
+        >
+          <button className="play">Play</button>
+          <button className="trailer">Watch Trailer</button>
+        </div>
+      ) : (
+        <div
+          className="d-flex justify-content-center justify-content-between align-items-center w "
+          style={{
+            position: "relative",
+            height: "60px",
+            width: "90%",
+          }}
+        >
+          <div className="joinnowbox ">
+            <img src={symbol} alt="" />
+            <div className="joinnowm">
+              <div>Watch all you want.</div>
 
-      <div
-        className="d-flex justify-content-center justify-content-between align-items-center w "
-        style={{
-          position: "relative",
-          height: "60px",
-          width: "90%",
-        }}
-      >
-        <div className="joinnowbox ">
-          <img src={symbol} alt="" />
-          <div className="joinnowm">
-            <div>Watch all you want.</div>
-
-            <button className="btnm">
-              <a href="/" style={{ textDecoration: "none", color: "white" }}>
-                Join Now
-              </a>
-            </button>
+              <button className="btnm">
+                <a href="/" style={{ textDecoration: "none", color: "white" }}>
+                  JOIN NOW
+                </a>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="row movieList-all p-4">
+      <div className="row movieList-all p-4 ">
         <h2>Previews</h2>
-        {console.log("Previews", movies.preview)}
-   
-        {movies.preview && movies.preview.map((previews, index) => (
-          <div
-            className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
-            key={index}
-          >
-            <img
-              className=" img-fluid object-fit-cover "
-              src={`http://localhost:3001${previews}`}
-              alt=""
-            />
-          </div>
-        ))}
+        {movies.preview &&
+          movies.preview.map((previews, index) => (
+            <div
+              className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
+              key={index}
+            >
+              <img
+                className=" img-fluid object-fit-cover "
+                src={`http://localhost:3001${previews}`}
+                alt=""
+              />
+            </div>
+          ))}
       </div>
       <Footer />
     </div>

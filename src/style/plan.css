@@ -31,7 +31,7 @@ li {
   border-bottom: 1px solid #737373;
   padding: 20px 0;
 }
-.planlist-table tr th {
+.planlist-table tbody tr th {
   height: 120px;
   position: sticky;
   top: 0;
@@ -39,7 +39,7 @@ li {
   background-color: #f8f9fa;
   text-align: center;
 }
-.planlist-table tr th button {
+.planlist-table thead tr th button {
   background-color: #e50914;
   text-decoration: none;
   outline: none;

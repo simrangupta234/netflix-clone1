@@ -13,9 +13,9 @@ import { EmailProvider } from "./components/EmailContext";
 import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./components/AuthContext";
 import Home from "./components/Home";
+import EditDb from "./components/EditDb";
 
 const App = () => {
-
   return (
     <BrowserRouter>
       <EmailProvider>
@@ -37,7 +37,9 @@ const App = () => {
             <Route path="/planform" element={<PlanForm />} />
             <Route path="/payment" element={<Pay />} />
             <Route path="/moviehome/:id" element={<MovieHome />} />
-
+            <Route path="user/home/admin" element={<PrivateRoute />}>
+              <Route path="editdb" element={<EditDb />} />
+            </Route>
             {/* <Route path="*" element={<Navigate to="/" />}></Route> */}
           </Routes>
         </AuthProvider>
