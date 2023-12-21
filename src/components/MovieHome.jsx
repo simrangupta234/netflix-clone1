@@ -6,7 +6,7 @@ import logo from "../assets/logo.svg";
 import Footer from "./Footer";
 import "../style/moviehome.css";
 import { useAuth } from "./AuthContext";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const MovieHome = () => {
   const { id } = useParams();
@@ -107,9 +107,9 @@ const MovieHome = () => {
             </button>
           ) : (
             <button className="btnm">
-              <a href="/" style={{ textDecoration: "none", color: "white" }}>
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                 JOIN NOW
-              </a>
+              </Link>
             </button>
           )}
 
@@ -194,9 +194,9 @@ const MovieHome = () => {
               <div>Watch all you want.</div>
 
               <button className="btnm">
-                <a href="/" style={{ textDecoration: "none", color: "white" }}>
+                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                   JOIN NOW
-                </a>
+                </Link>
               </button>
             </div>
           </div>
@@ -206,18 +206,24 @@ const MovieHome = () => {
       <div className="row movieList-all p-4 ">
         <h2>Previews</h2>
         {movies.preview &&
-          movies.preview.map((previews, index) => (
-            <div
-              className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
-              key={index}
-            >
-              <img
-                className=" img-fluid object-fit-cover "
-                src={`http://localhost:3001${previews}`}
-                alt=""
-              />
-            </div>
-          ))}
+  movies.preview.map((previews, index) => {
+    const base64String = btoa(
+      String.fromCharCode(...new Uint8Array(previews.data))
+    );
+    return (
+      <div
+        className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
+        key={index}
+      >
+        <img
+          className="img-fluid object-fit-cover"
+          src={`data:image/png;base64,${base64String}`}
+          alt={`Preview ${index + 1}`}
+        />
+      </div>
+    );
+  })}
+
       </div>
       <Footer />
     </div>

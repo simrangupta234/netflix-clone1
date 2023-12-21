@@ -16,6 +16,9 @@ import Home from "./components/Home";
 import EditDb from "./components/EditDb";
 
 const App = () => {
+  const isAdmin =
+    localStorage.getItem("AdminEmail") === "simrangupta172002@gmail.com";
+
   return (
     <BrowserRouter>
       <EmailProvider>
@@ -29,18 +32,31 @@ const App = () => {
             </Route>
 
             <Route path="/login" element={<Loginpage2 />} />
+            <Route path="/" element={<PrivateRoute />}>
             <Route path="/signin" element={<SignIn />} />
-
+            </Route>
+           
             <Route path="/signup" element={<Signup />} />
             <Route path="/signupform" element={<Signuppage2 />} />
             <Route path="/plans" element={<Plan />} />
             <Route path="/planform" element={<PlanForm />} />
             <Route path="/payment" element={<Pay />} />
             <Route path="/moviehome/:id" element={<MovieHome />} />
-            <Route path="user/home/admin" element={<PrivateRoute />}>
-              <Route path="editdb" element={<EditDb />} />
+            {isAdmin ? (
+              <Route path="/editdb" element={<EditDb />} />
+            ) : (
+              <Route path="/" element={<Login />} />
+            )}
+             <Route path="/" element={<PrivateRoute />}>
+              <Route path="/editdb" element={<EditDb />} />
             </Route>
-            {/* <Route path="*" element={<Navigate to="/" />}></Route> */}
+            {/* <Route
+              path="/editdb"
+              element={isAdmin ? <EditDb isAdmin={isAdmin} /> : <Home />}
+            /> */}
+             {/* <Route path="/" element={<PrivateRoute />}>
+              <Route path="/editdb" element={<EditDb />} />
+            </Route> */}
           </Routes>
         </AuthProvider>
       </EmailProvider>

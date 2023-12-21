@@ -96,7 +96,7 @@ const Home = () => {
         {localStorage.getItem("AdminEmail") ===
         "simrangupta172002@gmail.com" ? (
           <div className="homenav d-block">
-            <Link to="/user/home/admin/editdb">
+            <Link to="/editdb">
               <button className="Adminbtn">Admin</button>
             </Link>
           </div>
@@ -127,13 +127,13 @@ const Home = () => {
         <h2>Featured</h2>
         <Slider {...settings} style={{ position: "relative" }}>
           {movies.map((movie, index) => (
-            <a
+            <Link
               className="slider-card"
               key={index}
-              href={`/moviehome/${movie._id}`}
+              to={`/moviehome/${movie._id}`}
             >
               <img src={`http://localhost:3001${movie?.poster}`} alt="" />
-            </a>
+            </Link>
           ))}
         </Slider>
       </div>
@@ -157,13 +157,13 @@ const Home = () => {
         <h2>New Releases</h2>
         <Slider {...settings} style={{ position: "relative" }}>
           {movies.map((movie, index) => (
-            <a
+            <Link
               className="slider-card"
               key={index}
-              href={`/moviehome/${movie._id}`}
+              to={`/moviehome/${movie._id}`}
             >
               <img src={`http://localhost:3001${movie?.poster}`} alt="" />
-            </a>
+            </Link>
           ))}
         </Slider>
       </div>

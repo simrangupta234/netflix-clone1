@@ -15,15 +15,25 @@ const EditDb = () => {
     poster: "",
     thumbnail: "",
     preview: [],
-
   });
 
-  const handleFileChange = (event, field) => {
-    const files = event.target.files;
-    setMovies((prevMovies) => ({
-      ...prevMovies,
-      [field]: Array.from(files), // Always convert to an array
-    }));
+  const handleFileChange = (event) => {
+    const { name, files } = event.target;
+
+    if (name === "preview") {
+      // Handle multiple file input for preview images
+      const filesArray = Array.from(files);
+      setMovies((prevMovies) => ({
+        ...prevMovies,
+        preview: [...prevMovies.preview, ...filesArray],
+      }));
+    } else {
+      // Handle single file input for poster and thumbnail
+      setMovies((prevMovies) => ({
+        ...prevMovies,
+        [name]: files[0],
+      }));
+    }
   };
 
   const addMovie = async () => {
@@ -37,17 +47,17 @@ const EditDb = () => {
       formData.append("overview", movies.overview);
       formData.append("poster", movies.poster);
       formData.append("thumbnail", movies.thumbnail);
-  
+
       // Append each file in the 'preview' array individually
       movies.preview.forEach((file, index) => {
         formData.append(`preview${index + 1}`, file);
       });
-  
+
       const response = await axios.post(
         "http://localhost:3001/api/movies",
         formData
       );
-  
+
       setMovies({
         id: response.data.id,
         title: response.data.title,
@@ -64,13 +74,17 @@ const EditDb = () => {
       console.error("Error adding movie:", error);
     }
   };
-  
 
   return (
     <div className="db bg-light d-flex justify-content-center align-items-center flex-column text-center p-3">
       <h2> Edit DataBase</h2>
 
-      <form className="dbform d-flex justify-content-center align-items-center flex-column text-start">
+      <form
+        className="dbform d-flex justify-content-center align-items-center flex-column text-start"
+        action="/assets"
+        method="POST"
+        encType="multipart/form-data"
+      >
         {/* <label htmlFor="category">Category</label>
         <input
           type="text"

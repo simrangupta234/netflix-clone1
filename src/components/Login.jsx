@@ -40,7 +40,7 @@ export default function Login() {
 
   const signOut = () => {
     localStorage.clear();
-        setLoggedInValue(false);
+    setLoggedInValue(false);
   };
 
   const validate = (values) => {
@@ -71,9 +71,7 @@ export default function Login() {
   const validateSubmit = async (values) => {
     const errors = validate(values);
 
-    if (email === "simrangupta172002@gmail.com") {
-      localStorage.setItem("AdminEmail", email);
-    }
+  
 
     if (Object.keys(errors).length === 0) {
       navigate("/signup");
