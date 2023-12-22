@@ -206,24 +206,18 @@ const MovieHome = () => {
       <div className="row movieList-all p-4 ">
         <h2>Previews</h2>
         {movies.preview &&
-  movies.preview.map((previews, index) => {
-    const base64String = btoa(
-      String.fromCharCode(...new Uint8Array(previews.data))
-    );
-    return (
-      <div
-        className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
-        key={index}
-      >
-        <img
-          className="img-fluid object-fit-cover"
-          src={`data:image/png;base64,${base64String}`}
-          alt={`Preview ${index + 1}`}
-        />
-      </div>
-    );
-  })}
-
+          movies.preview.map((previews, index) => (
+            <div
+              className="col-lg-3 col-md-4 col-sm-6 p-3 text-decoration-none"
+              key={index}
+            >
+              <img
+                className="img-fluid object-fit-cover"
+                alt={`Preview ${index + 1}`}
+                src={`http://localhost:3001${previews}`}
+              />
+            </div>
+          ))}
       </div>
       <Footer />
     </div>

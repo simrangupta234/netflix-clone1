@@ -132,7 +132,7 @@ const Home = () => {
               key={index}
               to={`/moviehome/${movie._id}`}
             >
-              <img src={`http://localhost:3001${movie?.poster}`} alt="" />
+              <img src={`http://localhost:3001${movie?.poster}`} alt={movie.title} />
             </Link>
           ))}
         </Slider>

@@ -69,7 +69,7 @@ const EditDb = () => {
         thumbnail: response.data.thumbnail,
         preview: response.data.preview,
       });
-      console.log(response.data);
+      console.log("response data", response.data);
     } catch (error) {
       console.error("Error adding movie:", error);
     }
@@ -84,6 +84,7 @@ const EditDb = () => {
         action="/assets"
         method="POST"
         encType="multipart/form-data"
+        
       >
         {/* <label htmlFor="category">Category</label>
         <input
@@ -160,28 +161,28 @@ const EditDb = () => {
         <input
           type="file"
           accept="image/jpg, image/png, image.jpeg"
-          name="poster"
+          name="testImage"
           id="poster"
-          onChange={(e) => handleFileChange(e, "poster")}
+          onChange={(event) => handleFileChange(event)}
         />
 
         <label htmlFor="thumbnail"> Thumbnail</label>
         <input
           type="file"
           accept="image/jpg, image/png, image.jpeg"
-          name="thumbnail"
+          name="testImage"
           id="thumbnail"
-          onChange={(e) => handleFileChange(e, "thumbnail")}
+          onChange={(event) => handleFileChange(event)}
         />
 
         <label htmlFor="preview"> Preview Images</label>
         <input
           type="file"
           accept="image/jpg, image/png, image/jpeg"
-          name="preview"
+          name="testImage"
           id="preview"
           multiple="multiple"
-          onChange={(e) => handleFileChange(e, "preview")}
+          onChange={(event) => handleFileChange(event)}
         />
       </form>
 
