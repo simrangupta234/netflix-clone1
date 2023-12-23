@@ -83,10 +83,6 @@ function SignIn() {
     } else {
       console.log("Please fill in the email and password");
     }
-
-    if (valuesEmail === "simrangupta172002@gmail.com") {
-      localStorage.setItem("AdminEmail", valuesEmail);
-    }
   };
 
   const handleChangePassword = (e) => {

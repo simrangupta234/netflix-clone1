@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import profileImg from "../assets/profilePicture.png";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -93,7 +94,15 @@ const Home = () => {
           position: "relative",
         }}
       >
-        {localStorage.getItem("AdminEmail") ===
+        <div className="homenav">
+          <div className="profile">
+            <Link to="/profile">
+              {/* <button className="profile">Profile</button> */}
+              <img src={profileImg} alt="" />
+            </Link>
+          </div>
+        </div>
+        {/* {localStorage.getItem("AdminEmail") ===
         "simrangupta172002@gmail.com" ? (
           <div className="homenav d-block">
             <Link to="/editdb">
@@ -102,7 +111,7 @@ const Home = () => {
           </div>
         ) : (
           <div className="homenav d-none"></div>
-        )}
+        )} */}
 
         <div className="stylediv2">
           <div style={{ marginTop: "-110px" }}>
@@ -132,7 +141,10 @@ const Home = () => {
               key={index}
               to={`/moviehome/${movie._id}`}
             >
-              <img src={`http://localhost:3001${movie?.poster}`} alt={movie.title} />
+              <img
+                src={`http://localhost:3001${movie?.poster}`}
+                alt={movie.title}
+              />
             </Link>
           ))}
         </Slider>

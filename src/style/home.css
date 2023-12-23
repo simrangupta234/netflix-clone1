@@ -52,7 +52,7 @@
   font-weight: 700;
 }
 
-.Adminbtn{
+/* .Adminbtn{
   position: absolute;
   top: 20px;
   right: 50px;
@@ -63,6 +63,24 @@
   color: red;
   font-size: 24px;
   font-weight: 500;
+} */
+
+.profile{
+  position: absolute;
+  top: 20px;
+  right: 26px;
+  width: fit-content;
+  outline: none;
+  border: none;
+  background-color: black;
+  color: red;
+  font-size: 24px;
+  font-weight: 500;
+}
+.profile img{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 }
 
 .homenav{

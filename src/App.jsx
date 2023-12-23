@@ -14,6 +14,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./components/AuthContext";
 import Home from "./components/Home";
 import EditDb from "./components/EditDb";
+import Profile from "./components/Profile";
 
 const App = () => {
   const isAdmin =
@@ -33,9 +34,9 @@ const App = () => {
 
             <Route path="/login" element={<Loginpage2 />} />
             <Route path="/" element={<PrivateRoute />}>
-            <Route path="/signin" element={<SignIn />} />
+              <Route path="/signin" element={<SignIn />} />
             </Route>
-           
+
             <Route path="/signup" element={<Signup />} />
             <Route path="/signupform" element={<Signuppage2 />} />
             <Route path="/plans" element={<Plan />} />
@@ -47,14 +48,15 @@ const App = () => {
             ) : (
               <Route path="/" element={<Login />} />
             )}
-             <Route path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<PrivateRoute />}>
               <Route path="/editdb" element={<EditDb />} />
             </Route>
+            <Route path="/profile" element={<Profile />} />
             {/* <Route
               path="/editdb"
               element={isAdmin ? <EditDb isAdmin={isAdmin} /> : <Home />}
             /> */}
-             {/* <Route path="/" element={<PrivateRoute />}>
+            {/* <Route path="/" element={<PrivateRoute />}>
               <Route path="/editdb" element={<EditDb />} />
             </Route> */}
           </Routes>
