@@ -73,7 +73,7 @@ function Signuppage2() {
           }
         );
         localStorage.setItem("accessToken", response.data.accessToken);
-        console.log("User signedup:", response.data);
+
         navigate("/plans");
       } catch (error) {
         console.error("invalid user data", error);

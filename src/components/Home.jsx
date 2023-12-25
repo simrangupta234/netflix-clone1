@@ -38,11 +38,16 @@ function SamplePrevArrow(props) {
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
-
+  const [user, setUser] = useState([]);
+  const id = localStorage.getItem("UserId");
   useEffect(() => {
     // tokenValidation();
     axios.get("http://localhost:3001/api/movies").then((response) => {
       setMovies(response.data);
+    });
+
+    axios.get(`http://localhost:3001/api/users/${id}`).then((response) => {
+      setUser(response.data);
     });
   }, []);
 
@@ -96,22 +101,11 @@ const Home = () => {
       >
         <div className="homenav">
           <div className="profile">
-            <Link to="/profile">
-              {/* <button className="profile">Profile</button> */}
+            <Link to={`/profile/${user._id}`}>
               <img src={profileImg} alt="" />
             </Link>
           </div>
         </div>
-        {/* {localStorage.getItem("AdminEmail") ===
-        "simrangupta172002@gmail.com" ? (
-          <div className="homenav d-block">
-            <Link to="/editdb">
-              <button className="Adminbtn">Admin</button>
-            </Link>
-          </div>
-        ) : (
-          <div className="homenav d-none"></div>
-        )} */}
 
         <div className="stylediv2">
           <div style={{ marginTop: "-110px" }}>

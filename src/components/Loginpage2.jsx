@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 // import React from 'react'
-// import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../style/loginpage2.css";
 import { useEmail } from "./EmailContext";
@@ -16,9 +14,7 @@ export default function Loginpage2() {
   const navigate = useNavigate();
 
   const { email } = useEmail();
-  const { isLoggedIn, setLoggedInValue, setAuthValue, password, setPassword } =
-    useAuth();
-
+  const { isLoggedIn, setLoggedInValue, setAuthValue } = useAuth();
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
     if (accessToken) {
@@ -26,7 +22,7 @@ export default function Loginpage2() {
     }
   }, []);
 
-  const signOut = (e) => {
+  const signOut = () => {
     localStorage.clear();
     setLoggedInValue(false);
   };
@@ -35,7 +31,7 @@ export default function Loginpage2() {
     const errors = {};
 
     if (!values.password) {
-      errors.password = "Pasword is required";
+      errors.password = "Password is required";
     } else if (
       !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(
         values.password
@@ -79,8 +75,8 @@ export default function Loginpage2() {
         } else {
           navigate("/plans");
           localStorage.setItem("accessToken", response.data.accessToken);
-          console.log("User loggedin:", response.data);
           setLoggedInValue(true);
+          localStorage.setItem("UserId", response.data.user._id);
         }
       } catch (error) {
         console.error("invalid user data", error);

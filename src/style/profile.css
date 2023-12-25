@@ -6,6 +6,7 @@ input::-webkit-inner-spin-button {
 
 .profile-page{
     background-color: rgb(24, 21, 21);
+    height: 100%;
 }
 .profile-page input , .profile-page select{
     color: white;
@@ -61,6 +62,10 @@ input::-webkit-inner-spin-button {
     background-color: transparent;
     color: white;
 }
+.profile-page form{
+    height: 100%;
+
+}
 
 .profile-page form button[type= "submit"]{
     width: fit-content;
@@ -71,7 +76,11 @@ input::-webkit-inner-spin-button {
     border: none;
     position: absolute;
     right: 20%;
+   
+
 }
+
+
 .admin div{
     display: flex;
 }

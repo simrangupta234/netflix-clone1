@@ -435,7 +435,7 @@ export default function Login() {
               className="emailId"
               type="email"
               name="email"
-              id="email1"
+              id="email2"
               onChange={(e) => {
                 formik.handleChange(e);
                 handleChange(e);

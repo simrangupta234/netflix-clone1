@@ -28,9 +28,9 @@ const App = () => {
             <Route path="/user" element={<PrivateRoute />}>
               <Route path="home" element={<Home />} />
             </Route>
-            <Route path="/" element={<PrivateRoute />}>
+            {/* <Route path="/" element={<PrivateRoute />}> */}
               <Route path="/" element={<Login />} />
-            </Route>
+            {/* </Route> */}
 
             <Route path="/login" element={<Loginpage2 />} />
             <Route path="/" element={<PrivateRoute />}>
@@ -51,7 +51,7 @@ const App = () => {
             <Route path="/" element={<PrivateRoute />}>
               <Route path="/editdb" element={<EditDb />} />
             </Route>
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
             {/* <Route
               path="/editdb"
               element={isAdmin ? <EditDb isAdmin={isAdmin} /> : <Home />}
