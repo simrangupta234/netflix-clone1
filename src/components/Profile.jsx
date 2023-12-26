@@ -6,24 +6,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Profile = () => {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState("");
   const id = localStorage.getItem("UserId");
   const [userCount, setUserCount] = useState(0);
   const [name, setName] = useState("");
-  const [dob, setDob] = useState(0/0/0);
+  const [dob, setDob] = useState("");
   const [address, setAddress] = useState("");
-  const [no, setNo] = useState(0);
+  const [no, setNo] = useState("");
   const [gender, setGender] = useState("");
   const [profilePic, setProfilePic] = useState("");
+  // const profile = "/profiles/";
 
   useEffect(() => {
-    let profilePic = document.getElementById("profile-pic");
-    let inputpic = document.getElementById("photo");
-
-    inputpic.onchange = function () {
-      profilePic.src = URL.createObjectURL(inputpic.files[0]);
-    };
-
     axios.get(`http://localhost:3001/api/users/${id}`).then((response) => {
       setUser(response.data);
     });
@@ -31,25 +25,49 @@ const Profile = () => {
     axios.get("http://localhost:3001/api/users").then((response) => {
       setUserCount(response.data.length);
     });
-  });
+  }, []);
+
+  const handleProfileImg = (e) => {
+    if (e.target.files) {
+      console.log("inside", e.target.files);
+      setProfilePic(e.target.files[0].name);
+    }
+    let profilePic = document.getElementById("profile-pic");
+    let inputpic = document.getElementById("photo");
+
+    inputpic.onchange = function () {
+      profilePic.src = URL.createObjectURL(inputpic.files[0]);
+    };
+  };
+  console.log("profilePic==>", profilePic);
+  console.log("name==>", name);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("profilePic", profilePic || user.profilePic);
+    formData.append("email", user.email);
+    formData.append("password", user.password);
+    formData.append("name", name || user.name);
+    formData.append("dob", dob || user.dob);
+    formData.append("no", no || user.no);
+    formData.append("address", address || user.address);
+    formData.append("gender", gender || user.gender);
     try {
-      const response = await axios.put(
+      const response = await axios.patch(
         `http://localhost:3001/api/users/${id}`,
+        formData,
         {
-          email: user.email,
-          password: user.password,
-          name: name,
-          dob: dob,
-          no: no,
-          address: address,
-          gender: gender,
-          profilePic: profilePic,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
+      console.log("formData", ...formData);
+      console.log("profilePic inside--", profilePic);
+      console.log("name inside--", name);
+      alert("changes saved.");
       console.log("response", response.data);
     } catch (error) {
       console.log(error);
@@ -66,15 +84,18 @@ const Profile = () => {
       <form
         onSubmit={handleSubmit}
         action="/profiles"
-        method="PUT"
+        method="PATCH"
         encType="multipart/form-data"
       >
-        <div className="card-div d-flex text-light justify-content-center align-items-center w-100">
-          <div className="profileCard m-3  p-5 w-25">
+        <div className="card-div text-light justify-content-center align-items-center w-100">
+          <div className="profileCard m-lg-3 m-md-1  m-sm-1  p-lg-2 p-md-2 p-sm-0">
             <img
-              src={`http://localhost:3001${user.profilePic}`}
+              src={`http://localhost:3001${profilePic || user.profilePic}`}
               alt=""
               id="profile-pic"
+              onChange={(e) =>
+                setProfilePic("/profiles/" + e.target.files[0].name)
+              }
             />
             <label htmlFor="photo">Upload Photo</label>
             <input
@@ -82,17 +103,21 @@ const Profile = () => {
               accept="image/jpg, image/jpeg, image/png"
               name="photo"
               id="photo"
-              value={profilePic}
-              onChange={(e) => setProfilePic(e.target.value)}
+              onChange={(e) => {
+                setProfilePic("/profiles/" + e.target.files[0].name );
+                handleProfileImg(e);
+              }}
+              // value={profilePic || user.profilePic || ' '}
             />
+
             <hr />
             <div className="d-flex flex-column  justify-content-center align-items-center ">
               <p className=" w-auto pe-2 fw-light lh-base">Email:</p>
-              <p className="w-auto ">{user.email}</p>
+              <p className="w-auto text-break">{user.email}</p>
             </div>
           </div>
 
-          <div className="infoCard d-flex flex-column  w-75  m-3 p-5">
+          <div className="infoCard d-flex flex-column m-lg-3 m-md-1  m-sm-1  p-lg-2 p-md-2 p-sm-0">
             <h2>General Information</h2>
 
             <div>
@@ -101,7 +126,7 @@ const Profile = () => {
                 type="text"
                 name="name"
                 id="name"
-                value={name || user.name}
+                value={name || user.name || " "}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -112,7 +137,7 @@ const Profile = () => {
                 type="date"
                 name="dob"
                 id="dob"
-                value={dob || user.dob}
+                value={dob || user.dob || " "}
                 onChange={(e) => setDob(e.target.value)}
               />
             </div>
@@ -122,7 +147,7 @@ const Profile = () => {
               <select
                 name="gender"
                 id="gender"
-                value={gender || user.gender}
+                value={gender || user.gender || " "}
                 onChange={(e) => setGender(e.target.value)}
               >
                 <option value="male">Male</option>
@@ -133,10 +158,10 @@ const Profile = () => {
             <div>
               <label htmlFor="no">Contact Number</label>
               <input
-                type="number"
+                type="text"
                 name="no"
                 id="no"
-                value={no || user.no}
+                value={no || user.no || " "}
                 onChange={(e) => setNo(e.target.value)}
               />
             </div>
@@ -147,19 +172,17 @@ const Profile = () => {
                 type="text"
                 name="address"
                 id="address"
-                value={address || user.address}
+                value={address || user.address || " "}
                 onChange={(e) => setAddress(e.target.value)}
               />
             </div>
           </div>
         </div>
 
-        <button type="submit" onClick={handleSubmit}>
-          Save Changes
-        </button>
+        <button type="submit">Save Changes</button>
       </form>
 
-      {user.role === "user" ? (
+      {user.role === "admin" ? (
         <div className="admin mt-5 text-light p-5">
           <div>
             <p>Number of User: </p>
