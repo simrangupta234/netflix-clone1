@@ -1,4 +1,3 @@
-// import React from 'react'
 import "../style/profile.css";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -6,20 +5,28 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Profile = () => {
-  const [user, setUser] = useState("");
   const id = localStorage.getItem("UserId");
   const [userCount, setUserCount] = useState(0);
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState("");
-  const [address, setAddress] = useState("");
-  const [no, setNo] = useState("");
-  const [gender, setGender] = useState("");
-  const [profilePic, setProfilePic] = useState("");
-  // const profile = "/profiles/";
-
+  const [user, setUser] = useState({
+    role: "",
+    email: "",
+    name: "",
+    dob: "",
+    address: "",
+    no: "",
+    gender: "",
+    profilePic: "",
+  });
   useEffect(() => {
     axios.get(`http://localhost:3001/api/users/${id}`).then((response) => {
-      setUser(response.data);
+      user.role = response.data.role;
+      user.email = response.data.email;
+      user.name = response.data.name;
+      user.dob = response.data.dob;
+      user.address = response.data.address;
+      user.no = response.data.no;
+      user.gender = response.data.gender;
+      user.profilePic = response.data.profilePic;
     });
 
     axios.get("http://localhost:3001/api/users").then((response) => {
@@ -29,31 +36,31 @@ const Profile = () => {
 
   const handleProfileImg = (e) => {
     if (e.target.files) {
-      console.log("inside", e.target.files);
-      setProfilePic(e.target.files[0].name);
+      user.profilePic = e.target.files[0];
     }
     let profilePic = document.getElementById("profile-pic");
     let inputpic = document.getElementById("photo");
 
-    inputpic.onchange = function () {
-      profilePic.src = URL.createObjectURL(inputpic.files[0]);
-    };
+    profilePic.src = URL.createObjectURL(inputpic.files[0]);
   };
-  console.log("profilePic==>", profilePic);
-  console.log("name==>", name);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevData) => ({ ...prevData, [name]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("profilePic", profilePic || user.profilePic);
     formData.append("email", user.email);
     formData.append("password", user.password);
-    formData.append("name", name || user.name);
-    formData.append("dob", dob || user.dob);
-    formData.append("no", no || user.no);
-    formData.append("address", address || user.address);
-    formData.append("gender", gender || user.gender);
+    formData.append("profile", user.profilePic);
+    formData.append("name", user.name);
+    formData.append("dob", user.dob);
+    formData.append("no", user.no);
+    formData.append("address", user.address);
+    formData.append("gender", user.gender);
     try {
       const response = await axios.patch(
         `http://localhost:3001/api/users/${id}`,
@@ -65,8 +72,7 @@ const Profile = () => {
         }
       );
       console.log("formData", ...formData);
-      console.log("profilePic inside--", profilePic);
-      console.log("name inside--", name);
+
       alert("changes saved.");
       console.log("response", response.data);
     } catch (error) {
@@ -90,24 +96,19 @@ const Profile = () => {
         <div className="card-div text-light justify-content-center align-items-center w-100">
           <div className="profileCard m-lg-3 m-md-1  m-sm-1  p-lg-2 p-md-2 p-sm-0">
             <img
-              src={`http://localhost:3001${profilePic || user.profilePic}`}
+              src={`http://localhost:3001${user.profilePic}`}
               alt=""
               id="profile-pic"
-              onChange={(e) =>
-                setProfilePic("/profiles/" + e.target.files[0].name)
-              }
             />
             <label htmlFor="photo">Upload Photo</label>
             <input
               type="file"
-              accept="image/jpg, image/jpeg, image/png"
+              accept="image/*"
               name="photo"
               id="photo"
               onChange={(e) => {
-                setProfilePic("/profiles/" + e.target.files[0].name );
                 handleProfileImg(e);
               }}
-              // value={profilePic || user.profilePic || ' '}
             />
 
             <hr />
@@ -126,8 +127,8 @@ const Profile = () => {
                 type="text"
                 name="name"
                 id="name"
-                value={name || user.name || " "}
-                onChange={(e) => setName(e.target.value)}
+                value={user.name || " "}
+                onChange={(e) => handleInputChange(e)}
               />
             </div>
 
@@ -137,8 +138,8 @@ const Profile = () => {
                 type="date"
                 name="dob"
                 id="dob"
-                value={dob || user.dob || " "}
-                onChange={(e) => setDob(e.target.value)}
+                value={user.dob || " "}
+                onChange={(e) => handleInputChange(e)}
               />
             </div>
 
@@ -147,8 +148,8 @@ const Profile = () => {
               <select
                 name="gender"
                 id="gender"
-                value={gender || user.gender || " "}
-                onChange={(e) => setGender(e.target.value)}
+                value={user.gender || " "}
+                onChange={(e) => handleInputChange(e)}
               >
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -161,8 +162,8 @@ const Profile = () => {
                 type="text"
                 name="no"
                 id="no"
-                value={no || user.no || " "}
-                onChange={(e) => setNo(e.target.value)}
+                value={user.no || " "}
+                onChange={(e) => handleInputChange(e)}
               />
             </div>
 
@@ -172,8 +173,8 @@ const Profile = () => {
                 type="text"
                 name="address"
                 id="address"
-                value={address || user.address || " "}
-                onChange={(e) => setAddress(e.target.value)}
+                value={user.address || " "}
+                onChange={(e) => handleInputChange(e)}
               />
             </div>
           </div>

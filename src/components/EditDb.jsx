@@ -1,4 +1,3 @@
-// import React from 'react'
 import axios from "axios";
 import "../style/editdb.css";
 import { useState } from "react";
@@ -17,58 +16,55 @@ const EditDb = () => {
     preview: [],
   });
 
-  const handleFileChange = (event) => {
-    const { name, files } = event.target;
+  const handleFileChange = (e) => {
+    const { name } = e.target;
 
-    if (name === "preview") {
-      // Handle multiple file input for preview images
-      const filesArray = Array.from(files);
-      setMovies((prevMovies) => ({
-        ...prevMovies,
-        preview: [...prevMovies.preview, ...filesArray],
-      }));
+    if (name === "poster") {
+      console.log("poster called");
+      movies.poster = e.target.files[0];
+    } else if (name === "thumbnail") {
+      console.log("thumnail called");
+
+      movies.thumbnail = e.target.files[1];
     } else {
-      // Handle single file input for poster and thumbnail
-      setMovies((prevMovies) => ({
-        ...prevMovies,
-        [name]: files[0],
-      }));
+      for (var i = 2; i < 6; i++) {
+        console.log("preview called", i);
+        movies.preview[i - 2] = e.target.files[i];
+      }
     }
   };
 
-  const addMovie = async () => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setMovies((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("id", movies.id);
+    formData.append("title", movies.title);
+    formData.append("release_year", movies.release_year);
+    formData.append("duration", movies.duration);
+    formData.append("genre", movies.genre);
+    formData.append("overview", movies.overview);
+    formData.append("testImage", movies.poster);
+    formData.append("testImage", movies.thumbnail);
+    movies.preview.forEach((file) => {
+      formData.append("testImage", file);
+    });
+    console.log("formData", ...formData);
+
     try {
-      const formData = new FormData();
-      formData.append("id", movies.id);
-      formData.append("title", movies.title);
-      formData.append("release_year", movies.release_year);
-      formData.append("duration", movies.duration);
-      formData.append("genre", movies.genre);
-      formData.append("overview", movies.overview);
-      formData.append("poster", movies.poster);
-      formData.append("thumbnail", movies.thumbnail);
-
-      // Append each file in the 'preview' array individually
-      movies.preview.forEach((file, index) => {
-        formData.append(`preview${index + 1}`, file);
-      });
-
       const response = await axios.post(
         "http://localhost:3001/api/movies",
-        formData
+        formData,
+        {
+          headers: "multipart/form-data",
+        }
       );
 
-      setMovies({
-        id: response.data.id,
-        title: response.data.title,
-        release_year: response.data.release_year,
-        duration: response.data.duration,
-        genre: response.data.genre,
-        overview: response.data.overview,
-        poster: response.data.poster,
-        thumbnail: response.data.thumbnail,
-        preview: response.data.preview,
-      });
+      console.log("formData", ...formData);
       console.log("response data", response.data);
     } catch (error) {
       console.error("Error adding movie:", error);
@@ -84,27 +80,14 @@ const EditDb = () => {
         action="/assets"
         method="POST"
         encType="multipart/form-data"
-        
+        onSubmit={handleSubmit}
       >
-        {/* <label htmlFor="category">Category</label>
-        <input
-          type="text"
-          name="category"
-          id="category"
-          value={movies.category}
-          onChange={(e) => {
-            setMovies({ ...movies, category: e.target.value });
-          }}
-        /> */}
-
         <label htmlFor="id">Movie Number</label>
         <input
           type="number"
           name="id"
           id="id"
-          onChange={(e) => {
-            setMovies({ ...movies, id: e.target.value });
-          }}
+          onChange={(e) => handleInputChange(e)}
         />
 
         <label htmlFor="title">Movie Name</label>
@@ -112,9 +95,7 @@ const EditDb = () => {
           type="text"
           name="title"
           id="title"
-          onChange={(e) => {
-            setMovies({ ...movies, title: e.target.value });
-          }}
+          onChange={(e) => handleInputChange(e)}
         />
 
         <label htmlFor="relase_year"> Release Year</label>
@@ -122,9 +103,7 @@ const EditDb = () => {
           type="number"
           name="release_year"
           id="release_year"
-          onChange={(e) => {
-            setMovies({ ...movies, release_year: e.target.value });
-          }}
+          onChange={(e) => handleInputChange(e)}
         />
 
         <label htmlFor="duration">Duration</label>
@@ -132,9 +111,7 @@ const EditDb = () => {
           type="text"
           name="duration"
           id="duration"
-          onChange={(e) => {
-            setMovies({ ...movies, duration: e.target.value });
-          }}
+          onChange={(e) => handleInputChange(e)}
         />
 
         <label htmlFor="genre"> Genre </label>
@@ -142,9 +119,7 @@ const EditDb = () => {
           type="text"
           name="genre"
           id="genre"
-          onChange={(e) => {
-            setMovies({ ...movies, genre: e.target.value });
-          }}
+          onChange={(e) => handleInputChange(e)}
         />
 
         <label htmlFor="overview"> Overview</label>
@@ -152,41 +127,39 @@ const EditDb = () => {
           type="text"
           name="overview"
           id="overview"
-          onChange={(e) => {
-            setMovies({ ...movies, overview: e.target.value });
-          }}
+          onChange={(e) => handleInputChange(e)}
         />
 
         <label htmlFor="poster"> Poster</label>
         <input
           type="file"
-          accept="image/jpg, image/png, image.jpeg"
-          name="testImage"
+          accept="image/*"
+          name="poster"
           id="poster"
-          onChange={(event) => handleFileChange(event)}
+          onChange={(e) => handleFileChange(e)}
         />
 
         <label htmlFor="thumbnail"> Thumbnail</label>
         <input
           type="file"
-          accept="image/jpg, image/png, image.jpeg"
-          name="testImage"
+          accept="image/*"
+          name="thumbnail"
           id="thumbnail"
-          onChange={(event) => handleFileChange(event)}
+          onChange={(e) => handleFileChange(e)}
         />
 
         <label htmlFor="preview"> Preview Images</label>
         <input
           type="file"
-          accept="image/jpg, image/png, image/jpeg"
-          name="testImage"
+          accept="image/*"
+          name="preview"
           id="preview"
           multiple="multiple"
-          onChange={(event) => handleFileChange(event)}
+          onChange={(e) => handleFileChange(e)}
         />
-      </form>
 
-      <button onClick={addMovie}>Add Movie</button>
+        <button type="submit">Add Movie</button>
+      </form>
     </div>
   );
 };
