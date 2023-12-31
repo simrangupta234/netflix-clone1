@@ -19,18 +19,16 @@ const EditDb = () => {
   const handleFileChange = (e) => {
     const { name } = e.target;
 
-    if (name === "poster") {
-      console.log("poster called");
-      movies.poster = e.target.files[0];
-    } else if (name === "thumbnail") {
-      console.log("thumnail called");
-
-      movies.thumbnail = e.target.files[1];
-    } else {
-      for (var i = 2; i < 6; i++) {
-        console.log("preview called", i);
-        movies.preview[i - 2] = e.target.files[i];
-      }
+    if (name === "poster" || name === "thumbnail") {
+      setMovies((prevData) => ({
+        ...prevData,
+        [name]: e.target.files[0],
+      }));
+    } else if (name === "preview") {
+      setMovies((prevData) => ({
+        ...prevData,
+        preview: Array.from(e.target.files),
+      }));
     }
   };
 
@@ -47,6 +45,7 @@ const EditDb = () => {
     formData.append("release_year", movies.release_year);
     formData.append("duration", movies.duration);
     formData.append("genre", movies.genre);
+    formData.append("starring", movies.starring);
     formData.append("overview", movies.overview);
     formData.append("testImage", movies.poster);
     formData.append("testImage", movies.thumbnail);
@@ -65,6 +64,18 @@ const EditDb = () => {
       );
 
       console.log("formData", ...formData);
+      setMovies({
+        id: 0,
+        title: "",
+        release_year: 0,
+        duration: "",
+        genre: "",
+        overview: "",
+        starring: "",
+        poster: "",
+        thumbnail: "",
+        preview: [],
+      });
       console.log("response data", response.data);
     } catch (error) {
       console.error("Error adding movie:", error);
@@ -119,6 +130,14 @@ const EditDb = () => {
           type="text"
           name="genre"
           id="genre"
+          onChange={(e) => handleInputChange(e)}
+        />
+
+        <label htmlFor="starring"> Starring </label>
+        <input
+          type="text"
+          name="starring"
+          id="starring"
           onChange={(e) => handleInputChange(e)}
         />
 
