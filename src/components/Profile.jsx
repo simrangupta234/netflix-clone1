@@ -32,7 +32,7 @@ const Profile = () => {
     axios.get("http://localhost:3001/api/users").then((response) => {
       setUserCount(response.data.length);
     });
-  }, []);
+  }, [id, user]);
 
   const handleProfileImg = (e) => {
     if (e.target.files) {
@@ -190,7 +190,7 @@ const Profile = () => {
             <p>{userCount}</p>
           </div>
 
-          <Link to="/editdb">
+          <Link to="/admin/editdb">
             <button>Update Database</button>
           </Link>
         </div>

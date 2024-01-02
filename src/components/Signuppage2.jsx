@@ -16,7 +16,7 @@ function Signuppage2() {
     if (accessToken) {
       setLoggedInValue(true);
     }
-  }, []);
+  }, [accessToken, setLoggedInValue]);
 
   const signOut = () => {
     localStorage.clear();

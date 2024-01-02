@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, BrowserRouter} from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from "./components/Login";
 import Loginpage2 from "./components/Loginpage2";
 import MovieHome from "./components/MovieHome";
@@ -15,19 +15,9 @@ import { AuthProvider } from "./components/AuthContext";
 import Home from "./components/Home";
 import EditDb from "./components/EditDb";
 import Profile from "./components/Profile";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import AdminRoute from "./components/AdminRoute";
 
 const App = () => {
-  const [user, setUser] = useState("")
-  const id = localStorage.getItem("UserId");
- 
-    useEffect(()=>{
-      axios.get(`http://localhost:3001/api/users/${id}`).then((response) => {
-        setUser(response.data);
-      });
-    }, [])
-
   return (
     <BrowserRouter>
       <EmailProvider>
@@ -36,14 +26,12 @@ const App = () => {
             <Route path="/user" element={<PrivateRoute />}>
               <Route path="home" element={<Home />} />
             </Route>
-            {/* <Route path="/" element={<PrivateRoute />}> */}
-              <Route path="/" element={<Login />} />
-            {/* </Route> */}
-
-            <Route path="/login" element={<Loginpage2 />} />
             <Route path="/" element={<PrivateRoute />}>
-              <Route path="/signin" element={<SignIn />} />
+              <Route path="/" element={<Login />} />
             </Route>
+            <Route path="/login" element={<Loginpage2 />} />
+
+              <Route path="/signin" element={<SignIn />} />
 
             <Route path="/signup" element={<Signup />} />
             <Route path="/signupform" element={<Signuppage2 />} />
@@ -51,22 +39,10 @@ const App = () => {
             <Route path="/planform" element={<PlanForm />} />
             <Route path="/payment" element={<Pay />} />
             <Route path="/moviehome/:id" element={<MovieHome />} />
-            {user.role === "admin" ? (
-              <Route path="/editdb" element={<EditDb />} />
-            ) : (
-              <Route path="/" element={<Login />} />
-            )}
-            <Route path="/" element={<PrivateRoute />}>
-              <Route path="/editdb" element={<EditDb />} />
+            <Route path="/admin" element={<AdminRoute />}>
+              <Route path="editdb" element={<EditDb />} />
             </Route>
             <Route path="/profile/:id" element={<Profile />} />
-            {/* <Route
-              path="/editdb"
-              element={isAdmin ? <EditDb isAdmin={isAdmin} /> : <Home />}
-            /> */}
-            {/* <Route path="/" element={<PrivateRoute />}>
-              <Route path="/editdb" element={<EditDb />} />
-            </Route> */}
           </Routes>
         </AuthProvider>
       </EmailProvider>

@@ -1,4 +1,3 @@
-// import React from 'react'
 import symbol from "../assets/netflix_symbol.png";
 import "../style/home.css";
 import movieHeist from "../assets/moneyHeist.jpg";
@@ -7,7 +6,6 @@ import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import profileImg from "../assets/profilePicture.png";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -49,7 +47,7 @@ const Home = () => {
     axios.get(`http://localhost:3001/api/users/${id}`).then((response) => {
       setUser(response.data);
     });
-  }, []);
+  }, [id]);
 
   var settings = {
     dots: false,
@@ -102,7 +100,7 @@ const Home = () => {
         <div className="homenav">
           <div className="profile">
             <Link to={`/profile/${user._id}`}>
-              <img src={profileImg} alt="" />
+              <img src={`http://localhost:3001${user.profilePic}`} alt="" />
             </Link>
           </div>
         </div>

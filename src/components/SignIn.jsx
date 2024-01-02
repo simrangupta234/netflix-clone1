@@ -75,6 +75,8 @@ function SignIn() {
           localStorage.setItem("accessToken", response.data.accessToken);
           setLoggedInValue(true);
           navigate("/user/home");
+          localStorage.setItem("UserId", response.data.user._id);
+
           console.log("User loggedin:", response.data);
         }
       } catch (error) {

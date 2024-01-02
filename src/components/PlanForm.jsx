@@ -15,7 +15,7 @@ function PlanForm() {
     if (accessToken) {
       setLoggedInValue(true);
     }
-  }, []);
+  }, [accessToken, setLoggedInValue]);
 
   const signOut = () => {
     localStorage.clear();

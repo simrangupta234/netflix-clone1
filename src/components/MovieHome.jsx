@@ -18,7 +18,7 @@ const MovieHome = () => {
     if (accessToken) {
       setLoggedInValue(true);
     }
-  }, []);
+  }, [accessToken, setLoggedInValue]);
 
   const signOut = () => {
     localStorage.clear();
@@ -59,7 +59,7 @@ const MovieHome = () => {
 
   useEffect(() => {
     idformovie();
-  }, []);
+  },[]);
 
   const myStyle = {
     backgroundImage: `url(http://localhost:3001${movies.thumbnail})`,

@@ -1,31 +1,22 @@
-/* eslint-disable no-unused-vars */
-// import React from 'react'
 import "../style/plan.css";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
 function Plan() {
-  const {
-    isLoggedIn,
-    setIsLoggedIn,
-    setEmail,
-    password,
-    setPassword,
-    setLoggedInValue,
-  } = useAuth();
+  const { isLoggedIn, setLoggedInValue } = useAuth();
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
     if (accessToken) {
       setLoggedInValue(true);
     }
-  }, []);
+  }, [accessToken, setLoggedInValue]);
 
-  const signOut = (e) => {
+  const signOut = () => {
     localStorage.clear();
-        setLoggedInValue(false);
+    setLoggedInValue(false);
   };
 
   return (

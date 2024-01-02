@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-// import React from 'react'
 import logo from "../assets/logo.svg";
 import lock from "../assets/lock.png";
 import { Link } from "react-router-dom";
@@ -13,16 +11,13 @@ import paytm from "../assets/paytm.png";
 import phonepe from "../assets/phonepe.png";
 import arrow from "../assets/arrow-point-to-right (1).png";
 import "../style/signuppage2.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
 function Pay() {
   const {
     isLoggedIn,
-    setIsLoggedIn,
-    setEmail,
-    password,
-    setPassword,
+
     setLoggedInValue,
   } = useAuth();
 
@@ -31,11 +26,11 @@ function Pay() {
     if (accessToken) {
       setLoggedInValue(true);
     }
-  }, []);
+  }, [accessToken, setLoggedInValue]);
 
-  const signOut = (e) => {
+  const signOut = () => {
     localStorage.clear();
-        setLoggedInValue(false);
+    setLoggedInValue(false);
   };
 
   return (
@@ -57,9 +52,6 @@ function Pay() {
           </a>
         </div>
         <div className="signin col-2">
-          {/* <a href="/signin" style={{ textDecoration: "none", color: "#333" }}>
-            Sign Out
-          </a> */}
           {isLoggedIn ? (
             <a
               href="/"

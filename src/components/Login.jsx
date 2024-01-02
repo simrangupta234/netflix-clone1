@@ -71,8 +71,6 @@ export default function Login() {
   const validateSubmit = async (values) => {
     const errors = validate(values);
 
-  
-
     if (Object.keys(errors).length === 0) {
       navigate("/signup");
       try {
