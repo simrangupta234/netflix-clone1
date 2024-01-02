@@ -1,6 +1,7 @@
 import axios from "axios";
 import "../style/editdb.css";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const EditDb = () => {
   const [movies, setMovies] = useState({
@@ -75,6 +76,12 @@ const EditDb = () => {
         poster: "",
         thumbnail: "",
         preview: [],
+      });
+      Swal.fire({
+        title: "Changes Saved!",
+        icon: "success",
+        confirmButtonColor: "red",
+
       });
       console.log("response data", response.data);
     } catch (error) {

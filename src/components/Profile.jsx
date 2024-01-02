@@ -3,6 +3,7 @@ import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const id = localStorage.getItem("UserId");
@@ -73,7 +74,13 @@ const Profile = () => {
       );
       console.log("formData", ...formData);
 
-      alert("changes saved.");
+      Swal.fire({
+        title: "Changes Saved!",
+        icon: "success",
+        background: "black",
+        confirmButtonColor: "red",
+        iconColor: "red",
+      });
       console.log("response", response.data);
     } catch (error) {
       console.log(error);

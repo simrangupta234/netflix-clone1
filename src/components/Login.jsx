@@ -15,21 +15,15 @@ import { useNavigate } from "react-router-dom";
 import { useEmail } from "./EmailContext";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
+import { ColorRing } from "react-loader-spinner";
 
 export default function Login() {
   const navigate = useNavigate();
   const { email, setEmailValue } = useEmail();
-
+  const [loading] = useState(false);
   const { isLoggedIn, setLoggedInValue } = useAuth();
 
-  const [loader, setLoader] = useState(false);
-
-  const loaderanimation = () => {
-    setLoader(true);
-    setTimeout(() => {
-      setLoader(false);
-    }, 2000);
-  };
+  
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -72,7 +66,6 @@ export default function Login() {
     const errors = validate(values);
 
     if (Object.keys(errors).length === 0) {
-      navigate("/signup");
       try {
         const response = await axios.post(
           "http://localhost:3001/api/users/login2",
@@ -202,15 +195,17 @@ export default function Login() {
               <label htmlFor="email1">Email address</label>
             </div>
             <div className="col-4" style={{ marginLeft: "10px" }}>
-              <button
-                type="submit"
-                className="getStartedbtn"
-                onClick={() => {
-                  loaderanimation();
-                }}
-              >
-                {loader ? (
-                  <div className="loader"></div>
+              <button type="submit" className="getStartedbtn">
+                {loading ? (
+                  <ColorRing
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                  />
                 ) : (
                   <>
                     <p style={{ marginTop: "14px", width: "fit-content" }}>
