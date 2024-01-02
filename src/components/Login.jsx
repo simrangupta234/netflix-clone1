@@ -30,7 +30,7 @@ export default function Login() {
     if (accessToken) {
       setLoggedInValue(true);
     }
-  }, []);
+  }, [accessToken, setLoggedInValue]);
 
   const signOut = () => {
     localStorage.clear();
