@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import phone from "../assets/phone.svg";
 import tablet from "../assets/tablet.svg";
 import computer from "../assets/computer.svg";
@@ -271,7 +271,7 @@ function PlanForm() {
             <br />
           </div>
           <div className="footer-item">
-            <a href="/">Netflix Shop</a>
+            <a href="/">NuvieHub Shop</a>
             <br />
             <a href="/">Corporate Information</a>
             <br />

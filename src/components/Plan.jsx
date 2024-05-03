@@ -1,5 +1,5 @@
 import "../style/plan.css";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "./AuthContext";
@@ -89,7 +89,7 @@ function Plan() {
               className="fa-li fa-solid fa-check"
               style={{ color: "#e50914" }}
             ></i>
-            Everything on Netflix for one low price.
+            Everything on NuvieHub for one low price.
           </li>
           <li>
             <i
@@ -136,7 +136,7 @@ function Plan() {
             <br />
           </div>
           <div className="footer-item">
-            <a href="/">Netflix Shop</a>
+            <a href="/">NuvieHub Shop</a>
             <br />
             <a href="/">Corporate Information</a>
             <br />

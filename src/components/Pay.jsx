@@ -1,4 +1,4 @@
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import lock from "../assets/lock.png";
 import { Link } from "react-router-dom";
 import visa from "../assets/visa.png";
@@ -167,7 +167,7 @@ function Pay() {
             <br />
           </div>
           <div className="footer-item">
-            <a href="/">Netflix Shop</a>
+            <a href="/">NuvieHub Shop</a>
             <br />
             <a href="/">Corporate Information</a>
             <br />

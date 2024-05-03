@@ -38,8 +38,8 @@ input::placeholder {
 }
 
 .logo a img {
-  height: 40px;
-  width: 148px;
+  height: 80px;
+  width: 250px;
 }
 
 .nav-right {
@@ -410,8 +410,8 @@ input::placeholder {
 
 @media screen and (max-width: 960px) {
   .logo a img {
-    height: 24px;
-    width: 89px;
+    height: 40px;
+    width: 150px;
   }
   .getStartedbtn {
     font-size: 18px;

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import symbol from "../assets/netflix_symbol.png";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import Footer from "./Footer";
 import "../style/moviehome.css";
 import { useAuth } from "./AuthContext";
@@ -79,7 +79,7 @@ const MovieHome = () => {
         >
           <img
             src={logo}
-            style={{ height: "55px", width: "130px" }}
+            style={{ height: "55px", width: "220px" }}
             alt="logo"
           />
         </a>

@@ -71,7 +71,7 @@ const Footer = () => {
           </a>
           <br />
           <a style={{ color: "#737373", textDecoration: "none" }} href="/">
-            Only on Netflix
+            Only on NuvieHub
           </a>
           <br />
         </div>
@@ -94,7 +94,7 @@ const Footer = () => {
           <option value="Hindi">हिंदी</option>
         </select>
       </div>
-      <p className="pt-3">Netflix India</p>
+      <p className="pt-3">NuvieHub India</p>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import "../style/signin.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -99,7 +99,7 @@ function SignIn() {
     <div className="signin-main w-100 text-light d-flex flex-column justify-content-center align-items-center">
       <div className="header-signin">
         <a href="/" style={{ textDecoration: "none", color: "white" }}>
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" style={{ width: "250px" }} />
         </a>
       </div>
 
@@ -237,7 +237,7 @@ function SignIn() {
             </a>
           </div>
           <div style={{ color: "#8c8c8c", margin: "50px 0 10px 0" }}>
-            New to Netflix?
+            New to NuvieHub?
             <a
               href="/"
               style={{

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import "../style/signuppage2.css";
 import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
@@ -73,7 +73,7 @@ function Signuppage2() {
           }
         );
         localStorage.setItem("accessToken", response.data.accessToken);
-
+        localStorage.setItem("UserId", response.data.user._id);
         navigate("/plans");
       } catch (error) {
         console.error("invalid user data", error);
@@ -213,7 +213,7 @@ function Signuppage2() {
             <br />
           </div>
           <div className="footer-item">
-            <a href="/">Netflix Shop</a>
+            <a href="/">NuvieHub Shop</a>
             <br />
             <a href="/">Corporate Information</a>
             <br />

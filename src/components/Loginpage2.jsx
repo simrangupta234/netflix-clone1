@@ -1,6 +1,6 @@
 // import React from 'react'
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import "../style/loginpage2.css";
 import { useEmail } from "./EmailContext";
 import { useFormik } from "formik";
@@ -134,7 +134,7 @@ export default function Loginpage2() {
             <p>STEP 1 OF 3</p>
             <p style={{ fontSize: "32px", fontWeight: "500" }}>Welcome back!</p>
             <p style={{ fontSize: "32px", fontWeight: "500" }}>
-              Joining Netflix is easy.
+              Joining NuvieHub is easy.
             </p>
             <p style={{ fontSize: "18px" }}>
               Enter your password and you&apos;ll be watching in no time.{" "}
@@ -225,7 +225,7 @@ export default function Loginpage2() {
             <br />
           </div>
           <div className="footer-item">
-            <a href="/">Netflix Shop</a>
+            <a href="/">NuvieHub Shop</a>
             <br />
             <a href="/">Corporate Information</a>
             <br />

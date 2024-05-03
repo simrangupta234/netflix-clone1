@@ -67,14 +67,15 @@ const Home = () => {
           slidesToScroll: 3,
           infinite: true,
           dots: true,
+          initialSlide: 0,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2,
+          initialSlide: 0, 
         },
       },
       {
@@ -82,10 +83,13 @@ const Home = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          initialSlide: 0,
         },
       },
     ],
   };
+  
+  
   return (
     <div className="movie-main w-100 text-light d-flex flex-column justify-content-center align-items-center">
       <div

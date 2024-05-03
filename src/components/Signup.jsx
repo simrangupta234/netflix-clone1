@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import "../style/signup.css";
 import { useEffect } from "react";
 import { useAuth } from "./AuthContext";
@@ -31,6 +31,7 @@ function Signup() {
             color: "red",
             fontSize: "50px",
             fontWeight: "700",
+            
           }}
         >
           <a href="/">
@@ -64,7 +65,7 @@ function Signup() {
             <p>STEP 1 OF 3</p>
             <h1>Finish setting up your account</h1>
             <p>
-              Netflix is personalised for you. Create a password to watch on any
+              NuvieHub is personalised for you. Create a password to watch on any
               device at any time.
             </p>
             <Link to="/signupform">
@@ -104,7 +105,7 @@ function Signup() {
             <br />
           </div>
           <div className="footer-item">
-            <a href="/">Netflix Shop</a>
+            <a href="/">NuvieHub Shop</a>
             <br />
             <a href="/">Corporate Information</a>
             <br />

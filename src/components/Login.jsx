@@ -1,7 +1,7 @@
 import "../../src/App.css";
 import "../../src/components/Loginpage2";
 import { useEffect, useState } from "react";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import tv from "../assets/tv.png";
 import tv2 from "../assets/device-pile-in.png";
 import mobile from "../assets/mobile.jpg";
@@ -309,12 +309,12 @@ export default function Login() {
 
         <div className="faxQues ">
           <button className="faxbtn d-flex  justify-content-between align-items-center  w-100 pointer-event ">
-            What is Netflix?
+            What is NuvieHub?
             <i className="fa-solid fa-plus w-auto"></i>
           </button>
           <div className="ans">
             <p>
-              Netflix is a streaming service that offers a wide variety of
+              NuvieHub is a streaming service that offers a wide variety of
               award-winning TV shows, movies, anime, documentaries and more on
               thousands of internet-connected devices.
             </p>
@@ -329,12 +329,12 @@ export default function Login() {
 
         <div className="faxQues ">
           <button className="faxbtn d-flex  justify-content-between align-items-center  w-100 pointer-event ">
-            How muchh Netflix cost?
+            How muchh NuvieHub cost?
             <i className="fa-solid fa-plus w-auto"></i>
           </button>
           <div className="ans">
             <p>
-              Watch Netflix on your smartphone, tablet, Smart TV, laptop, or
+              Watch NuvieHub on your smartphone, tablet, Smart TV, laptop, or
               streaming device, all for one fixed monthly fee. Plans range from
               ₹ 149 to ₹ 649 a month. No extra costs, no contracts.
             </p>
@@ -348,16 +348,16 @@ export default function Login() {
           </button>
           <div className="ans">
             <p>
-              Watch anywhere, anytime. Sign in with your Netflix account to
-              watch instantly on the web at netflix.com from your personal
+              Watch anywhere, anytime. Sign in with your NuvieHub account to
+              watch instantly on the web at NuvieHub.com from your personal
               computer or on any internet-connected device that offers the
-              Netflix app, including smart TVs, smartphones, tablets, streaming
+              NuvieHub app, including smart TVs, smartphones, tablets, streaming
               media players and game consoles.
             </p>
             <p>
               You can also download your favourite shows with the iOS, Android,
               or Windows 10 app. Use downloads to watch while you&apos;re on the
-              go and without an internet connection. Take Netflix with you
+              go and without an internet connection. Take NuvieHub with you
               anywhere.
             </p>
           </div>
@@ -370,7 +370,7 @@ export default function Login() {
           </button>
           <div className="ans">
             <p>
-              Netflix is flexible. There are no annoying contracts and no
+              NuvieHub is flexible. There are no annoying contracts and no
               commitments. You can easily cancel your account online in two
               clicks. There are no cancellation fees start or stop your account
               anytime.
@@ -380,13 +380,13 @@ export default function Login() {
 
         <div className="faxQues ">
           <button className="faxbtn d-flex  justify-content-between align-items-center  w-100 pointer-event ">
-            What can I watch on Netflix?
+            What can I watch on NuvieHub?
             <i className="fa-solid fa-plus w-auto"></i>
           </button>
           <div className="ans">
             <p>
-              Netflix has an extensive library of feature films, documentaries,
-              TV shows, anime, award-winning Netflix originals, and more. Watch
+              NuvieHub has an extensive library of feature films, documentaries,
+              TV shows, anime, award-winning NuvieHub originals, and more. Watch
               as much as you want, anytime you want.
             </p>
           </div>
@@ -399,7 +399,7 @@ export default function Login() {
           </button>
           <div className="ans">
             <p>
-              The Netflix Kids experience is included in your membership to give
+              The NuvieHub Kids experience is included in your membership to give
               parents control while kids enjoy family-friendly TV shows and
               films in their own space.
             </p>
@@ -506,7 +506,7 @@ export default function Login() {
             <br />
             <a href="/">Legal Notices</a>
             <br />
-            <a href="/">Only on Netflix</a>
+            <a href="/">Only on NuvieHub</a>
             <br />
           </div>
         </div>
@@ -529,7 +529,7 @@ export default function Login() {
             <option value="Hindi">हिंदी</option>
           </select>
         </div>
-        <p className="pt-3">Netflix India</p>
+        <p className="pt-3">NuvieHub India</p>
       </div>
     </div>
   );

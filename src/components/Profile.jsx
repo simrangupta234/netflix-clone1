@@ -1,5 +1,5 @@
 import "../style/profile.css";
-import logo from "../assets/logo.svg";
+import logo from "../assets/file.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -23,24 +23,28 @@ const Profile = () => {
   });
   useEffect(() => {
     setIsLoading(true);
-
+  
     axios.get(`http://localhost:3001/api/users/${id}`).then((response) => {
-      user.role = response.data.role;
-      user.email = response.data.email;
-      user.name = response.data.name;
-      user.dob = response.data.dob;
-      user.address = response.data.address;
-      user.no = response.data.no;
-      user.gender = response.data.gender;
-      user.profilePic = response.data.profilePic;
+      setUser((prevUser) => ({
+        ...prevUser,
+        role: response.data.role,
+        email: response.data.email,
+        name: response.data.name,
+        dob: response.data.dob,
+        address: response.data.address,
+        no: response.data.no,
+        gender: response.data.gender,
+        profilePic: response.data.profilePic,
+      }));
       setIsLoading(false);
     });
-
+  
     axios.get("http://localhost:3001/api/users").then((response) => {
       setUserCount(response.data.length);
       setIsLoading(false);
     });
-  }, [id, user]);
+  }, [id]);
+  
 
   const handleProfileImg = (e) => {
     if (e.target.files) {
@@ -96,7 +100,7 @@ const Profile = () => {
 
   return (
     <>
-      {isLoading ? (
+       {isLoading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <p style={{ color: "white" }}>
             <ColorRing
@@ -110,7 +114,7 @@ const Profile = () => {
             />
           </p>
         </div>
-      ) : (
+      ) : ( 
         <div className="profile-page d-flex flex-column">
           <div className="profile-nav">
             <Link to="/">
